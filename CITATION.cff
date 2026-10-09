@@ -3,7 +3,7 @@ message: "If you use this software, please cite it as below, together with the S
 title: "sar-cose: minimal reference implementation of the Sovereign Acceptance Runtime (SAR)"
 type: software
 authors:
-  - family-names: Mikulic
+  - family-names: Mikulić
     given-names: Alen
 license: Apache-2.0
 doi: 10.5281/zenodo.23270795
