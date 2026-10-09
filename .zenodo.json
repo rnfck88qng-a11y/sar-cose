@@ -3,9 +3,22 @@
   "upload_type": "software",
   "description": "<p>Reference implementation of the authorization path of the Sovereign Acceptance Runtime (SAR) described in the working paper <em>Sovereign Acceptance Runtime: Verifiable Human Ratification and Evidentiary Audit Trails for Autonomous AI Agents under the EU AI Act</em> (v1.1, October 2026).</p><p>Proposal and Ratification Statements are COSE_Sign1 objects (RFC 9052) over deterministic CBOR (RFC 8949 section 4.2.1), signed with Ed25519 (algorithm -19, RFC 9864). A fail-closed Execution Gate evaluates the Registration Policy, verifies signed human ratifications, compares the runtime payload digest with the ratified one, and consumes authorizations atomically in a hash-chained SQLite store. Includes a 55-test conformance suite (original harness, gap tests, COSE/CBOR tests, differential, property-based and concurrency tests) and mutation analysis (19/19 mutants killed).</p><p>Research prototype; not production software. Transparency Service integration (SCITT Receipts) is not implemented.</p>",
   "creators": [
-    {"name": "Mikulic, Alen"}
+    {
+      "name": "Mikulić, Alen"
+    }
   ],
   "license": "Apache-2.0",
-  "keywords": ["AI agents", "human oversight", "EU AI Act", "SCITT", "COSE", "CBOR", "authorization", "human-in-the-loop", "transparency", "audit trail"],
+  "keywords": [
+    "AI agents",
+    "human oversight",
+    "EU AI Act",
+    "SCITT",
+    "COSE",
+    "CBOR",
+    "authorization",
+    "human-in-the-loop",
+    "transparency",
+    "audit trail"
+  ],
   "language": "eng"
 }
