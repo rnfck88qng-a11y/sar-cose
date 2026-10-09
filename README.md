@@ -1,5 +1,7 @@
 # sar-cose: minimal SAR reference implementation
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23270796.svg)](https://doi.org/10.5281/zenodo.23270796)
+
 This is a small working implementation of the Sovereign Acceptance Runtime (SAR) authorization path described in the working paper *Sovereign Acceptance Runtime: Verifiable Human Ratification and Evidentiary Audit Trails for Autonomous AI Agents under the EU AI Act* (v1.1, October 2026; §4 and §6). It exists so that the paper's implementation claims rest on code and tests anyone can re-run.
 
 > **Status:** research prototype. It is not production software and has not had an independent security review. See *Limits* below.
@@ -105,4 +107,8 @@ Apache License 2.0. See `LICENSE`.
 
 ## Citing
 
-If you use this code, please cite the SARWP working paper (v1.1, October 2026), together with this repository's URL and the commit you used.
+Archived on Zenodo: [doi:10.5281/zenodo.23270796](https://doi.org/10.5281/zenodo.23270796) (v1.1.0). To cite all versions, use [doi:10.5281/zenodo.23270795](https://doi.org/10.5281/zenodo.23270795).
+
+> Mikulic, A. (2026). *sar-cose: minimal reference implementation of the Sovereign Acceptance Runtime (SAR)* (v1.1.0). Zenodo. https://doi.org/10.5281/zenodo.23270796
+
+Please also cite the SARWP working paper (v1.1, October 2026).
