@@ -56,10 +56,10 @@ The gap tests use only the harness interface. The harness's illustrative stub **
 
 | Test | What it does | Result |
 |---|---|---|
-| Differential, random | 3,000 random scenarios (quorum, timing, signatures, binding, verdicts, policy, payload) compared with an independent model of the spec (`model_allows`, a plain rule list written separately from the gate) | 0 disagreements (182 allowed, 2,818 denied) |
-| Differential, single fault | 2,000 valid scenarios, each with zero or one of 16 injected faults | 0 disagreements. All 557 fault-free scenarios allowed; all 14 always-deny fault types denied in every case. 40 of 94 duplicate-overseer cases allowed, as the model requires when the quorum is 1 |
-| Differential, Hypothesis | The same comparison driven by Hypothesis (shrinks counterexamples) | Pass |
-| Replay invariant | In every scenario above, presenting the same authorization a second time | Never allowed |
+| Differential, randomized | 3,000 scenarios from a fixed seed (quorum, timing, signatures, binding, verdicts, policy, payload), compared with a separately written reference model of the spec (`model_allows`). The seed makes this a fixed, reproducible test set, not fresh random sampling | 0 disagreements (182 allowed, 2,818 denied) |
+| Differential, single fault | 2,000 valid scenarios from a fixed seed, each with zero or one of 16 injected faults | 0 disagreements. All 557 fault-free scenarios allowed; the 14 always-deny fault types denied in every case. The other two types are not always-deny: a duplicated approval is allowed exactly when the quorum is 1 (40/40) and denied at quorum 2–3 (54/54); an expired approval was denied in all 77 cases because it always left the quorum unmet |
+| Differential, Hypothesis | The same comparison driven by Hypothesis (shrinks counterexamples; `derandomize=True`, so also a fixed input set) | Pass |
+| Replay invariant | Present the same authorization a second time. This is only meaningful where the first presentation was allowed: 779 of the 5,000 scenarios (182 randomized + 597 single-fault) | Second presentation denied in all 779; in the rest the second denial is trivial |
 | Bit flips | Every single-bit flip in every byte of a signed proposal and ratification (>3,000 variants) | All rejected; unmodified control allowed |
 | CBOR properties | Random nested values: round-trip, idempotence, bytewise-sorted map keys | Pass |
 | Parser fuzzing | Random bytes into `from_cose`; random junk statements into the gate | Only expected exception types; the gate never raises and never allows |
@@ -93,6 +93,7 @@ The first mutation run found a real gap. With `skip_binding` (the gate does not 
 
 ## Limits (state these in the paper)
 
+- **Shared origin.** The reference model used for differential testing, the extra tests and the implementation were written by the same author, with AI assistance, in one working session. Agreement shows that the gate matches the author's reading of the spec, not that the reading is right: a misreading shared by model and gate would pass undetected. Only `harness/` predates the implementation. An independently written implementation or model would close this gap.
 - **No SCITT Transparency Service.** Registration Policy evaluation runs inside the gate rather than at a Transparency Service, and no Receipts are issued or verified. The paper's Receipt-gated execution step, R6 and T6 remain [Specified].
 - **Truncation detection** relies on the last signed checkpoint, which this implementation holds in the `Store` object. Real protection requires publishing the checkpoint outside the store (for example by registering it with a transparency service). Until then, tamper-evident history is [Partially Enforced].
 - **Replay protection** covers gates that share one SQLite database (tested with 16 concurrent gates). Gates on different machines need a shared consumed-nonce service; that case is not implemented.
