@@ -1,6 +1,6 @@
 # SAR independent implementation
 
-`sar_indep.py` is a second, independent implementation of the Sovereign Acceptance Runtime gate. It was written blind: the only sources were SARWP v1.1 §3 and §4.4–4.15, plus a fixed wire-format and interface description. The author did not read the other implementation, its tests, its README or results, or paper §6.
+`sar_indep.py` is a second implementation of the Sovereign Acceptance Runtime gate. It was written by a separate instance of the same AI assistant (Claude) from SARWP v1.1 §3 and §4.4–4.15 plus a fixed wire-format and interface specification that goes beyond the paper (`BRIEF.md` records it verbatim). Its author did not read the other implementation, its tests, its README or results, or paper §6. After the comparison it was amended twice (`DECISIONS.md`, end); the blind version is reconstructed in `original_blind/`.
 
 The only file read from outside this folder was `harness/test_sar_conformance.py`. Its role was to confirm the interface, not to supply behaviour.
 

@@ -72,6 +72,22 @@ class CrossImplementation(unittest.TestCase):
             rng = random.Random(seed)
             self._compare(lambda: T.single_fault_scenario(rng)[0], f"fault/seed{seed}")
 
+    def test_gate_offline_equivalence_in_both_implementations(self):
+        """SEMANTICS.md S13 for each implementation: gate allows at t iff offline(at=t)."""
+        n = 3000 if T.DEEP else 300
+        for seed in [9] + T.EXTRA_SEEDS:
+            rng = random.Random(seed)
+            instants = 0
+            for label, gen in (("random", lambda: T.random_scenario(rng)), ("fault", lambda: T.single_fault_scenario(rng)[0])):
+                for i in range(n):
+                    sc = gen()
+                    for impl in (A, B):
+                        bad, _ = T.gate_offline_disagreements(impl, sc, f"x{label}{i}")
+                        self.assertEqual(bad, [], f"{impl.__name__} seed {seed} {label} {i}: {bad} for {sc}")
+                    instants += len(T.boundary_instants(sc))
+            print(f"\n    gate/offline equivalence, both implementations, seed={seed}: {2 * n} scenarios, "
+                  f"{instants} instants each, 0 disagreements", end=" ")
+
     def test_artifacts_are_byte_identical(self):
         K = T.KEYS
         for ttl, nonce, now in ((60, "n1", NOW), (1, "x" * 256, 0), (10**6, "é", 2**40)):

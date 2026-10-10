@@ -9,9 +9,12 @@ rc=0
 echo "== sar_cose: original harness, gap, COSE, property, hardening and cross-implementation suites"
 PYTHONPATH="$HERE:$HARNESS" SAR_IMPL=sar_cose "$PY" -m unittest -v \
   test_sar_conformance test_sar_gaps test_sar_cose_specific test_sar_properties test_sar_hardening test_sar_cross || rc=1
-echo "== independent (blind) implementation: original harness"
+echo "== second implementation (independent/, as amended): original harness"
 PYTHONPATH="$HERE/independent:$HARNESS" SAR_IMPL=sar_indep "$PY" -m unittest test_sar_conformance || rc=1
-echo "== independent (blind) implementation: its own tests"
+echo "== second implementation (independent/, as amended): its own tests"
 (cd independent && PYTHONPATH=. "$PY" -m unittest test_indep) || rc=1
-rm -rf .hypothesis independent/.hypothesis
+echo "== reconstructed blind version (independent/original_blind/): original harness and its own tests"
+PYTHONPATH="$HERE/independent/original_blind:$HARNESS" SAR_IMPL=sar_indep "$PY" -m unittest test_sar_conformance || rc=1
+(cd independent/original_blind && PYTHONPATH=. "$PY" -m unittest test_indep) || rc=1
+rm -rf .hypothesis independent/.hypothesis independent/original_blind/.hypothesis
 exit $rc

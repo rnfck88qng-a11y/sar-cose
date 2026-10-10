@@ -594,7 +594,10 @@ class Offline(Base):
         self.assertTrue(S.verify_record_offline(p, r, self.policy))
         self.assertTrue(S.verify_record_offline(p, r, self.policy, at=1030))
         self.assertFalse(S.verify_record_offline(p, r, self.policy, at=1060))
-        self.assertFalse(S.verify_record_offline(p, r, self.policy, at=1005))
+        # amended in round 2 (D5, SEMANTICS.md S2): the window [1010, 1060) is accepted from
+        # 1010 - MAX_FUTURE_SKEW, exactly as the gate would accept it
+        self.assertTrue(S.verify_record_offline(p, r, self.policy, at=1010 - MAX_FUTURE_SKEW))
+        self.assertFalse(S.verify_record_offline(p, r, self.policy, at=1010 - MAX_FUTURE_SKEW - 1))
 
     def test_rejection_not_an_authorization(self):
         p = self.prop()

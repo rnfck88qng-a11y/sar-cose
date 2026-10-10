@@ -4,6 +4,7 @@ and the external-checkpoint feature.
     python3 -m unittest -v test_sar_hardening
 """
 import os
+import sqlite3
 import tempfile
 import time
 import unittest
@@ -348,7 +349,9 @@ class SemanticsRules(Base):
         self.assertTrue(S.verify_record_offline(p, [a, c], self.policy))
         self.assertTrue(S.verify_record_offline(p, [a, c], self.policy, at=NOW + 9))
         self.assertFalse(S.verify_record_offline(p, [a, c], self.policy, at=NOW + 10))
-        self.assertFalse(S.verify_record_offline(p, [a, c], self.policy, at=NOW + 4))
+        # S2: the start of the common interval [NOW+5, NOW+10) is tolerant by SKEW, the end is exact
+        self.assertTrue(S.verify_record_offline(p, [a, c], self.policy, at=NOW + 5 - S.MAX_CLOCK_SKEW))
+        self.assertFalse(S.verify_record_offline(p, [a, c], self.policy, at=NOW + 4 - S.MAX_CLOCK_SKEW))
 
     def test_s11_offline_rejects_duplicate_overseer(self):
         p, r = self.good()
@@ -421,9 +424,11 @@ class MutationSweepGaps(Base):
         self.assertFalse(S.verify_record_offline(dict(p, sig="00" * 64), r, self.policy))
 
     def test_offline_at_is_inclusive_at_start(self):
-        p, r = self.good(now=NOW, ttl=100)          # common interval [NOW, NOW+60)
-        self.assertTrue(S.verify_record_offline(p, r, self.policy, at=NOW))
-        self.assertFalse(S.verify_record_offline(p, r, self.policy, at=NOW - 1))
+        p, r = self.good(now=NOW, ttl=100)          # common interval [NOW, NOW+60), accepted from NOW-SKEW
+        self.assertTrue(S.verify_record_offline(p, r, self.policy, at=NOW - S.MAX_CLOCK_SKEW))
+        self.assertFalse(S.verify_record_offline(p, r, self.policy, at=NOW - S.MAX_CLOCK_SKEW - 1))
+        self.assertTrue(S.verify_record_offline(p, r, self.policy, at=NOW + 59))
+        self.assertFalse(S.verify_record_offline(p, r, self.policy, at=NOW + 60))
 
     def test_epoch_zero_timestamp_is_valid(self):
         p = S.make_proposal(self.ak, "agent-1", PAYLOAD, ttl=100, now=0)
@@ -469,6 +474,326 @@ class MutationSweepGaps(Base):
         self.assertEqual(self.gate().authorize(PAYLOAD, None, r, now=NOW), (False, "missing_proposal"))
         self.assertEqual(self.gate().authorize(PAYLOAD, p, [], now=NOW), (False, "missing_ratification"))
         self.assertEqual(self.gate().authorize(PAYLOAD, p, {"x": r[0]}, now=NOW), (False, "missing_ratification"))
+
+
+class AuditSurvivors(Base):
+    """Tests for semantic mutants that survived the whole suite in an external audit of v1.2
+    (claude-investigation-brief/deep-verification-v1.2/new_mutants: N02, N07, N09, N12, N16, N20)."""
+
+    def _resigned_proposal(self, **changes):
+        p, _ = self.good()
+        body = dict(p["body"], **changes)
+        body["proposal_id"] = S.expected_proposal_id(body)
+        return S.sign_statement(self.ak, "agent-1", S.CT_PROPOSAL, body)
+
+    def test_payload_digest_is_compared_in_full(self):  # N07
+        real = S.payload_digest(PAYLOAD)
+        for digest in (real[:8] + b"\0" * 24, real[:31] + bytes([real[31] ^ 1])):
+            bad = self._resigned_proposal(payload_digest=digest)
+            r = [S.ratify(self.ok, "ov-1", bad, now=NOW)]
+            self.assertEqual(self.gate().authorize(PAYLOAD, bad, r, now=NOW), (False, "payload_mismatch"))
+
+    def test_replay_is_denied_at_any_later_instant(self):  # N09
+        p, r = self.good(ttl=100)
+        g = self.gate()
+        self.assertTrue(g.authorize(PAYLOAD, p, r, now=NOW)[0])
+        for later in (NOW + 1, NOW + 2, NOW + 59):
+            self.assertEqual(g.authorize(PAYLOAD, p, r, now=later), (False, "replay"))
+        p2 = S.make_proposal(self.ak, "agent-1", PAYLOAD, nonce="n1", now=NOW + 1)   # same nonce, new proposal
+        self.assertEqual(g.authorize(PAYLOAD, p2, [S.ratify(self.ok, "ov-1", p2, now=NOW + 1)], now=NOW + 2),
+                         (False, "replay"))
+
+    def test_nonce_comparison_is_exact(self):  # N02: "ABC" and "abc" are different nonces
+        g = self.gate()
+        for nonce in ("ABC", "abc"):
+            p = S.make_proposal(self.ak, "agent-1", PAYLOAD, nonce=nonce, now=NOW)
+            self.assertEqual(g.authorize(PAYLOAD, p, [S.ratify(self.ok, "ov-1", p, now=NOW)], now=NOW), (True, "ok"))
+
+    def test_policy_binding_is_exact(self):  # N12: "P1" is not policy "p1"
+        p = S.make_proposal(self.ak, "agent-1", PAYLOAD, policy_id="P1", now=NOW)
+        r = [S.ratify(self.ok, "ov-1", p, now=NOW)]
+        self.assertEqual(self.gate().authorize(PAYLOAD, p, r, now=NOW), (False, "policy_mismatch"))
+        self.assertFalse(S.verify_record_offline(p, r, self.policy))
+        p, r = self.good()
+        rr = [S.sign_statement(self.ok, "ov-1", S.CT_RATIFICATION, dict(r[0]["body"], policy_id="P1"))]
+        self.assertEqual(self.gate().authorize(PAYLOAD, p, rr, now=NOW), (False, "policy_mismatch"))
+        self.assertFalse(S.verify_record_offline(p, rr, self.policy))
+
+    def test_non_text_transaction_id_is_consumed(self):  # N16
+        for tid in (42, b"tx", ["a", 1]):
+            with self.subTest(tid=tid):
+                g = self.gate()
+                pay = dict(PAYLOAD, transaction_id=tid)
+                p1 = S.make_proposal(self.ak, "agent-1", pay, nonce="a", now=NOW)
+                p2 = S.make_proposal(self.ak, "agent-1", pay, nonce="b", now=NOW)
+                self.assertTrue(g.authorize(pay, p1, [S.ratify(self.ok, "ov-1", p1, now=NOW)], now=NOW)[0])
+                self.assertEqual(g.authorize(pay, p2, [S.ratify(self.ok, "ov-1", p2, now=NOW)], now=NOW), (False, "replay"))
+
+    def test_transaction_ids_are_compared_as_cbor_values(self):
+        # S10: the text "42" and the integer 42 are different identifiers (documented limitation:
+        # a target system that conflates them must canonicalize the identifier in the payload)
+        g = self.gate()
+        for i, tid in enumerate(("42", 42)):
+            pay = dict(PAYLOAD, transaction_id=tid)
+            p = S.make_proposal(self.ak, "agent-1", pay, nonce=f"t{i}", now=NOW)
+            self.assertTrue(g.authorize(pay, p, [S.ratify(self.ok, "ov-1", p, now=NOW)], now=NOW)[0])
+
+    def test_denial_record_names_the_proposal(self):  # N20
+        import json
+        g = self.gate()
+        p, r = self.good()
+        g.authorize(dict(PAYLOAD, amount=1), p, r, now=NOW)
+        rec = json.loads(g.store.db.execute("select record from log").fetchone()[0])
+        self.assertEqual(rec, {"decision": "DENY", "reason": "payload_mismatch", "proposal_id": p["body"]["proposal_id"]})
+
+
+class Revocation(Base):
+    """Authorization is evaluated against the policy in force at execution time."""
+
+    def test_overseer_removed_after_ratification_is_denied(self):
+        p, r = self.good()
+        g = self.gate()
+        g.policy = dict(self.policy, authorized_overseers={"ov-2": self.opub2})   # ov-1 revoked
+        self.assertEqual(g.authorize(PAYLOAD, p, r, now=NOW), (False, "overseer_not_authorized"))
+        self.assertFalse(S.verify_record_offline(p, r, g.policy))
+        self.assertTrue(S.verify_record_offline(p, r, self.policy))   # still valid evidence under the old policy
+
+    def test_agent_removed_after_ratification_is_denied(self):
+        p, r = self.good()
+        other = S.new_keypair()[1]
+        revoked = dict(self.policy, authorized_agents={"agent-2": other})
+        self.assertEqual(S.Gate(revoked, S.Store()).authorize(PAYLOAD, p, r, now=NOW), (False, "agent_not_authorized"))
+
+    def test_overseer_key_rotated_after_ratification_is_denied(self):
+        p, r = self.good()
+        rotated = dict(self.policy, authorized_overseers={"ov-1": S.new_keypair()[1], "ov-2": self.opub2})
+        self.assertEqual(S.Gate(rotated, S.Store()).authorize(PAYLOAD, p, r, now=NOW), (False, "bad_ratification"))
+
+
+class FaultyConnection:
+    """Wraps a sqlite3 connection and raises once, at the n-th execute() call (crash injection)."""
+
+    def __init__(self, db, fail_at):
+        self.db, self.fail_at, self.calls = db, fail_at, 0
+
+    def execute(self, *args):
+        self.calls += 1
+        if self.calls == self.fail_at:
+            raise sqlite3.OperationalError(f"injected failure at statement {self.calls}")
+        return self.db.execute(*args)
+
+    def close(self):
+        self.db.close()
+
+
+class RollbackAndCrash(Base):
+    """Rollback of the database file, crash semantics (consume-then-execute: at most once)."""
+
+    def _allow_count(self, path):
+        import json
+        st = S.Store(path)
+        n = sum(json.loads(rec).get("decision") == "ALLOW" for (rec,) in st.db.execute("select record from log"))
+        st.close()
+        return n
+
+    def test_rollback_without_anchor_reenables_a_consumed_authorization(self):
+        # Documented limitation: without an anchor, restoring an older database file, or deleting
+        # rows of `consumed`, lets the same authorization be allowed again.
+        import shutil
+        p, r = self.good()
+        with tempfile.TemporaryDirectory() as d:
+            path = os.path.join(d, "sar.db")
+            S.Store(path).close()
+            shutil.copy(path, path + ".old")
+            s = S.Store(path)
+            self.assertTrue(S.Gate(self.policy, s).authorize(PAYLOAD, p, r, now=NOW)[0])
+            s.close()
+            shutil.copy(path + ".old", path)                       # attacker restores the old file
+            s = S.Store(path)
+            self.assertEqual(S.Gate(self.policy, s).authorize(PAYLOAD, p, r, now=NOW), (True, "ok"))
+            s.db.execute("delete from consumed")                    # or deletes consumed keys
+            self.assertEqual(S.Gate(self.policy, s).authorize(PAYLOAD, p, r, now=NOW), (True, "ok"))
+            s.close()
+
+    def test_anchor_refuses_a_rolled_back_or_truncated_database(self):
+        import shutil
+        key, _ = S.new_keypair()
+        with tempfile.TemporaryDirectory() as d, tempfile.TemporaryDirectory() as elsewhere:
+            path, anchor = os.path.join(d, "sar.db"), S.FileAnchor(os.path.join(elsewhere, "anchor.json"))
+            S.Store(path, signing_key=key, anchor=anchor).close()
+            shutil.copy(path, path + ".0")                          # before any ALLOW
+            props = [S.make_proposal(self.ak, "agent-1", PAYLOAD, nonce=f"a{i}", now=NOW) for i in range(3)]
+            rats = [[S.ratify(self.ok, "ov-1", p, now=NOW)] for p in props]
+            s = S.Store(path, signing_key=key, anchor=anchor)
+            g = S.Gate(self.policy, s)
+            self.assertTrue(g.authorize(PAYLOAD, props[0], rats[0], now=NOW)[0])
+            g.authorize(PAYLOAD, None, [], now=NOW)                 # a denial after the ALLOW
+            s.close()
+            shutil.copy(path, path + ".1")                          # after the first ALLOW
+            s = S.Store(path, signing_key=key, anchor=anchor)
+            self.assertTrue(S.Gate(self.policy, s).authorize(PAYLOAD, props[1], rats[1], now=NOW)[0])
+            s.close()
+            self.assertEqual(anchor.load()["size"], self._log_size(path))
+            for snapshot, replayed in ((".0", 0), (".1", 1)):
+                with self.subTest(snapshot=snapshot):
+                    shutil.copy(path + snapshot, path)              # attacker restores an older file
+                    s = S.Store(path, signing_key=key, anchor=anchor)
+                    self.assertEqual(S.Gate(self.policy, s).authorize(PAYLOAD, props[replayed], rats[replayed], now=NOW),
+                                     (False, "store_inconsistent_with_anchor"))
+                    self.assertEqual(S.Gate(self.policy, s).authorize(PAYLOAD, props[2], rats[2], now=NOW),
+                                     (False, "store_inconsistent_with_anchor"))   # fail closed for everything
+                    self.assertFalse(s.verify_chain(anchor.load()))
+                    s.close()
+
+    def _log_size(self, path):
+        st = S.Store(path)
+        n = st.db.execute("select count(*) from log").fetchone()[0]
+        st.close()
+        return n
+
+    def test_anchor_detects_deleted_consumed_keys_and_static_checkpoints(self):
+        key, _ = S.new_keypair()
+        p, r = self.good()
+        with tempfile.TemporaryDirectory() as d:
+            path = os.path.join(d, "sar.db")
+            anchor = S.FileAnchor(os.path.join(d, "anchor.json"))
+            s = S.Store(path, signing_key=key, anchor=anchor)
+            self.assertTrue(S.Gate(self.policy, s).authorize(PAYLOAD, p, r, now=NOW)[0])
+            s.db.execute("delete from consumed")                    # keys are also in the chained ALLOW record
+            self.assertEqual(S.Gate(self.policy, s).authorize(PAYLOAD, p, r, now=NOW), (False, "replay"))
+            retained = s.checkpoint()
+            s.db.execute("delete from log where seq = (select max(seq) from log)")   # truncate the denial
+            s.db.execute("delete from log where seq = (select max(seq) from log)")   # and the ALLOW
+            self.assertEqual(S.Gate(self.policy, s).authorize(PAYLOAD, p, r, now=NOW),
+                             (False, "store_inconsistent_with_anchor"))
+            s.close()
+            static = S.Store(path, signing_key=key, anchor=retained)  # a checkpoint dict retained elsewhere
+            self.assertEqual(S.Gate(self.policy, static).authorize(PAYLOAD, p, r, now=NOW),
+                             (False, "store_inconsistent_with_anchor"))
+            static.close()
+
+    def test_anchor_detects_a_modified_record_and_accepts_a_consistent_static_checkpoint(self):
+        key, _ = S.new_keypair()
+        props = [S.make_proposal(self.ak, "agent-1", PAYLOAD, nonce=f"m{i}", now=NOW) for i in range(3)]
+        rats = [[S.ratify(self.ok, "ov-1", p, now=NOW)] for p in props]
+        with tempfile.TemporaryDirectory() as d:
+            path = os.path.join(d, "sar.db")
+            s = S.Store(path, signing_key=key)
+            g = S.Gate(self.policy, s)
+            g.authorize(PAYLOAD, None, [], now=NOW)                  # one denial record
+            static = s.checkpoint()                                  # retained by an auditor
+            s.close()
+            s = S.Store(path, signing_key=key, anchor=static)        # consistent: allowed
+            self.assertEqual(S.Gate(self.policy, s).authorize(PAYLOAD, props[0], rats[0], now=NOW), (True, "ok"))
+            # rewrite the denial's text but keep its stored hash and link: only the hash check sees it
+            s.db.execute("update log set record = replace(record, 'missing_proposal', 'xissing_proposal') where seq = 1")
+            self.assertEqual(S.Gate(self.policy, s).authorize(PAYLOAD, props[1], rats[1], now=NOW),
+                             (False, "store_inconsistent_with_anchor"))
+            s.close()
+
+    def test_missing_anchor_for_a_non_empty_log_refuses(self):
+        key, _ = S.new_keypair()
+        p, r = self.good()
+        with tempfile.TemporaryDirectory() as d:
+            path = os.path.join(d, "sar.db")
+            s = S.Store(path, signing_key=key)
+            S.Gate(self.policy, s).authorize(PAYLOAD, None, [], now=NOW)
+            s.close()
+            anchor = S.FileAnchor(os.path.join(d, "anchor.json"))
+            s = S.Store(path, signing_key=key, anchor=anchor)       # not implicitly anchored
+            self.assertIsNone(anchor.load())
+            self.assertEqual(S.Gate(self.policy, s).authorize(PAYLOAD, p, r, now=NOW),
+                             (False, "store_inconsistent_with_anchor"))
+            anchor.save(s.checkpoint())                             # explicit operator decision
+            self.assertTrue(S.Gate(self.policy, s).authorize(PAYLOAD, p, r, now=NOW)[0])
+            s.close()
+
+    def test_crash_at_every_statement_allows_at_most_once(self):
+        """Inject a failure at each database statement of an authorization, then retry twice after
+        a restart. Consumption and the ALLOW record are one transaction, so an ALLOW record exists
+        iff the keys were consumed, and the authorization is allowed at most once overall. A
+        failure after the commit returns DENY although the authorization is consumed: it is then
+        neither executed nor reusable (at-most-once, not exactly-once)."""
+        p, r = self.good()
+        probe = S.Store()
+        probe.db = counter = FaultyConnection(probe.db, fail_at=None)
+        self.assertTrue(S.Gate(self.policy, probe).authorize(PAYLOAD, p, r, now=NOW)[0])
+        n_statements = counter.calls
+        self.assertGreater(n_statements, 3)
+        for use_anchor in (False, True):
+            for fail_at in range(1, n_statements + 1):
+                with self.subTest(fail_at=fail_at, anchor=use_anchor), tempfile.TemporaryDirectory() as d:
+                    key, _ = S.new_keypair()
+                    path = os.path.join(d, "sar.db")
+                    anchor = S.FileAnchor(os.path.join(d, "anchor.json")) if use_anchor else None
+                    s = S.Store(path, signing_key=key, anchor=anchor)
+                    s.db = FaultyConnection(s.db, fail_at)
+                    results = [S.Gate(self.policy, s).authorize(PAYLOAD, p, r, now=NOW)]
+                    s.close()
+                    for _ in range(2):                              # restart and retry
+                        s = S.Store(path, signing_key=key, anchor=anchor)
+                        results.append(S.Gate(self.policy, s).authorize(PAYLOAD, p, r, now=NOW))
+                        consumed = s.db.execute("select count(*) from consumed").fetchone()[0]
+                        s.close()
+                    allowed, records = sum(ok for ok, _ in results), self._allow_count(path)
+                    self.assertLessEqual(allowed, 1, results)               # never executed twice
+                    self.assertLessEqual(records, 1, results)               # never consumed twice
+                    self.assertEqual(records == 1, consumed > 0, results)   # record and keys are atomic
+                    self.assertLessEqual(allowed, records, results)         # every ALLOW was recorded first
+                    if records == 0:   # only when the anchor got ahead of a failed commit: fail closed
+                        self.assertTrue(use_anchor, results)
+                        self.assertEqual(results[-1], (False, "store_inconsistent_with_anchor"))
+                    elif allowed == 0:  # failure after the commit: consumed but not executed (at most once)
+                        self.assertEqual(results[1:], [(False, "replay")] * 2, results)
+
+    def test_failure_after_allow_never_reenables_the_authorization(self):
+        # consume-then-execute: if the executor crashes after the gate allowed, the authorization
+        # stays consumed (at most once); a retry needs a new proposal and a new ratification
+        p, r = self.good()
+        with tempfile.TemporaryDirectory() as d:
+            path = os.path.join(d, "sar.db")
+            s = S.Store(path)
+            self.assertTrue(S.Gate(self.policy, s).authorize(PAYLOAD, p, r, now=NOW)[0])
+            s.close()                                               # executor crashes before executing
+            s = S.Store(path)
+            self.assertEqual(S.Gate(self.policy, s).authorize(PAYLOAD, p, r, now=NOW + 1), (False, "replay"))
+            s.close()
+
+
+class ExactBytes(Base):
+    """Gate.authorize_bytes: the executor gets back exactly the bytes whose digest was checked."""
+
+    def test_allow_returns_the_exact_immutable_bytes(self):
+        p, r = self.good()
+        data = bytearray(S.dcbor(PAYLOAD))
+        allowed, reason, out = self.gate().authorize_bytes(data, p, r, now=NOW)
+        self.assertEqual((allowed, reason), (True, "ok"))
+        self.assertIs(type(out), bytes)
+        self.assertEqual(out, bytes(data))
+        data[-1] ^= 1                                               # caller mutates its buffer afterwards
+        self.assertEqual(S.H(out), p["body"]["payload_digest"])     # the returned copy is unaffected
+
+    def test_modified_or_non_canonical_bytes_are_denied(self):
+        p, r = self.good()
+        canonical = S.dcbor(PAYLOAD)
+        items = sorted(PAYLOAD.items(), reverse=True)                # same map, keys out of order
+        unsorted = bytes([0xa0 + len(items)]) + b"".join(S.dcbor(k) + S.dcbor(v) for k, v in items)
+        self.assertEqual(cbor2.loads(unsorted), PAYLOAD)
+        cases = {"unsorted map": (unsorted, "payload_not_canonical"),
+                 "trailing byte": (canonical + b"\x00", "payload_not_canonical"),
+                 "not bytes": (PAYLOAD, "payload_not_canonical"),
+                 "text": (canonical.hex(), "payload_not_canonical"),
+                 "changed amount": (S.dcbor(dict(PAYLOAD, amount=5001)), "payload_mismatch")}
+        for name, (data, why) in cases.items():
+            with self.subTest(name):
+                self.assertEqual(self.gate().authorize_bytes(data, p, r, now=NOW), (False, why, None))
+
+    def test_denial_without_log_still_denies(self):
+        g = self.gate()
+        p, r = self.good()
+        g.store.db.close()
+        self.assertEqual(g.authorize_bytes(b"\xff", p, r, now=NOW), (False, "deny_unlogged", None))
+        self.assertEqual(g.authorize_bytes(S.dcbor(PAYLOAD), p, r, now=NOW), (False, "deny_unlogged", None))
 
 
 if __name__ == "__main__":

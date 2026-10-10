@@ -1,11 +1,15 @@
-"""Cross-implementation differential: run sar_cose and the blind independent implementation
+"""Cross-implementation differential: run sar_cose and the second implementation
 (independent/sar_indep.py) on identical artifacts and report every decision disagreement.
 
-    python3 tools/cross_diff.py [N]
+    python3 tools/cross_diff.py [N]          # N scenarios per generator (default 3000)
+
+SAR_REF_DIR and SAR_INDEP_DIR override where sar_cose (with its test_sar_properties scenario
+generators) and sar_indep are imported from; tools/reproduce_blind_diff.sh uses them to compare
+sar_cose at commit e2e39dd with the reconstructed blind version in independent/original_blind/.
 """
-import collections, pathlib, random, sys
+import collections, os, pathlib, random, sys
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-sys.path[:0] = [str(ROOT), str(ROOT / "independent")]
+sys.path[:0] = [os.environ.get("SAR_REF_DIR", str(ROOT)), os.environ.get("SAR_INDEP_DIR", str(ROOT / "independent"))]
 import sar_cose as A
 import sar_indep as B
 import test_sar_properties as T  # scenario generators
@@ -54,7 +58,7 @@ def main():
             pa, _, _ = build(sc, f"w{i}", A); pb, _, _ = build(sc, f"w{i}", B)
             if sc["psig_ok"] and A.to_cose(pa) != B.to_cose(pb):
                 wire_mismatch += 1
-    print(f"decisions compared: {total}; byte-level wire mismatches between makers: {wire_mismatch}")
+    print(f"scenarios per generator: {N}; decisions compared: {total}; byte-level wire mismatches between makers: {wire_mismatch}")
     print(f"disagreements: {sum(diffs.values())}")
     for k, v in diffs.most_common():
         print(f"  {v:5d}  {k}")

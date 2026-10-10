@@ -44,36 +44,37 @@ def _break_sig(stmt):
 
 # ------------------------------------------------------------------ independent model of the spec
 
-def model_allows(sc):
-    """Reference model: the rules of SEMANTICS.md S1-S7 written as a plain rule list over the
-    abstract scenario, without reference to sar_cose's code. True iff the gate must allow."""
+def model_allows(sc, now=NOW):
+    """Reference model: the rules of SEMANTICS.md S1-S7, S11 and S13 written as a plain rule list
+    over the abstract scenario, without reference to sar_cose's code. True iff the gate must allow
+    at `now`. Time (S1, S2, S13): the proposal is nominally valid on [issued_at, expires_at), each
+    ratification on [reviewed_at, valid_until); their intersection [lo, hi) must be non-empty, and
+    the evaluating clock must satisfy lo - SKEW <= now < hi (tolerance at the start only)."""
     issued = NOW + sc["issued_off"]
     expires = issued + sc["ttl"]
     if not sc["policy_ok"] or not sc["agent_ok"] or not sc["psig_ok"]:
         return False
-    if not NOW < expires or issued > NOW + SKEW:                       # S1, S2
-        return False
     if not sc["rats"]:
         return False
     seen = set()
-    start, end = issued, expires
+    lo, hi = issued, expires
     for r in sc["rats"]:
         reviewed = NOW + r["rev_off"]
         if r["overseer"] == "ov-x" or not r["sig_ok"] or not r["bound"]:  # S4
             return False
         if r["overseer"] in seen:                                         # S5
             return False
-        if reviewed > NOW + SKEW or not issued <= reviewed < expires:     # S1, S3
+        if not issued <= reviewed < expires:                              # S3
             return False
-        if r["verdict"] not in ("APPROVED", "REJECTED") or r["verdict"] == "REJECTED":  # S6, S7
+        if r["verdict"] != "APPROVED":                                    # S6, S7
             return False
-        if not NOW < reviewed + r["ttl"]:                                 # S2, S4: expired denies
-            return False
-        start, end = max(start, reviewed), min(end, reviewed + r["ttl"])
+        lo, hi = max(lo, reviewed), min(hi, reviewed + r["ttl"])          # S4: an expired one shrinks hi
         seen.add(r["overseer"])
     if len(seen) < sc["quorum"]:
         return False
-    if not start < end:                                                   # S13
+    if not lo < hi:                                                       # S11, S13
+        return False
+    if not lo - SKEW <= now < hi:                                         # S1, S2
         return False
     return sc["payload_ok"]
 
@@ -146,7 +147,7 @@ def single_fault_scenario(rng):
     return sc, fault
 
 
-def build_and_run(sc, nonce):
+def build_artifacts(sc, nonce):
     issued = NOW + sc["issued_off"]
     agent = "agent-1" if sc["agent_ok"] else "agent-x"
     pid = "p1" if sc["policy_ok"] else "OTHER"
@@ -160,11 +161,44 @@ def build_and_run(sc, nonce):
     if not sc["psig_ok"]:
         prop = _break_sig(prop)
     runtime = PAYLOAD if sc["payload_ok"] else dict(PAYLOAD, amount=5001)
+    return prop, rats, runtime
+
+
+def boundary_instants(sc):
+    """Evaluation instants around every interval bound of the scenario (and NOW itself)."""
+    issued = NOW + sc["issued_off"]
+    bounds = [(issued, issued + sc["ttl"])] + [(NOW + r["rev_off"], NOW + r["rev_off"] + r["ttl"]) for r in sc["rats"]]
+    ts = {NOW}
+    for start, end in bounds:
+        ts.update((start - SKEW - 1, start - SKEW, start - 1, start, end - 1, end))
+    return sorted(t for t in ts if t >= 0)
+
+
+def gate_offline_disagreements(impl, sc, nonce):
+    """S13 equivalence: for every instant t, the gate allows at t (fresh store, matching payload,
+    so replay and payload binding play no part) iff verify_record_offline(at=t) succeeds. Returns
+    (instants where gate, offline verification and the model differ, number of allowed instants)."""
+    prop, rats, _ = build_artifacts(sc, nonce)
+    pol = _policy(sc["quorum"])
+    out, n_allowed = [], 0
+    for t in boundary_instants(sc):
+        allowed = impl.Gate(pol, impl.Store()).authorize(PAYLOAD, prop, rats, now=t)[0]
+        offline = impl.verify_record_offline(prop, rats, pol, at=t)
+        model = model_allows(dict(sc, payload_ok=True), now=t)
+        n_allowed += allowed
+        if not allowed == offline == model:
+            out.append((t - NOW, allowed, offline, model))
+    return out, n_allowed
+
+
+def build_and_run(sc, nonce):
+    prop, rats, runtime = build_artifacts(sc, nonce)
     gate = S.Gate(_policy(sc["quorum"]), S.Store())
     first = gate.authorize(runtime, prop, rats, now=NOW)[0]
     second = gate.authorize(runtime, prop, rats, now=NOW)[0]
-    if first:  # S13: every allowed authorization must pass offline verification
+    if first:  # S13: every allowed authorization must pass offline verification, also at the gate's instant
         assert S.verify_record_offline(prop, rats, _policy(sc["quorum"])), f"allowed but not offline-verifiable: {sc}"
+        assert S.verify_record_offline(prop, rats, _policy(sc["quorum"]), at=NOW), f"allowed but not offline-verifiable at NOW: {sc}"
     return first, second, gate.store
 
 
@@ -203,6 +237,23 @@ class DifferentialTests(unittest.TestCase):
             self.assertGreater(denied, N_RANDOM // 10)
             print(f"\n    differential seed={seed}: {allowed} allowed (replay-relevant), {denied} denied, "
                   f"0 disagreements with the model", end=" ")
+
+    def test_gate_allows_at_t_iff_offline_verification_at_t(self):
+        """SEMANTICS.md S13 as an equivalence over all interval bounds of each scenario."""
+        n = 5000 if DEEP else 500
+        for seed in [13] + EXTRA_SEEDS:
+            rng = random.Random(seed)
+            checked = allowed = 0
+            for label, gen in (("random", lambda: random_scenario(rng)), ("fault", lambda: single_fault_scenario(rng)[0])):
+                for i in range(n):
+                    sc = gen()
+                    bad, n_allowed = gate_offline_disagreements(S, sc, f"eq{label}{i}")
+                    self.assertEqual(bad, [], f"seed {seed} {label} {i}: (t-NOW, gate, offline, model) {bad} for {sc}")
+                    checked += len(boundary_instants(sc))
+                    allowed += n_allowed
+            self.assertGreater(allowed, checked // 20)
+            print(f"\n    gate/offline equivalence seed={seed}: {2 * n} scenarios, {checked} instants "
+                  f"({allowed} allowed), 0 disagreements", end=" ")
 
     @HSET
     @given(st.randoms(use_true_random=False))

@@ -1,11 +1,14 @@
-"""sar_cose.py - minimal SAR reference implementation (SARWP v1.1, section 6).
+"""sar_cose.py - minimal SAR reference implementation (SARWP v1.2, sections 4.17 and 6).
 
 Proposal and Ratification Statements are COSE_Sign1 objects (RFC 9052) whose payloads are
 deterministically encoded CBOR (RFC 8949 section 4.2.1), signed with Ed25519 using the
 fully-specified algorithm identifier -19 (RFC 9864). The Execution Gate evaluates the
 Registration Policy, verifies both statement types, compares the runtime payload digest with
 the ratified one, and consumes the nonce atomically with recording the decision in a
-hash-chained SQLite log whose head is published as a signed checkpoint.
+hash-chained SQLite log whose head is published as a signed checkpoint. Gate.authorize_bytes
+takes the payload as the exact deterministic-CBOR bytes to be executed and hands back exactly
+those bytes on ALLOW. An optional anchor (a checkpoint retained outside the database) makes
+the gate refuse to allow over a database that has been rolled back or truncated.
 
 Not implemented (still [Specified]): registration with an external SCITT Transparency
 Service, Receipts and inclusion proofs, consistency monitoring.
@@ -20,6 +23,7 @@ import hashlib
 import json
 import os
 import sqlite3
+import threading
 import time
 from collections.abc import Mapping
 
@@ -36,6 +40,10 @@ MUTANTS = [
     "accept_nondeterministic", "skip_binding", "offline_skip_binding", "deferred_tx",
     "skip_policy_shape", "skip_role_separation", "skip_shape_check", "skip_proposal_id_check",
     "inclusive_expiry", "replay_proposal_id_only", "skip_common_window",
+    # added in round 2 of v1.2 (semantic mutants that survived an external audit, and new features)
+    "nonce_casefold", "digest_prefix_only", "replay_key_with_time", "policy_bind_casefold",
+    "split_consume_tx", "txn_key_str_only", "deny_record_without_pid", "offline_at_unskewed",
+    "payload_bytes_lenient", "skip_anchor_check", "skip_anchor_save",
 ]
 
 ALG_ED25519 = -19          # RFC 9864 fully-specified Ed25519
@@ -44,7 +52,7 @@ HDR_ALG, HDR_CT, HDR_KID = 1, 3, 4
 COSE_SIGN1_TAG = 18
 CT_PROPOSAL = "application/sar-proposal+cbor"
 CT_RATIFICATION = "application/sar-ratification+cbor"
-MAX_CLOCK_SKEW = 30        # seconds a statement may be dated in the future
+MAX_CLOCK_SKEW = 30        # seconds the evaluating clock may run behind the signers' clocks (S1, S2)
 VERDICTS = ("APPROVED", "REJECTED")
 
 
@@ -237,7 +245,34 @@ def _pub_hex(x):
 
 
 def expected_proposal_id(pb):
+    """S9: the first 32 hex characters (128 bits) of SHA-256 over the deterministic CBOR of the
+    proposal body without its proposal_id field."""
     return H(dcbor({k: v for k, v in pb.items() if k != "proposal_id"})).hex()[:32]
+
+
+def accepts_at(start, end, t):
+    """S2: the common validity interval [start, end) of a proposal and its ratifications accepts
+    the evaluation instant t iff start - MAX_CLOCK_SKEW <= t < end. The tolerance applies to the
+    start only (statements dated slightly in the future); expiry is exact. The gate and
+    verify_record_offline(at=t) use this same rule (S13)."""
+    lo = start - MAX_CLOCK_SKEW
+    if MUT == "offline_at_unskewed":
+        lo = start
+    return lo <= t < end
+
+
+def _id_ne(a, b):
+    """Identifiers (policy ids) are compared exactly, byte for byte."""
+    if MUT == "policy_bind_casefold":
+        return a.lower() != b.lower()
+    return a != b
+
+
+def _digest_eq(a, b):
+    """Digests are compared in full (all 32 bytes)."""
+    if MUT == "digest_prefix_only":
+        return a[:8] == b[:8]
+    return a == b
 
 
 def proposal_shape_ok(pb):
@@ -295,17 +330,69 @@ def _canon_json(rec):
     return json.dumps(rec, sort_keys=True, separators=(",", ":"))
 
 
+class FileAnchor:
+    """Retains the latest signed checkpoint in a file outside the database. It protects against
+    rollback (restoring an older copy of the database file) and truncation only if whoever can
+    replace the database file cannot also replace or delete this file: in a deployment it belongs
+    in a different trust domain (another host, write-once storage, a transparency log)."""
+
+    def __init__(self, path):
+        self.path = path
+
+    def load(self):
+        try:
+            with open(self.path) as f:
+                return json.load(f)
+        except FileNotFoundError:
+            return None
+
+    def save(self, cp):
+        tmp = f"{self.path}.{os.getpid()}.{threading.get_ident()}.tmp"
+        with open(tmp, "w") as f:
+            json.dump(cp, f)
+            f.flush()
+            os.fsync(f.fileno())
+        os.replace(tmp, self.path)
+
+
+class StaticAnchor:
+    """A fixed checkpoint retained elsewhere (for example by an auditor). Never advanced."""
+
+    def __init__(self, checkpoint):
+        self.cp = dict(checkpoint)
+
+    def load(self):
+        return dict(self.cp)
+
+    def save(self, cp):
+        pass
+
+
+class AnchorMismatch(Exception):
+    """The database is behind, or inconsistent with, the retained checkpoint."""
+
+
 class Store:
     """SQLite hash-chained decision log plus consumed-nonce table. After every commit the store
     signs a checkpoint (size, head hash) with its checkpoint key. Truncation or rewriting is
     detectable against any checkpoint retained *outside* the database (see checkpoint() and
     verify_chain(checkpoint, checkpoint_key)); the most recent checkpoint is also kept on the
     Store object as `published`. Pass a persistent `signing_key` so that checkpoints remain
-    verifiable after the store is reopened."""
+    verifiable after the store is reopened.
+
+    Without an anchor, anyone who can write the database file can re-enable a consumed
+    authorization by restoring an older copy of the file or deleting rows of `consumed`
+    (demonstrated in test_sar_hardening.RollbackAndCrash). With `anchor` (a FileAnchor, a
+    StaticAnchor or a checkpoint dict), every ALLOW first checks, inside the write transaction,
+    that the hash chain is intact and extends the anchored checkpoint and that none of the
+    authorization's replay keys appears in an earlier chained ALLOW record; it then advances the
+    anchor to the new head before committing. A failure between advancing the anchor and the
+    commit leaves the anchor ahead of the database, after which every ALLOW is refused until an
+    operator intervenes (fail closed). The check walks the whole chain, so it costs O(n) per ALLOW."""
 
     GENESIS = "0" * 64
 
-    def __init__(self, path=":memory:", signing_key=None):
+    def __init__(self, path=":memory:", signing_key=None, anchor=None):
         # Autocommit mode with explicit BEGIN IMMEDIATE: a writer takes the database write lock
         # *before* reading the chain tip, so concurrent gates sharing one database file cannot
         # fork the hash chain (found by test_concurrent_presentations_allow_exactly_once).
@@ -316,17 +403,24 @@ class Store:
         self._key = signing_key or Ed25519PrivateKey.generate()
         self.checkpoint_key = self._key.public_key().public_bytes(
             serialization.Encoding.Raw, serialization.PublicFormat.Raw).hex()
+        self.anchor = StaticAnchor(anchor) if isinstance(anchor, Mapping) else anchor
         self._publish()
+        if self.anchor is not None and self.anchor.load() is None and self.published["size"] == 0:
+            self.anchor.save(self.checkpoint())  # new, empty store: anchor the genesis head. A store
+            # whose log is not empty is never anchored implicitly: a missing anchor then refuses
+            # every ALLOW until an operator anchors it explicitly (anchor.save(store.checkpoint())).
 
     @contextlib.contextmanager
     def _write(self):
         self.db.execute("BEGIN" if MUT == "deferred_tx" else "BEGIN IMMEDIATE")
         try:
             yield
+            self.db.execute("COMMIT")
         except BaseException:
-            self.db.execute("ROLLBACK")
+            # also reached if COMMIT itself fails: never leave the connection inside a transaction
+            with contextlib.suppress(sqlite3.Error):
+                self.db.execute("ROLLBACK")
             raise
-        self.db.execute("COMMIT")
 
     def close(self):
         self.db.close()
@@ -347,10 +441,34 @@ class Store:
         self.db.execute("insert into log(record,prev,hash) values(?,?,?)",
                         (r, prev, hashlib.sha256((prev + r).encode()).hexdigest()))
 
+    def _sign_checkpoint(self, size, head):
+        return {"size": size, "head": head, "sig": self._key.sign(dcbor(["sar-checkpoint", size, head])).hex()}
+
     def _publish(self):
-        size, head = self._tip()
-        msg = dcbor(["sar-checkpoint", size, head])
-        self.published = {"size": size, "head": head, "sig": self._key.sign(msg).hex()}
+        self.published = self._sign_checkpoint(*self._tip())
+
+    def _check_anchor(self, keys):
+        """Raise AnchorMismatch unless the chain is intact and extends the anchored checkpoint;
+        return True if a replay key already appears in a chained ALLOW record."""
+        cp = self.anchor.load()
+        try:
+            Ed25519PublicKey.from_public_bytes(bytes.fromhex(self.checkpoint_key)).verify(
+                bytes.fromhex(cp["sig"]), dcbor(["sar-checkpoint", cp["size"], cp["head"]]))
+        except (InvalidSignature, ValueError, KeyError, TypeError) as e:
+            raise AnchorMismatch("anchor missing or not signed by this store's checkpoint key") from e
+        prev, n, head_at_anchor, logged = self.GENESIS, 0, (self.GENESIS if cp["size"] == 0 else None), set()
+        for _seq, record, p, h in self.db.execute("select seq,record,prev,hash from log order by seq"):
+            if p != prev or hashlib.sha256((p + record).encode()).hexdigest() != h:
+                raise AnchorMismatch("hash chain broken")
+            prev, n = h, n + 1
+            if n == cp["size"]:
+                head_at_anchor = h
+            rec = json.loads(record)
+            if rec.get("decision") == "ALLOW":
+                logged.update(rec.get("keys", []))
+        if n < cp["size"] or head_at_anchor != cp["head"]:
+            raise AnchorMismatch("database is behind or diverges from the anchored checkpoint")
+        return bool(logged & set(keys))
 
     def append(self, rec):
         with self._write():
@@ -358,18 +476,35 @@ class Store:
         self._publish()
 
     def consume_and_record(self, keys, rec):
-        """Atomically consume every replay key of an authorization and record ALLOW. Returns False
-        (and changes nothing) if any key was already consumed."""
+        """Atomically consume every replay key of an authorization and record ALLOW (the record
+        lists the keys). Returns None on success, "replay" if any key was already consumed, or
+        "store_inconsistent_with_anchor"; in both failure cases nothing is changed."""
+        rec = dict(rec, keys=sorted(keys))
         try:
             with self._write():
-                if MUT != "skip_replay":
+                if self.anchor is not None and MUT != "skip_anchor_check":
+                    if self._check_anchor(keys):
+                        raise sqlite3.IntegrityError("replay key found in a chained ALLOW record")
+                if MUT == "split_consume_tx":
+                    for key in keys:
+                        if self.db.execute("select 1 from consumed where k=?", (key,)).fetchone():
+                            raise sqlite3.IntegrityError
+                elif MUT != "skip_replay":
                     for key in keys:
                         self.db.execute("insert into consumed(k) values(?)", (key,))
                 self._insert(rec)
+                if self.anchor is not None and MUT != "skip_anchor_save":
+                    self.anchor.save(self._sign_checkpoint(*self._tip()))  # before COMMIT: fail closed
+            if MUT == "split_consume_tx":
+                with self._write():
+                    for key in keys:
+                        self.db.execute("insert or ignore into consumed(k) values(?)", (key,))
         except sqlite3.IntegrityError:
-            return False
+            return "replay"
+        except AnchorMismatch:
+            return "store_inconsistent_with_anchor"
         self._publish()
-        return True
+        return None
 
     def _walk(self):
         """Return (size, head) if every record links to its predecessor, else None."""
@@ -413,15 +548,43 @@ class Store:
 # ---------------------------------------------------------------- execution gate
 
 class Gate:
-    """Execution Gate. Implements rules S1-S12 (SEMANTICS.md): it starts from DENY and allows only
-    if every check passes; every decision, including every denial, is recorded in the store."""
+    """Execution Gate. Implements rules S1-S13 (SEMANTICS.md): it starts from DENY and allows only
+    if every check passes; every decision, including every denial, is recorded in the store.
+
+    Trust assumptions (paper section 3.8): the gate, its store and the clock that supplies `now`
+    are trusted components that must run outside the agent's control, and protected tools must be
+    reachable only through the gate. The executor must execute exactly the payload that was
+    checked; authorize_bytes() returns the exact bytes to execute. The policy is read on every
+    call, so replacing `gate.policy` (e.g. to revoke an overseer) takes effect immediately."""
 
     def __init__(self, policy, store):
         self.policy, self.store = policy, store
 
     def _deny(self, reason, proposal_id=None):
-        self.store.append({"decision": "DENY", "reason": reason, "proposal_id": proposal_id})
+        rec = {"decision": "DENY", "reason": reason, "proposal_id": proposal_id}
+        if MUT == "deny_record_without_pid":
+            del rec["proposal_id"]
+        self.store.append(rec)
         return False, reason
+
+    def authorize_bytes(self, payload_bytes, proposal, ratifications, now=None):
+        """Authorize a payload given as the exact bytes the executor will send. The bytes must be
+        deterministic CBOR (otherwise DENY "payload_not_canonical"); they are copied once, the
+        digest is taken over that copy, and on ALLOW that same immutable copy is returned as the
+        third element (None on DENY). The executor must transmit exactly these bytes: executing a
+        separately held or re-encoded object would reintroduce payload substitution (T4)."""
+        try:
+            data = bytes(payload_bytes) if isinstance(payload_bytes, (bytes, bytearray, memoryview)) else None
+            if data is None:
+                raise TypeError("payload must be bytes")
+            obj = cbor2.loads(data) if MUT == "payload_bytes_lenient" else strict_loads(data)
+        except Exception:  # noqa: BLE001 - anything that is not canonical CBOR bytes is denied
+            try:
+                return (*self._deny("payload_not_canonical"), None)
+            except Exception:  # noqa: BLE001
+                return False, "deny_unlogged", None
+        allowed, reason = self.authorize(obj, proposal, ratifications, now)
+        return allowed, reason, (data if allowed else None)
 
     def authorize(self, runtime_payload, proposal, ratifications, now=None):
         try:
@@ -450,7 +613,7 @@ class Gate:
         pid = pb["proposal_id"]
         if MUT != "skip_proposal_id_check" and pid != expected_proposal_id(pb):
             return self._deny("proposal_id_mismatch", pid)
-        if MUT != "skip_policy_bind" and pb["policy_id"] != pol["policy_id"]:
+        if MUT != "skip_policy_bind" and _id_ne(pb["policy_id"], pol["policy_id"]):
             return self._deny("policy_mismatch", pid)
         agent_pub = pol["authorized_agents"].get(pb["agent_id"])
         if agent_pub is None:
@@ -475,7 +638,7 @@ class Gate:
                 return self._deny("bad_ratification", pid)
             if MUT != "skip_binding" and (rb["proposal_digest"] != pdig or rb["proposal_id"] != pid):
                 return self._deny("ratification_not_bound", pid)
-            if MUT != "skip_policy_bind" and rb["policy_id"] != pol["policy_id"]:
+            if MUT != "skip_policy_bind" and _id_ne(rb["policy_id"], pol["policy_id"]):
                 return self._deny("policy_mismatch", pid)
             if MUT != "dedup_overseer" and rb["overseer_id"] in approvers:
                 return self._deny("duplicate_ratification", pid)
@@ -496,17 +659,30 @@ class Gate:
         count = len(approvers) + (len(ratifications) - len(approvers) if MUT == "dedup_overseer" else 0)
         if count < pol["quorum"]:
             return self._deny("quorum_not_met", pid)
-        if MUT != "skip_common_window" and not start < end:  # S13: every ALLOW is offline-verifiable
+        # S2/S13: the checks above (expiry, ratification expiry and the two future-dating checks)
+        # together require accepts_at(start, end, now); this one requires the nominal common
+        # interval to be non-empty, so verify_record_offline(at=now) agrees with every ALLOW.
+        if MUT != "skip_common_window" and not start < end:
             return self._deny("no_common_validity", pid)
-        if MUT != "skip_digest" and payload_digest(runtime_payload) != pb["payload_digest"]:
+        runtime_digest = payload_digest(runtime_payload)
+        if MUT != "skip_digest" and not _digest_eq(runtime_digest, pb["payload_digest"]):
             return self._deny("payload_mismatch", pid)
+        nonce = pb["nonce"]
+        if MUT == "nonce_casefold":
+            nonce = nonce.lower() if isinstance(nonce, str) else nonce
         keys = [f'pid|{pol["policy_id"]}|{pid}']
         if MUT != "replay_proposal_id_only":
-            keys.append(f'nonce|{pol["policy_id"]}|{dcbor(pb["nonce"]).hex()}')
+            keys.append(f'nonce|{pol["policy_id"]}|{dcbor(nonce).hex()}')
             if isinstance(runtime_payload, Mapping) and "transaction_id" in runtime_payload:
                 keys.append(f'txn|{pol["policy_id"]}|{dcbor(runtime_payload["transaction_id"]).hex()}')
-        if not self.store.consume_and_record(keys, {"decision": "ALLOW", "proposal_id": pid}):
-            return self._deny("replay", pid)
+                if MUT == "txn_key_str_only":
+                    if not isinstance(runtime_payload["transaction_id"], str):
+                        keys.pop()
+        if MUT == "replay_key_with_time":
+            keys = [f"{k}|{now}" for k in keys]
+        failure = self.store.consume_and_record(keys, {"decision": "ALLOW", "proposal_id": pid})
+        if failure:
+            return self._deny(failure, pid)
         return True, "ok"
 
 
@@ -517,15 +693,16 @@ def verify_record_offline(proposal, ratifications, policy, at=None):
     `policy`, using only the artifacts and the policy's trust anchors (no store, no clock):
     authentic, well-formed, policy-bound proposal; every ratification authentic, bound to it,
     distinct, APPROVED and issued within the proposal's validity window; a quorum of distinct
-    approvers; and a non-empty interval in which the proposal and all ratifications were valid
-    together (which must contain `at`, if given)."""
+    approvers; and a non-empty interval [start, end) in which the proposal and all ratifications
+    were valid together. If `at` is given, it must also satisfy accepts_at(start, end, at), the
+    same rule the gate applies to `now` (S2, S13)."""
     try:
         if not policy_valid(policy):
             return False
         pb = proposal["body"]
         if not proposal_shape_ok(pb) or pb["proposal_id"] != expected_proposal_id(pb):
             return False
-        if pb["policy_id"] != policy["policy_id"]:
+        if _id_ne(pb["policy_id"], policy["policy_id"]):
             return False
         ap = policy["authorized_agents"].get(pb["agent_id"])
         if ap is None or not verify_statement(proposal, ap, CT_PROPOSAL, pb["agent_id"]):
@@ -542,7 +719,7 @@ def verify_record_offline(proposal, ratifications, policy, at=None):
                 return False
             if MUT != "offline_skip_binding" and (rb["proposal_digest"] != pdig or rb["proposal_id"] != pb["proposal_id"]):
                 return False
-            if rb["policy_id"] != policy["policy_id"] or rb["verdict"] != "APPROVED":
+            if _id_ne(rb["policy_id"], policy["policy_id"]) or rb["verdict"] != "APPROVED":
                 return False
             if rb["overseer_id"] in approvers:
                 return False
@@ -554,6 +731,6 @@ def verify_record_offline(proposal, ratifications, policy, at=None):
             return True
         if len(approvers) < policy["quorum"] or not start < end:
             return False
-        return at is None or start <= at < end
+        return at is None or accepts_at(start, end, at)
     except (KeyError, TypeError, ValueError, AttributeError):
         return False

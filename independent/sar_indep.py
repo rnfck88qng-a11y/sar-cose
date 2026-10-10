@@ -454,7 +454,9 @@ def _evaluate(proposal, ratifications, policy, *, mode, now=None,
             raise Deny("payload digest mismatch")
     elif now is not None:  # offline verifier with explicit evaluation instant
         _check_number(now)
-        if not (window_lo <= now < window_hi):
+        # D5 amended (round 2, SEMANTICS.md S2/S13): the same rule as the gate, i.e. the start of
+        # the common window is tolerant by MAX_FUTURE_SKEW and the end is exact.
+        if not (window_lo - MAX_FUTURE_SKEW <= now < window_hi):
             raise Deny("authorization not valid at the given instant")
 
     return {"policy_id": pol["policy_id"], "proposal_id": pb["proposal_id"],

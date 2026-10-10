@@ -1,7 +1,7 @@
 {
   "title": "sar-cose: minimal reference implementation of the Sovereign Acceptance Runtime (SAR)",
   "upload_type": "software",
-  "description": "<p>Reference implementation of the authorization path of the Sovereign Acceptance Runtime (SAR) described in the working paper <em>Sovereign Acceptance Runtime: Verifiable Human Ratification and Evidentiary Audit Trails for Autonomous AI Agents under the EU AI Act</em> (v1.2).</p><p>Proposal and Ratification Statements are COSE_Sign1 objects (RFC 9052) over deterministic CBOR (RFC 8949 section 4.2.1), signed with Ed25519 (algorithm -19, RFC 9864). A fail-closed Execution Gate implements normative decision rules S1-S13 (SEMANTICS.md), including separation of roles and gate-audit consistency; a hash-chained SQLite store with signed checkpoints records every decision.</p><p>Includes a second implementation written blind from the paper, a 115-test suite (differential, property-based, cross-implementation and concurrency tests), 26 hand-written mutants and an automated mutation sweep (431/444 killed; survivors argued equivalent). Research prototype; SCITT Transparency Service integration (Receipts) is not implemented.</p>",
+  "description": "<p>Reference implementation of the authorization path of the Sovereign Acceptance Runtime (SAR) described in the working paper <em>Sovereign Acceptance Runtime: Verifiable Human Ratification and Evidentiary Audit Trails for Autonomous AI Agents under the EU AI Act</em> (v1.1: <a href=\"https://doi.org/10.5281/zenodo.23270905\">doi:10.5281/zenodo.23270905</a>; this software version accompanies v1.2).</p><p>Proposal and Ratification Statements are COSE_Sign1 objects (RFC 9052) over deterministic CBOR (RFC 8949 section 4.2.1), signed with Ed25519 (algorithm -19, RFC 9864). A fail-closed Execution Gate implements normative decision rules S1-S13 (SEMANTICS.md), including separation of roles and a single time rule under which the gate allows at an instant exactly when offline verification at that instant succeeds; it consumes each authorization before returning ALLOW (at most once) and can hand the executor exactly the digested payload bytes. A hash-chained SQLite store with signed checkpoints records every decision; an optional anchor retained outside the store detects rollback.</p><p>Includes a second implementation written by a separate AI-assistant instance from the paper and a fixed wire-format specification (with a reconstruction of its blind version), a 137-test suite (differential, property-based, cross-implementation, concurrency, crash-injection, rollback and revocation tests), 37 hand-written and 20 external audit mutants (all killed) and an automated mutation sweep (476/491 killed; the 15 survivors are argued decision-equivalent). Research prototype; SCITT Transparency Service integration (Receipts) is not implemented, and the guarantees hold only for actions routed through a trusted gate.</p>",
   "creators": [
     {
       "name": "Mikulić, Alen"
@@ -20,5 +20,13 @@
     "transparency",
     "audit trail"
   ],
-  "language": "eng"
+  "language": "eng",
+  "related_identifiers": [
+    {
+      "identifier": "10.5281/zenodo.23270905",
+      "relation": "isSupplementTo",
+      "resource_type": "publication-preprint",
+      "scheme": "doi"
+    }
+  ]
 }

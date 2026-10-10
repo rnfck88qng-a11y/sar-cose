@@ -1,10 +1,17 @@
 """Indicative micro-benchmark for sar_cose (single process, single thread). Not a performance
 evaluation: it only shows the order of magnitude of the cryptographic and storage overhead.
 
+Two baselines show the marginal cost of SAR over a conventional approval flag:
+  - an unsigned approval flag looked up in memory (no signature, no payload binding, no log);
+  - the same flag kept in a file-backed SQLite table, with an exact payload comparison and a
+    consumed-flag update in one transaction (no signatures, no hash chain).
+
     python3 bench.py [N]
 """
+import json
 import os
 import platform
+import sqlite3
 import statistics
 import sys
 import tempfile
@@ -36,9 +43,31 @@ def main():
     rows.append(("make_proposal (sign)", *timed(lambda i: S.make_proposal(ak, "agent-1", PAYLOAD, nonce=f"x{i}"), N)))
     rows.append(("ratify (sign)", *timed(lambda i: S.ratify(ok, "ov-1", props[i]), N)))
     rows.append(("verify_record_offline", *timed(lambda i: S.verify_record_offline(props[i], rats[i], policy), N)))
+    approved = {p["body"]["proposal_id"]: True for p in props}
+    rows.append(("baseline: unsigned flag, in memory", *timed(lambda i: approved.get(props[i]["body"]["proposal_id"]) is True, N)))
     gate = S.Gate(policy, S.Store())
     rows.append(("Gate.authorize, in-memory store", *timed(lambda i: gate.authorize(PAYLOAD, props[i], rats[i]), N)))
+    gate_b = S.Gate(policy, S.Store())
+    pbytes = S.dcbor(PAYLOAD)
+    rows.append(("Gate.authorize_bytes, in-memory store", *timed(lambda i: gate_b.authorize_bytes(pbytes, props[i], rats[i]), N)))
     with tempfile.TemporaryDirectory() as d:
+        flags = sqlite3.connect(os.path.join(d, "flags.db"), isolation_level=None)
+        flags.execute("create table approval(pid text primary key, payload text, approved int, consumed int)")
+        flags.executemany("insert into approval values(?,?,1,0)",
+                          [(p["body"]["proposal_id"], json.dumps(PAYLOAD, sort_keys=True)) for p in props])
+
+        def flag_check(i):
+            pid = props[i]["body"]["proposal_id"]
+            flags.execute("BEGIN IMMEDIATE")
+            row = flags.execute("select payload, approved, consumed from approval where pid=?", (pid,)).fetchone()
+            ok = row is not None and row[1] == 1 and row[2] == 0 and row[0] == json.dumps(PAYLOAD, sort_keys=True)
+            if ok:
+                flags.execute("update approval set consumed=1 where pid=?", (pid,))
+            flags.execute("COMMIT")
+            return ok
+
+        rows.append(("baseline: unsigned flag, file-backed", *timed(flag_check, N)))
+        flags.close()
         gate_f = S.Gate(policy, S.Store(os.path.join(d, "bench.db")))
         rows.append(("Gate.authorize, file-backed store", *timed(lambda i: gate_f.authorize(PAYLOAD, props[i], rats[i]), N)))
         rows.append(("Store.verify_chain (N records)", *timed(lambda i: gate_f.store.verify_chain(), 5)))

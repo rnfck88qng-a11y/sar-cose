@@ -92,4 +92,10 @@ For almost every difference, the stricter choice made here was adopted and `sar_
 
 Only one change was made to this implementation:
 
-- **D1 amended:** `MAX_FUTURE_SKEW` changed from 0 to 30 seconds (SEMANTICS.md S1). A deployment tolerance for clock differences between the agent, overseer and gate hosts was judged necessary, and it is a parameter rather than a semantic choice. Everything else in this file reflects the blind phase unchanged.
+- **D1 amended:** `MAX_FUTURE_SKEW` changed from 0 to 30 seconds (SEMANTICS.md S1). A deployment tolerance for clock differences between the agent, overseer and gate hosts was judged necessary, and it is a parameter rather than a semantic choice. Apart from this and the second amendment below, everything in this file reflects the blind phase unchanged.
+
+### Second amendment (round 2 of v1.2, after an external audit)
+
+- **D5 amended:** with an explicit evaluation instant `at`, the offline verifier now accepts `window_lo - MAX_FUTURE_SKEW <= at < window_hi` instead of `window_lo <= at < window_hi`. Before this change the gate could allow at an instant (within the clock tolerance before the common window) at which `verify_record_offline(..., at=now)` returned False. Both functions now apply the same rule (SEMANTICS.md S2, S13), and `test_sar_cross.py` checks that, for every tested instant `t`, the gate allows at `t` exactly when offline verification with `at=t` succeeds (ignoring replay and payload). `test_independent_of_wallclock_and_store` was changed accordingly. Gate decisions are unchanged.
+
+The blind version, as reconstructed before both amendments, is kept in `original_blind/` (see `BRIEF.md`).
