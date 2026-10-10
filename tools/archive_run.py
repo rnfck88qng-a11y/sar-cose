@@ -89,6 +89,9 @@ def main():
     overrides = dict(kv.split("=", 1) for kv in args.env)
     env = dict(os.environ, PYTHONDONTWRITEBYTECODE="1", **overrides)
     RUNS.mkdir(parents=True, exist_ok=True)
+    # dirty = uncommitted changes to anything except the generated outputs (results/, RESULTS.md,
+    # README.md rendered from its template), checked before the command runs
+    status = git("status", "--porcelain", "--", ".", ":!results", ":!RESULTS.md", ":!README.md")
     started = datetime.datetime.now(datetime.timezone.utc)
     load_before = os.getloadavg()
     t0 = time.monotonic()
@@ -96,7 +99,6 @@ def main():
     duration = time.monotonic() - t0
     load_after = os.getloadavg()
     out = sanitize(p.stdout)
-    status = git("status", "--porcelain")
     rec = {
         "name": args.name,
         "command": [sanitize(c) for c in cmd],
@@ -109,6 +111,7 @@ def main():
         "load_avg_after": [round(x, 2) for x in load_after],
         "git_commit": git("rev-parse", "HEAD"),
         "git_dirty": bool(status) if status is not None else None,
+        "git_dirty_files": status.splitlines()[:20] if status else [],
         "module_sha256": {m: hashlib.sha256((ROOT / m).read_bytes()).hexdigest()
                           for m in MODULES if (ROOT / m).exists()},
         "environment": environment(args.python),
