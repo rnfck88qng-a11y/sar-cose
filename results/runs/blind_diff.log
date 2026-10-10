@@ -1,0 +1,13 @@
+reference: sar_cose.py at e2e39dd (sha256 6f99116cc81f520157548176f855bf32a8129c875aa5c395ae3ca1a3c6bec459)
+blind:     independent/original_blind/sar_indep.py (sha256 8aa92673513aff7587b48da91cdf56617822a0107fac0a01b90ba7fc11841445)
+scenarios per generator: 1500; decisions compared: 6000; byte-level wire mismatches between makers: 0
+disagreements: 128
+     36  ('fault', 'duplicate_overseer', 'gate', 'A=True/ok', 'B=False/DENY: duplicate ratification from one overseer')
+     26  ('random', None, 'gate', 'A=True/ok', 'B=False/DENY: duplicate ratification from one overseer')
+     20  ('random', None, 'gate', 'A=True/ok', 'B=False/DENY: ratification is future-dated')
+     16  ('random', None, 'offline', 'A=False/ratification_time_invalid', 'B=False/DENY: duplicate ratification from one overseer')
+     10  ('random', None, 'gate', 'A=True/ok', 'B=False/DENY: ratification issued after proposal expiry')
+      6  ('random', None, 'offline', 'A=False/ratification_time_invalid', 'B=False/DENY: no instant at which proposal and all ratifications were valid')
+      6  ('random', None, 'gate', 'A=True/ok', 'B=False/DENY: proposal is future-dated')
+      6  ('random', None, 'gate', 'A=True/ok', 'B=False/DENY: no instant at which proposal and all ratifications were valid')
+      2  ('random', None, 'offline', 'A=False/payload_mismatch', 'B=False/DENY: duplicate ratification from one overseer')

@@ -1,0 +1,21 @@
+N01_future_skew_3600                           KILLED    FAIL: test_gate_offline_equivalence_in_both_implementations (test_sar_cross.CrossImplementation.test_gate_offline_equivalence_in_both_implementations)
+N02_nonce_casefold                             KILLED    FAIL: test_nonce_comparison_is_exact (test_sar_hardening.AuditSurvivors.test_nonce_comparison_is_exact)
+N03_agent_overseer_same_identity_allowed       KILLED    FAIL: test_s8_agent_cannot_also_be_overseer (test_sar_hardening.SemanticsRules.test_s8_agent_cannot_also_be_overseer) (overseers=['ov-1', 'agent-1'])
+N04_quorum_off_by_one                          KILLED    FAIL: test_11_quorum_requires_distinct_approvals (test_sar_conformance.SarTests.test_11_quorum_requires_distinct_approvals); FAIL: test_gate_allows_at
+N05_checkpoint_signature_not_verified          KILLED    FAIL: test_forged_or_mismatched_checkpoint_rejected (test_sar_hardening.ExternalCheckpoint.test_forged_or_mismatched_checkpoint_rejected)
+N06_digest_alg_sha3                            KILLED    FAIL: test_payload_digest_is_sha256_of_deterministic_cbor (test_sar_cose_specific.CoseStructureTests.test_payload_digest_is_sha256_of_deterministic_cb
+N07_digest_compare_truncated_8B                KILLED    FAIL: test_payload_digest_is_compared_in_full (test_sar_hardening.AuditSurvivors.test_payload_digest_is_compared_in_full)
+N08_policy_unknown_keys_accepted               KILLED    FAIL: test_s8_policy_shape (test_sar_hardening.SemanticsRules.test_s8_policy_shape) (policy="{'policy_id': 'p1', 'quorum': 1, 'authorized_agents': {'a
+N09_replay_key_includes_time                   KILLED    FAIL: test_replay_is_denied_at_any_later_instant (test_sar_hardening.AuditSurvivors.test_replay_is_denied_at_any_later_instant); FAIL: test_failure_af
+N10_expired_ratification_ignored_not_denied    KILLED    FAIL: test_gate_allows_at_t_iff_offline_verification_at_t (test_sar_properties.DifferentialTests.test_gate_allows_at_t_iff_offline_verification_at_t);
+N11_offline_skips_agent_signature              KILLED    FAIL: test_offline_rejects_ratified_proposal_with_bad_agent_signature (test_sar_hardening.MutationSweepGaps.test_offline_rejects_ratified_proposal_wit
+N12_policy_binding_casefold                    KILLED    FAIL: test_policy_binding_is_exact (test_sar_hardening.AuditSurvivors.test_policy_binding_is_exact)
+N13_gate_accepts_alg_-8                        KILLED    FAIL: test_deprecated_polymorphic_alg_rejected (test_sar_cose_specific.CoseStructureTests.test_deprecated_polymorphic_alg_rejected)
+N14_review_before_issue_within_skew            KILLED    FAIL: test_review_not_before_proposal_boundary (test_sar_properties.BoundaryTests.test_review_not_before_proposal_boundary); FAIL: test_gate_allows_at
+N15_consume_in_separate_tx_after_record        KILLED    FAIL: test_concurrent_presentations_allow_exactly_once (test_sar_properties.StoreConcurrencyTests.test_concurrent_presentations_allow_exactly_once); F
+N16_txn_only_if_str                            KILLED    FAIL: test_non_text_transaction_id_is_consumed (test_sar_hardening.AuditSurvivors.test_non_text_transaction_id_is_consumed) (tid=42); FAIL: test_non_t
+N17_proposal_id_16_hex                         KILLED    FAIL: test_artifacts_are_byte_identical (test_sar_cross.CrossImplementation.test_artifacts_are_byte_identical); FAIL: test_gate_offline_equivalence_in
+N18_expiry_grace_equal_to_skew                 KILLED    FAIL: test_proposal_expiry_boundary (test_sar_properties.BoundaryTests.test_proposal_expiry_boundary); FAIL: test_ratification_expiry_boundary (test_s
+N19_unknown_verdict_treated_as_approved        KILLED    FAIL: test_gate_allows_at_t_iff_offline_verification_at_t (test_sar_properties.DifferentialTests.test_gate_allows_at_t_iff_offline_verification_at_t);
+N20_deny_reason_logged_without_proposal_id     KILLED    FAIL: test_denial_record_names_the_proposal (test_sar_hardening.AuditSurvivors.test_denial_record_names_the_proposal); FAIL: test_gate_revocation_wall
+audit mutants killed: 20/20; not killed: []

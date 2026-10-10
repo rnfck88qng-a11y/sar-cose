@@ -1,0 +1,97 @@
+test_c07c_future_dated_ratification_denied (test_sar_gaps.SarGapTests.test_c07c_future_dated_ratification_denied) ... FAIL
+test_c07c_ratification_before_proposal_denied (test_sar_gaps.SarGapTests.test_c07c_ratification_before_proposal_denied) ... FAIL
+test_c07d_expired_ratification_reviewed_after_proposal_denied (test_sar_gaps.SarGapTests.test_c07d_expired_ratification_reviewed_after_proposal_denied) ... ok
+test_c09b_offline_rejects_record_below_quorum (test_sar_gaps.SarGapTests.test_c09b_offline_rejects_record_below_quorum) ... FAIL
+test_c09b_offline_rejects_record_with_only_rejection (test_sar_gaps.SarGapTests.test_c09b_offline_rejects_record_with_only_rejection) ... FAIL
+test_c09b_offline_rejects_record_without_ratification (test_sar_gaps.SarGapTests.test_c09b_offline_rejects_record_without_ratification) ... FAIL
+test_c10b_tail_truncation_detected (test_sar_gaps.SarGapTests.test_c10b_tail_truncation_detected) ... FAIL
+test_c11b_duplicate_overseer_does_not_meet_quorum (test_sar_gaps.SarGapTests.test_c11b_duplicate_overseer_does_not_meet_quorum) ... FAIL
+test_c12_policy_id_mismatch_denied (test_sar_gaps.SarGapTests.test_c12_policy_id_mismatch_denied) ... FAIL
+test_c12_policy_id_mismatch_denied_offline (test_sar_gaps.SarGapTests.test_c12_policy_id_mismatch_denied_offline) ... FAIL
+test_c13_ratification_cannot_be_moved_to_another_proposal (test_sar_gaps.SarGapTests.test_c13_ratification_cannot_be_moved_to_another_proposal) ... ok
+
+======================================================================
+FAIL: test_c07c_future_dated_ratification_denied (test_sar_gaps.SarGapTests.test_c07c_future_dated_ratification_denied)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "~/Documents/Obsidian Vault/02-Projects/AlterA-uWorld/SARWP/sar-cose/test_sar_gaps.py", line 34, in test_c07c_future_dated_ratification_denied
+    self.assertFalse(self.gate.authorize(PAYLOAD, p, r)[0])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_c07c_ratification_before_proposal_denied (test_sar_gaps.SarGapTests.test_c07c_ratification_before_proposal_denied)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "~/Documents/Obsidian Vault/02-Projects/AlterA-uWorld/SARWP/sar-cose/test_sar_gaps.py", line 39, in test_c07c_ratification_before_proposal_denied
+    self.assertFalse(self.gate.authorize(PAYLOAD, p, r)[0])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_c09b_offline_rejects_record_below_quorum (test_sar_gaps.SarGapTests.test_c09b_offline_rejects_record_below_quorum)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "~/Documents/Obsidian Vault/02-Projects/AlterA-uWorld/SARWP/sar-cose/test_sar_gaps.py", line 60, in test_c09b_offline_rejects_record_below_quorum
+    self.assertFalse(S.verify_record_offline(p, [r, r], self.policy))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_c09b_offline_rejects_record_with_only_rejection (test_sar_gaps.SarGapTests.test_c09b_offline_rejects_record_with_only_rejection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "~/Documents/Obsidian Vault/02-Projects/AlterA-uWorld/SARWP/sar-cose/test_sar_gaps.py", line 54, in test_c09b_offline_rejects_record_with_only_rejection
+    self.assertFalse(S.verify_record_offline(p, [S.ratify(self.ok, "ov-1", p, "REJECTED")], self.policy))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_c09b_offline_rejects_record_without_ratification (test_sar_gaps.SarGapTests.test_c09b_offline_rejects_record_without_ratification)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "~/Documents/Obsidian Vault/02-Projects/AlterA-uWorld/SARWP/sar-cose/test_sar_gaps.py", line 50, in test_c09b_offline_rejects_record_without_ratification
+    self.assertFalse(S.verify_record_offline(p, [], self.policy))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_c10b_tail_truncation_detected (test_sar_gaps.SarGapTests.test_c10b_tail_truncation_detected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "~/Documents/Obsidian Vault/02-Projects/AlterA-uWorld/SARWP/sar-cose/test_sar_gaps.py", line 71, in test_c10b_tail_truncation_detected
+    self.assertFalse(self.store.verify_chain())
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_c11b_duplicate_overseer_does_not_meet_quorum (test_sar_gaps.SarGapTests.test_c11b_duplicate_overseer_does_not_meet_quorum)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "~/Documents/Obsidian Vault/02-Projects/AlterA-uWorld/SARWP/sar-cose/test_sar_gaps.py", line 78, in test_c11b_duplicate_overseer_does_not_meet_quorum
+    self.assertFalse(self.gate.authorize(PAYLOAD, p, [r, r])[0])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_c12_policy_id_mismatch_denied (test_sar_gaps.SarGapTests.test_c12_policy_id_mismatch_denied)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "~/Documents/Obsidian Vault/02-Projects/AlterA-uWorld/SARWP/sar-cose/test_sar_gaps.py", line 96, in test_c12_policy_id_mismatch_denied
+    self.assertFalse(self.gate.authorize(PAYLOAD, p, [S.ratify(self.ok, "ov-1", p)])[0])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_c12_policy_id_mismatch_denied_offline (test_sar_gaps.SarGapTests.test_c12_policy_id_mismatch_denied_offline)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "~/Documents/Obsidian Vault/02-Projects/AlterA-uWorld/SARWP/sar-cose/test_sar_gaps.py", line 100, in test_c12_policy_id_mismatch_denied_offline
+    self.assertFalse(S.verify_record_offline(p, [S.ratify(self.ok, "ov-1", p)], self.policy))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.005s
+
+FAILED (failures=9)

@@ -1,0 +1,60 @@
+{
+ "command": [
+  "/private/tmp/claude-501/-Users-alen-mikulicgmail-com-Downloads/ed2956a4-aac7-4a51-8455-eb84a9cacace/scratchpad/sarvenv/bin/python",
+  "-B",
+  "bench.py",
+  "2000"
+ ],
+ "duration_s": 5.68,
+ "env_overrides": {},
+ "environment": {
+  "cpu": "Apple M5 Pro",
+  "implementation": "CPython",
+  "libs": {
+   "cbor2": "5.9.0",
+   "coverage": "7.16.2",
+   "cryptography": "50.0.2",
+   "hypothesis": "6.168.5",
+   "pycose": "1.1.0"
+  },
+  "logical_cpus": 15,
+  "machine": "arm64",
+  "os": "Darwin 27.0.0",
+  "python": "3.14.5"
+ },
+ "exit_code": 0,
+ "expect_fail": false,
+ "git_commit": "cd5b499973182973233098222b5bd19627f89b2a",
+ "git_dirty": true,
+ "git_dirty_files": [
+  "M README.template.md",
+  " M tools/check_claims.py",
+  " M tools/make_claims.py"
+ ],
+ "load_avg_after": [
+  3.6,
+  11.77,
+  22.87
+ ],
+ "load_avg_before": [
+  3.73,
+  11.93,
+  22.99
+ ],
+ "log": "results/runs/bench_2.log",
+ "module_sha256": {
+  "independent/original_blind/sar_indep.py": "8aa92673513aff7587b48da91cdf56617822a0107fac0a01b90ba7fc11841445",
+  "independent/sar_indep.py": "2f937aa01500b17fd8000399e010af0f488238674dbb2d546ab89fe6fe9a9453",
+  "sar_cose.py": "197befcf49ea24f87af5a7edb9e258500532cca84de2699297f6c471dc37a2a4",
+  "sar_scitt.py": "4e56ec20d3255d0398983f52849fb5687f3008bc47d8f07acf238d5860213934"
+ },
+ "name": "bench_2",
+ "passed": true,
+ "seeds": {
+  "SAR_DEEP": "",
+  "SAR_SEEDS": "",
+  "note": "fixed default seeds are hard-coded in the test modules; SAR_SEEDS adds seeds"
+ },
+ "started_utc": "2026-10-10T13:48:12Z",
+ "unittest": []
+}

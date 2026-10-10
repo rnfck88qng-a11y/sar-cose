@@ -1,0 +1,90 @@
+{
+ "command": [
+  "./run_tests.sh"
+ ],
+ "duration_s": 36.12,
+ "env_overrides": {},
+ "environment": {
+  "cpu": "Apple M5 Pro",
+  "implementation": "CPython",
+  "libs": {
+   "cbor2": "5.9.0",
+   "coverage": "7.16.2",
+   "cryptography": "50.0.2",
+   "hypothesis": "6.168.5",
+   "pycose": "1.1.0"
+  },
+  "logical_cpus": 15,
+  "machine": "arm64",
+  "os": "Darwin 27.0.0",
+  "python": "3.14.5"
+ },
+ "exit_code": 0,
+ "expect_fail": false,
+ "git_commit": "cd5b499973182973233098222b5bd19627f89b2a",
+ "git_dirty": false,
+ "git_dirty_files": [],
+ "load_avg_after": [
+  4.5,
+  5.24,
+  6.85
+ ],
+ "load_avg_before": [
+  3.31,
+  5.15,
+  6.88
+ ],
+ "log": "results/runs/tests.log",
+ "module_sha256": {
+  "independent/original_blind/sar_indep.py": "8aa92673513aff7587b48da91cdf56617822a0107fac0a01b90ba7fc11841445",
+  "independent/sar_indep.py": "2f937aa01500b17fd8000399e010af0f488238674dbb2d546ab89fe6fe9a9453",
+  "sar_cose.py": "197befcf49ea24f87af5a7edb9e258500532cca84de2699297f6c471dc37a2a4",
+  "sar_scitt.py": "4e56ec20d3255d0398983f52849fb5687f3008bc47d8f07acf238d5860213934"
+ },
+ "name": "tests",
+ "passed": true,
+ "seeds": {
+  "SAR_DEEP": "",
+  "SAR_SEEDS": "",
+  "note": "fixed default seeds are hard-coded in the test modules; SAR_SEEDS adds seeds"
+ },
+ "started_utc": "2026-10-10T12:43:48Z",
+ "unittest": [
+  {
+   "ok": true,
+   "ran": 180,
+   "result": "OK",
+   "seconds": 32.979
+  },
+  {
+   "ok": true,
+   "ran": 12,
+   "result": "OK",
+   "seconds": 0.006
+  },
+  {
+   "ok": true,
+   "ran": 86,
+   "result": "OK",
+   "seconds": 1.126
+  },
+  {
+   "ok": true,
+   "ran": 12,
+   "result": "OK",
+   "seconds": 0.006
+  },
+  {
+   "ok": true,
+   "ran": 86,
+   "result": "OK",
+   "seconds": 1.168
+  },
+  {
+   "ok": true,
+   "ran": 40,
+   "result": "OK",
+   "seconds": 0.088
+  }
+ ]
+}

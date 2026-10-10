@@ -21,7 +21,8 @@ import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 CONTEXT = re.compile(
-    r"(?<![\w.\-])(\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?(?:\s+of\s+(\d{1,3}(?:,\d{3})+|\d+))?\s+"
+    r"(?<![\w.\-§])(?<!RFC )(?<!BCP )(?<!Section )(?<!Sections )(\d{1,3}(?:,\d{3})+|\d+)(?![.\d])"
+    r"(?:\s+of\s+(\d{1,3}(?:,\d{3})+|\d+))?\s+"
     r"(?:[A-Za-z\-]+\s+){0,3}?"
     r"(tests?|mutants?|vectors?|requirements?|scenarios?|instants?|decision pairs|disagreements?|survivors?|"
     r"MUSTs?|registered|killed|decisions|artifacts|rules|entries)\b")
@@ -48,9 +49,8 @@ def leaves(x, out):
             leaves(v, out)
     elif isinstance(x, bool):
         pass
-    elif isinstance(x, (int, float)):
-        out.add(int(x) if float(x).is_integer() else x)
-        out.add(int(x))
+    elif isinstance(x, int) or isinstance(x, float) and x.is_integer():
+        out.add(int(x))  # non-integral floats (timings, loads) never justify an integer count
     return out
 
 
@@ -72,7 +72,13 @@ def main():
         cpath = pathlib.Path(sys.argv[sys.argv.index("--claims") + 1])
         args = [a for a in args if a != str(cpath)]
     claims = json.loads(cpath.read_text())
-    allowed = leaves(claims, set()) | set(WHITELIST)
+    # counts only: timings, loads and metadata cannot justify a count
+    counts = {k: v for k, v in claims.items() if k not in ("bench", "meta", "_sources", "errors")}
+    for sect in counts.values():
+        if isinstance(sect, dict):
+            for k in ("duration_min", "load_1min"):
+                sect.pop(k, None)
+    allowed = leaves(counts, set()) | set(WHITELIST) | {0}
     bad = []
     checked = 0
     for f in args:

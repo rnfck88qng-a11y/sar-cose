@@ -83,10 +83,10 @@ def stats(log):
 
 def by_module(log):
     first = log.split("== second implementation", 1)[0]
+    names = set(re.findall(r"^test\w* \(((test_sar_\w+)\.\w+\.\w+)\)", first, re.M))
     mods = {}
-    for m in re.finditer(r"^test\w* \((test_sar_\w+)\.\w+\.\w+\) \.\.\. (ok|FAIL|ERROR|skipped.*)$", first, re.M):
-        mods.setdefault(m.group(1), 0)
-        mods[m.group(1)] += 1
+    for _full, mod in names:
+        mods[mod] = mods.get(mod, 0) + 1
     return mods
 
 
@@ -104,6 +104,10 @@ def bench(names):
         r["min_us"], r["max_us"] = min(r["medians_us"]), max(r["medians_us"])
         r["min_ms"], r["max_ms"] = round(r["min_us"] / 1000, 2), round(r["max_us"] / 1000, 2)
         r["median_of_medians_us"] = statistics.median(r["medians_us"])
+        a, b = f"{r['min_us'] / 1000:.2f}", f"{r['max_us'] / 1000:.2f}"
+        r["range_ms"] = a if a == b else f"{a}–{b}"
+        a, b = f"{r['min_us']:.1f}", f"{r['max_us']:.1f}"
+        r["range_us"] = a if a == b else f"{a}–{b}"
     return {"runs": len(loads), "load_1min_min": min(loads) if loads else None,
             "load_1min_max": max(loads) if loads else None, "rows": rows}
 
@@ -138,6 +142,8 @@ def main():
         bm = c["tests"]["by_module"]
         c["tests"]["reference_core"] = sum(v for k, v in bm.items() if k != "test_sar_scitt")
         c["tests"]["scitt"] = bm.get("test_sar_scitt", 0)
+        if sum(bm.values()) != blocks[0]["ran"]:
+            ERR.append(f"per-module test counts {sum(bm.values())} do not add up to {blocks[0]['ran']}")
         c["tests"]["total_all_suites"] = sum(b["ran"] for b in blocks)
         c["default"] = stats(log)
         c["meta"] = {"commit": rec["git_commit"], "commit_short": (rec["git_commit"] or "")[:7],
@@ -149,6 +155,8 @@ def main():
     if rec:
         c["deep"] = stats(log)
         c["deep"]["seeds_extra"] = rec["seeds"]["SAR_SEEDS"]
+        sd = rec["seeds"]["SAR_SEEDS"].split(",")
+        c["deep"]["seeds_extra_text"] = ", ".join(sd[:-1]) + " and " + sd[-1] if len(sd) > 1 else sd[0]
         c["deep"]["tests"] = rec["unittest"][0]["ran"] if rec["unittest"] else None
         c["deep"]["duration_min"] = round(rec["duration_s"] / 60, 1)
         c["deep"]["load_1min"] = rec["load_avg_before"][0]

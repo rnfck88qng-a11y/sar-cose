@@ -1,0 +1,276 @@
+== sar_cose and sar_scitt: original harness, gap, COSE, property, hardening, cross-implementation and SCITT suites
+test_01_authorized_execution_allowed (test_sar_conformance.SarTests.test_01_authorized_execution_allowed) ... ok
+test_02_missing_authorization_denied (test_sar_conformance.SarTests.test_02_missing_authorization_denied) ... ok
+test_03_invalid_signature_denied (test_sar_conformance.SarTests.test_03_invalid_signature_denied) ... ok
+test_04_rejected_proposal_denied (test_sar_conformance.SarTests.test_04_rejected_proposal_denied) ... ok
+test_05_modified_payload_after_approval_denied (test_sar_conformance.SarTests.test_05_modified_payload_after_approval_denied) ... ok
+test_06_replayed_authorization_denied (test_sar_conformance.SarTests.test_06_replayed_authorization_denied) ... ok
+test_07a_expired_proposal_denied_even_if_ratification_valid (test_sar_conformance.SarTests.test_07a_expired_proposal_denied_even_if_ratification_valid) ... ok
+test_07b_expired_ratification_denied_even_if_proposal_valid (test_sar_conformance.SarTests.test_07b_expired_ratification_denied_even_if_proposal_valid) ... ok
+test_08_invalid_policy_configuration_denied (test_sar_conformance.SarTests.test_08_invalid_policy_configuration_denied) ... ok
+test_09_offline_verification_needs_only_artifacts (test_sar_conformance.SarTests.test_09_offline_verification_needs_only_artifacts) ... ok
+test_10_history_is_tamper_evident (test_sar_conformance.SarTests.test_10_history_is_tamper_evident) ... ok
+test_11_quorum_requires_distinct_approvals (test_sar_conformance.SarTests.test_11_quorum_requires_distinct_approvals) ... ok
+test_c07c_future_dated_ratification_denied (test_sar_gaps.SarGapTests.test_c07c_future_dated_ratification_denied) ... ok
+test_c07c_ratification_before_proposal_denied (test_sar_gaps.SarGapTests.test_c07c_ratification_before_proposal_denied) ... ok
+test_c07d_expired_ratification_reviewed_after_proposal_denied (test_sar_gaps.SarGapTests.test_c07d_expired_ratification_reviewed_after_proposal_denied) ... ok
+test_c09b_offline_rejects_record_below_quorum (test_sar_gaps.SarGapTests.test_c09b_offline_rejects_record_below_quorum) ... ok
+test_c09b_offline_rejects_record_with_only_rejection (test_sar_gaps.SarGapTests.test_c09b_offline_rejects_record_with_only_rejection) ... ok
+test_c09b_offline_rejects_record_without_ratification (test_sar_gaps.SarGapTests.test_c09b_offline_rejects_record_without_ratification) ... ok
+test_c10b_tail_truncation_detected (test_sar_gaps.SarGapTests.test_c10b_tail_truncation_detected) ... ok
+test_c11b_duplicate_overseer_does_not_meet_quorum (test_sar_gaps.SarGapTests.test_c11b_duplicate_overseer_does_not_meet_quorum) ... ok
+test_c12_policy_id_mismatch_denied (test_sar_gaps.SarGapTests.test_c12_policy_id_mismatch_denied) ... ok
+test_c12_policy_id_mismatch_denied_offline (test_sar_gaps.SarGapTests.test_c12_policy_id_mismatch_denied_offline) ... ok
+test_c13_ratification_cannot_be_moved_to_another_proposal (test_sar_gaps.SarGapTests.test_c13_ratification_cannot_be_moved_to_another_proposal) ... ok
+test_content_type_confusion_rejected (test_sar_cose_specific.CoseStructureTests.test_content_type_confusion_rejected) ... ok
+test_deprecated_polymorphic_alg_rejected (test_sar_cose_specific.CoseStructureTests.test_deprecated_polymorphic_alg_rejected) ... ok
+test_kid_must_match_signer_identity (test_sar_cose_specific.CoseStructureTests.test_kid_must_match_signer_identity) ... ok
+test_non_deterministic_payloads_rejected (test_sar_cose_specific.CoseStructureTests.test_non_deterministic_payloads_rejected) ... ok
+test_non_deterministic_protected_header_rejected (test_sar_cose_specific.CoseStructureTests.test_non_deterministic_protected_header_rejected) ... ok
+test_payload_digest_is_sha256_of_deterministic_cbor (test_sar_cose_specific.CoseStructureTests.test_payload_digest_is_sha256_of_deterministic_cbor) ... ok
+test_protected_header_tampering_rejected (test_sar_cose_specific.CoseStructureTests.test_protected_header_tampering_rejected) ... ok
+test_roundtrip_through_bytes_is_accepted_by_gate (test_sar_cose_specific.CoseStructureTests.test_roundtrip_through_bytes_is_accepted_by_gate) ... ok
+test_statements_are_tagged_cose_sign1_with_ed25519_alg_minus19 (test_sar_cose_specific.CoseStructureTests.test_statements_are_tagged_cose_sign1_with_ed25519_alg_minus19) ... ok
+test_unprotected_header_parameters_rejected (test_sar_cose_specific.CoseStructureTests.test_unprotected_header_parameters_rejected) ... ok
+test_independent_verifier_cbor2_plus_cryptography (test_sar_cose_specific.CrossImplementationTests.test_independent_verifier_cbor2_plus_cryptography) ... ok
+test_pycose_verifies_sar_cose_output (test_sar_cose_specific.CrossImplementationTests.test_pycose_verifies_sar_cose_output) ... ok
+test_sar_cose_verifies_pycose_output (test_sar_cose_specific.CrossImplementationTests.test_sar_cose_verifies_pycose_output) ... ok
+test_appendix_a_vectors (test_sar_cose_specific.DeterministicCBORVectors.test_appendix_a_vectors) ... ok
+test_core_deterministic_key_order (test_sar_cose_specific.DeterministicCBORVectors.test_core_deterministic_key_order) ... ok
+test_floats_rejected (test_sar_cose_specific.DeterministicCBORVectors.test_floats_rejected) ... ok
+test_every_single_bit_flip_in_signed_statements_is_rejected (test_sar_properties.BitFlipTests.test_every_single_bit_flip_in_signed_statements_is_rejected) ... ok
+test_clock_skew_boundary (test_sar_properties.BoundaryTests.test_clock_skew_boundary) ... ok
+test_proposal_expiry_boundary (test_sar_properties.BoundaryTests.test_proposal_expiry_boundary) ... ok
+test_ratification_expiry_boundary (test_sar_properties.BoundaryTests.test_ratification_expiry_boundary) ... ok
+test_review_before_proposal_expiry_boundary (test_sar_properties.BoundaryTests.test_review_before_proposal_expiry_boundary) ... ok
+test_review_not_before_proposal_boundary (test_sar_properties.BoundaryTests.test_review_not_before_proposal_boundary) ... ok
+test_any_change_to_payload_after_approval_is_denied (test_sar_properties.CborPropertyTests.test_any_change_to_payload_after_approval_is_denied) ... ok
+test_gate_never_raises_and_never_allows_junk_statements (test_sar_properties.CborPropertyTests.test_gate_never_raises_and_never_allows_junk_statements) ... ok
+test_map_insertion_order_does_not_matter (test_sar_properties.CborPropertyTests.test_map_insertion_order_does_not_matter) ... ok
+test_parser_fails_safely_on_garbage (test_sar_properties.CborPropertyTests.test_parser_fails_safely_on_garbage) ... ok
+test_roundtrip_and_canonical_form (test_sar_properties.CborPropertyTests.test_roundtrip_and_canonical_form) ... ok
+test_unicode_normalisation_is_not_applied (test_sar_properties.CborPropertyTests.test_unicode_normalisation_is_not_applied) ... ok
+test_gate_allows_at_t_iff_offline_verification_at_t (test_sar_properties.DifferentialTests.test_gate_allows_at_t_iff_offline_verification_at_t)
+SEMANTICS.md S13 as an equivalence over all interval bounds of each scenario. ... ok
+test_gate_matches_spec_model_hypothesis (test_sar_properties.DifferentialTests.test_gate_matches_spec_model_hypothesis) ... ok
+test_gate_matches_spec_model_randomized (test_sar_properties.DifferentialTests.test_gate_matches_spec_model_randomized) ... ok
+test_gate_matches_spec_model_single_fault_injection (test_sar_properties.DifferentialTests.test_gate_matches_spec_model_single_fault_injection) ... ok
+test_concurrent_presentations_allow_exactly_once (test_sar_properties.StoreConcurrencyTests.test_concurrent_presentations_allow_exactly_once) ... ok
+test_concurrent_processes_allow_exactly_once (test_sar_properties.StoreConcurrencyTests.test_concurrent_processes_allow_exactly_once)
+Separate OS processes (not threads), each with its own gate, on one database file. ... ~/Documents/Obsidian Vault/02-Projects/AlterA-uWorld/SARWP/sar-cose/test_sar_properties.py:465: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/9m/0sngg4857_dgsmdq2dr2ykn80000gn/T/tmpr1mza496/job0.json' mode='w' encoding='UTF-8'>
+  json.dump({"p": S.to_cose(prop).hex(), "r": [S.to_cose(x).hex() for x in rats], "db": path,
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+~/Documents/Obsidian Vault/02-Projects/AlterA-uWorld/SARWP/sar-cose/test_sar_properties.py:465: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/9m/0sngg4857_dgsmdq2dr2ykn80000gn/T/tmpr1mza496/job1.json' mode='w' encoding='UTF-8'>
+  json.dump({"p": S.to_cose(prop).hex(), "r": [S.to_cose(x).hex() for x in rats], "db": path,
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+~/Documents/Obsidian Vault/02-Projects/AlterA-uWorld/SARWP/sar-cose/test_sar_properties.py:465: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/9m/0sngg4857_dgsmdq2dr2ykn80000gn/T/tmpr1mza496/job2.json' mode='w' encoding='UTF-8'>
+  json.dump({"p": S.to_cose(prop).hex(), "r": [S.to_cose(x).hex() for x in rats], "db": path,
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+~/Documents/Obsidian Vault/02-Projects/AlterA-uWorld/SARWP/sar-cose/test_sar_properties.py:465: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/9m/0sngg4857_dgsmdq2dr2ykn80000gn/T/tmpr1mza496/job3.json' mode='w' encoding='UTF-8'>
+  json.dump({"p": S.to_cose(prop).hex(), "r": [S.to_cose(x).hex() for x in rats], "db": path,
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+~/Documents/Obsidian Vault/02-Projects/AlterA-uWorld/SARWP/sar-cose/test_sar_properties.py:465: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/9m/0sngg4857_dgsmdq2dr2ykn80000gn/T/tmpr1mza496/job4.json' mode='w' encoding='UTF-8'>
+  json.dump({"p": S.to_cose(prop).hex(), "r": [S.to_cose(x).hex() for x in rats], "db": path,
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_replay_protection_survives_restart (test_sar_properties.StoreConcurrencyTests.test_replay_protection_survives_restart) ... ok
+test_denial_record_names_the_proposal (test_sar_hardening.AuditSurvivors.test_denial_record_names_the_proposal) ... ok
+test_non_text_transaction_id_is_consumed (test_sar_hardening.AuditSurvivors.test_non_text_transaction_id_is_consumed) ... ok
+test_nonce_comparison_is_exact (test_sar_hardening.AuditSurvivors.test_nonce_comparison_is_exact) ... ok
+test_payload_digest_is_compared_in_full (test_sar_hardening.AuditSurvivors.test_payload_digest_is_compared_in_full) ... ok
+test_policy_binding_is_exact (test_sar_hardening.AuditSurvivors.test_policy_binding_is_exact) ... ok
+test_replay_is_denied_at_any_later_instant (test_sar_hardening.AuditSurvivors.test_replay_is_denied_at_any_later_instant) ... ok
+test_transaction_ids_are_compared_as_cbor_values (test_sar_hardening.AuditSurvivors.test_transaction_ids_are_compared_as_cbor_values) ... ok
+test_cose_array_must_have_four_elements (test_sar_hardening.EncodingEdges.test_cose_array_must_have_four_elements) ... ok
+test_cose_fields_must_be_byte_strings (test_sar_hardening.EncodingEdges.test_cose_fields_must_be_byte_strings) ... ok
+test_cose_payload_must_be_a_map (test_sar_hardening.EncodingEdges.test_cose_payload_must_be_a_map) ... ok
+test_cose_wrong_tag_or_untagged_rejected (test_sar_hardening.EncodingEdges.test_cose_wrong_tag_or_untagged_rejected) ... ok
+test_integers_outside_cbor_major_types_rejected (test_sar_hardening.EncodingEdges.test_integers_outside_cbor_major_types_rejected) ... ok
+test_protected_header_with_extra_parameter_rejected (test_sar_hardening.EncodingEdges.test_protected_header_with_extra_parameter_rejected) ... ok
+test_unencodable_runtime_payload_is_denied_not_raised (test_sar_hardening.EncodingEdges.test_unencodable_runtime_payload_is_denied_not_raised) ... ok
+test_allow_returns_the_exact_immutable_bytes (test_sar_hardening.ExactBytes.test_allow_returns_the_exact_immutable_bytes) ... ok
+test_denial_without_log_still_denies (test_sar_hardening.ExactBytes.test_denial_without_log_still_denies) ... ok
+test_modified_or_non_canonical_bytes_are_denied (test_sar_hardening.ExactBytes.test_modified_or_non_canonical_bytes_are_denied) ... ok
+test_forged_or_mismatched_checkpoint_rejected (test_sar_hardening.ExternalCheckpoint.test_forged_or_mismatched_checkpoint_rejected) ... ok
+test_rewrite_detected_against_retained_checkpoint (test_sar_hardening.ExternalCheckpoint.test_rewrite_detected_against_retained_checkpoint) ... ok
+test_truncation_detected_after_reopen_with_retained_checkpoint (test_sar_hardening.ExternalCheckpoint.test_truncation_detected_after_reopen_with_retained_checkpoint) ... ok
+test_agent_key_substitution_denied (test_sar_hardening.GateEdges.test_agent_key_substitution_denied) ... ok
+test_denials_are_recorded_in_the_log (test_sar_hardening.GateEdges.test_denials_are_recorded_in_the_log) ... ok
+test_expired_approval_denies_even_if_quorum_met_otherwise (test_sar_hardening.GateEdges.test_expired_approval_denies_even_if_quorum_met_otherwise) ... ok
+test_ratification_after_proposal_expiry_denied (test_sar_hardening.GateEdges.test_ratification_after_proposal_expiry_denied) ... ok
+test_ratification_bound_to_other_policy_denied_even_if_proposal_matches (test_sar_hardening.GateEdges.test_ratification_bound_to_other_policy_denied_even_if_proposal_matches) ... ok
+test_ratification_window_is_half_open (test_sar_hardening.GateEdges.test_ratification_window_is_half_open) ... ok
+test_unauthorized_agent_denied (test_sar_hardening.GateEdges.test_unauthorized_agent_denied) ... ok
+test_binding_requires_both_digest_and_proposal_id (test_sar_hardening.MutationSweepGaps.test_binding_requires_both_digest_and_proposal_id) ... ok
+test_epoch_zero_timestamp_is_valid (test_sar_hardening.MutationSweepGaps.test_epoch_zero_timestamp_is_valid) ... ok
+test_identifier_and_nonce_length_limits_are_inclusive (test_sar_hardening.MutationSweepGaps.test_identifier_and_nonce_length_limits_are_inclusive) ... ok
+test_missing_inputs_are_denied_for_the_right_reason (test_sar_hardening.MutationSweepGaps.test_missing_inputs_are_denied_for_the_right_reason) ... ok
+test_non_integer_clock_is_rejected_as_such (test_sar_hardening.MutationSweepGaps.test_non_integer_clock_is_rejected_as_such) ... ok
+test_offline_at_is_inclusive_at_start (test_sar_hardening.MutationSweepGaps.test_offline_at_is_inclusive_at_start) ... ok
+test_offline_rejects_bad_proposal_signature (test_sar_hardening.MutationSweepGaps.test_offline_rejects_bad_proposal_signature) ... ok
+test_offline_rejects_ratified_proposal_with_bad_agent_signature (test_sar_hardening.MutationSweepGaps.test_offline_rejects_ratified_proposal_with_bad_agent_signature) ... ok
+test_proposal_policy_checked_even_if_ratification_names_the_gate_policy (test_sar_hardening.MutationSweepGaps.test_proposal_policy_checked_even_if_ratification_names_the_gate_policy) ... ok
+test_quorum_zero_with_valid_overseers_is_invalid (test_sar_hardening.MutationSweepGaps.test_quorum_zero_with_valid_overseers_is_invalid) ... ok
+test_single_character_identities_are_valid (test_sar_hardening.MutationSweepGaps.test_single_character_identities_are_valid) ... ok
+test_touching_but_disjoint_validity_intervals_denied (test_sar_hardening.MutationSweepGaps.test_touching_but_disjoint_validity_intervals_denied) ... ok
+test_bad_ratification_signature (test_sar_hardening.OfflineEdges.test_bad_ratification_signature) ... ok
+test_malformed_inputs (test_sar_hardening.OfflineEdges.test_malformed_inputs) ... ok
+test_ratification_policy_mismatch (test_sar_hardening.OfflineEdges.test_ratification_policy_mismatch) ... ok
+test_review_outside_validity_window (test_sar_hardening.OfflineEdges.test_review_outside_validity_window) ... ok
+test_unauthorized_overseer (test_sar_hardening.OfflineEdges.test_unauthorized_overseer) ... ok
+test_valid_record_verifies_without_store_or_clock (test_sar_hardening.OfflineEdges.test_valid_record_verifies_without_store_or_clock) ... ok
+test_malformed_policies_deny (test_sar_hardening.PolicyValidation.test_malformed_policies_deny) ... ok
+test_quorum_equal_to_overseer_count_is_valid (test_sar_hardening.PolicyValidation.test_quorum_equal_to_overseer_count_is_valid) ... ok
+test_agent_removed_after_ratification_is_denied (test_sar_hardening.Revocation.test_agent_removed_after_ratification_is_denied) ... ok
+test_overseer_key_rotated_after_ratification_is_denied (test_sar_hardening.Revocation.test_overseer_key_rotated_after_ratification_is_denied) ... ok
+test_overseer_removed_after_ratification_is_denied (test_sar_hardening.Revocation.test_overseer_removed_after_ratification_is_denied) ... ok
+test_anchor_detects_a_modified_record_and_accepts_a_consistent_static_checkpoint (test_sar_hardening.RollbackAndCrash.test_anchor_detects_a_modified_record_and_accepts_a_consistent_static_checkpoint) ... ok
+test_anchor_detects_deleted_consumed_keys_and_static_checkpoints (test_sar_hardening.RollbackAndCrash.test_anchor_detects_deleted_consumed_keys_and_static_checkpoints) ... ok
+test_anchor_refuses_a_rolled_back_or_truncated_database (test_sar_hardening.RollbackAndCrash.test_anchor_refuses_a_rolled_back_or_truncated_database) ... ok
+test_crash_at_every_statement_allows_at_most_once (test_sar_hardening.RollbackAndCrash.test_crash_at_every_statement_allows_at_most_once)
+Inject a failure at each database statement of an authorization, then retry twice after ... ok
+test_failure_after_allow_never_reenables_the_authorization (test_sar_hardening.RollbackAndCrash.test_failure_after_allow_never_reenables_the_authorization) ... ok
+test_missing_anchor_for_a_non_empty_log_refuses (test_sar_hardening.RollbackAndCrash.test_missing_anchor_for_a_non_empty_log_refuses) ... ok
+test_rollback_without_anchor_reenables_a_consumed_authorization (test_sar_hardening.RollbackAndCrash.test_rollback_without_anchor_reenables_a_consumed_authorization) ... ok
+test_invalid_clock_values_deny (test_sar_hardening.SemanticsRules.test_invalid_clock_values_deny) ... ok
+test_s10_denial_consumes_nothing (test_sar_hardening.SemanticsRules.test_s10_denial_consumes_nothing) ... ok
+test_s10_nonce_reuse_by_a_new_proposal_denied (test_sar_hardening.SemanticsRules.test_s10_nonce_reuse_by_a_new_proposal_denied) ... ok
+test_s10_transaction_id_reuse_denied (test_sar_hardening.SemanticsRules.test_s10_transaction_id_reuse_denied) ... ok
+test_s11_offline_rejects_duplicate_overseer (test_sar_hardening.SemanticsRules.test_s11_offline_rejects_duplicate_overseer) ... ok
+test_s11_offline_requires_common_validity_interval (test_sar_hardening.SemanticsRules.test_s11_offline_requires_common_validity_interval) ... ok
+test_s12_unloggable_decision_never_allows (test_sar_hardening.SemanticsRules.test_s12_unloggable_decision_never_allows) ... ok
+test_s13_no_common_validity_interval_denied_at_gate (test_sar_hardening.SemanticsRules.test_s13_no_common_validity_interval_denied_at_gate) ... ok
+test_s6_rejection_vetoes_met_quorum (test_sar_hardening.SemanticsRules.test_s6_rejection_vetoes_met_quorum) ... ok
+test_s8_agent_cannot_also_be_overseer (test_sar_hardening.SemanticsRules.test_s8_agent_cannot_also_be_overseer) ... ok
+test_s8_one_key_under_two_overseer_ids_invalidates_policy (test_sar_hardening.SemanticsRules.test_s8_one_key_under_two_overseer_ids_invalidates_policy) ... ok
+test_s8_policy_shape (test_sar_hardening.SemanticsRules.test_s8_policy_shape) ... ok
+test_s8_self_ratification_by_agent_key_denied (test_sar_hardening.SemanticsRules.test_s8_self_ratification_by_agent_key_denied) ... ok
+test_s9_attacker_chosen_proposal_id_denied (test_sar_hardening.SemanticsRules.test_s9_attacker_chosen_proposal_id_denied) ... ok
+test_s9_empty_validity_interval_denied (test_sar_hardening.SemanticsRules.test_s9_empty_validity_interval_denied) ... ok
+test_s9_extra_or_wrong_typed_body_fields_denied_even_if_validly_signed (test_sar_hardening.SemanticsRules.test_s9_extra_or_wrong_typed_body_fields_denied_even_if_validly_signed) ... ok
+test_s9_ratification_shape (test_sar_hardening.SemanticsRules.test_s9_ratification_shape) ... ok
+test_s9_signature_encoding_is_canonical (test_sar_hardening.SemanticsRules.test_s9_signature_encoding_is_canonical) ... ok
+test_artifacts_are_byte_identical (test_sar_cross.CrossImplementation.test_artifacts_are_byte_identical) ... ok
+test_gate_offline_equivalence_in_both_implementations (test_sar_cross.CrossImplementation.test_gate_offline_equivalence_in_both_implementations)
+SEMANTICS.md S13 for each implementation: gate allows at t iff offline(at=t). ... ok
+test_randomized_scenarios_agree (test_sar_cross.CrossImplementation.test_randomized_scenarios_agree) ... ok
+test_single_fault_scenarios_agree (test_sar_cross.CrossImplementation.test_single_fault_scenarios_agree) ... ok
+test_registration_and_receipt_gate_agree_with_the_model_at_every_bound (test_sar_scitt.Differential.test_registration_and_receipt_gate_agree_with_the_model_at_every_bound)
+SAR-REQ-120, 133, 137: for random scenarios (generators of test_sar_properties) and every ... ok
+test_proposal_ratification_registration_receipt_gate_execution_of_exact_bytes (test_sar_scitt.EndToEnd.test_proposal_ratification_registration_receipt_gate_execution_of_exact_bytes)
+SAR-REQ-120, 125, 130, 132, 133, 137, 071: the whole path, and the executor receives exactly ... ok
+test_receipt_from_a_larger_log_and_refreshed_receipt (test_sar_scitt.EndToEnd.test_receipt_from_a_larger_log_and_refreshed_receipt)
+SAR-REQ-126, 127: entry in the middle of a log; a receipt re-issued at a later tree size verifies too. ... ok
+test_receipt_gate_without_receipt_denies_and_logs (test_sar_scitt.EndToEnd.test_receipt_gate_without_receipt_denies_and_logs)
+SAR-REQ-132, 090. ... ok
+test_consistency_proofs_between_all_tree_sizes (test_sar_scitt.MerkleLog.test_consistency_proofs_between_all_tree_sizes)
+SAR-REQ-128: consistency between every pair 0 < m <= n <= 24, and detection of a forked log. ... ok
+test_roots_and_inclusion_proofs_for_every_index_and_size (test_sar_scitt.MerkleLog.test_roots_and_inclusion_proofs_for_every_index_and_size)
+SAR-REQ-126, 127. ... ok
+test_signed_checkpoints_and_log_consistency_of_a_running_ts (test_sar_scitt.MerkleLog.test_signed_checkpoints_and_log_consistency_of_a_running_ts)
+SAR-REQ-128: a monitor retains checkpoints and checks consistency as the log grows. ... ok
+test_faulty_ts_registered_an_invalid_set (test_sar_scitt.ReceiptAdversarial.test_faulty_ts_registered_an_invalid_set)
+SAR-REQ-137: the gate re-evaluates the statements; a valid receipt over a set with a bad ... ok
+test_forged_receipt_signed_by_another_key (test_sar_scitt.ReceiptAdversarial.test_forged_receipt_signed_by_another_key)
+SAR-REQ-131: a receipt that names the trusted log but is signed by an attacker's key. ... ok
+test_offline_tar_verification_rejects_forged_receipts (test_sar_scitt.ReceiptAdversarial.test_offline_tar_verification_rejects_forged_receipts)
+SAR-REQ-139. ... ok
+test_receipt_for_a_different_statement_set (test_sar_scitt.ReceiptAdversarial.test_receipt_for_a_different_statement_set)
+SAR-REQ-125, 133: registered {r1}; presented {r1, r2} (also a valid quorum-1 set). ... ok
+test_receipt_from_an_untrusted_log (test_sar_scitt.ReceiptAdversarial.test_receipt_from_an_untrusted_log)
+SAR-REQ-131: a correctly signed receipt from a log the gate does not trust. ... ok
+test_receipt_header_variants (test_sar_scitt.ReceiptAdversarial.test_receipt_header_variants)
+SAR-REQ-130. ... ok
+test_receipt_reused_for_a_different_payload (test_sar_scitt.ReceiptAdversarial.test_receipt_reused_for_a_different_payload)
+SAR-REQ-137, 070. ... ok
+test_rejection_receipt_never_authorizes (test_sar_scitt.ReceiptAdversarial.test_rejection_receipt_never_authorizes)
+SAR-REQ-124, 136: a rejection entry over a set whose bytes contain only approvals is crafted ... ok
+test_replay_with_a_valid_receipt (test_sar_scitt.ReceiptAdversarial.test_replay_with_a_valid_receipt)
+SAR-REQ-137, 080. ... ok
+test_structurally_invalid_proofs_that_reproduce_the_signed_root (test_sar_scitt.ReceiptAdversarial.test_structurally_invalid_proofs_that_reproduce_the_signed_root)
+SAR-REQ-127: with one entry the root is the leaf hash, so [1, 1, []] and [2, 0, []] reproduce ... ok
+test_tampered_inclusion_proof (test_sar_scitt.ReceiptAdversarial.test_tampered_inclusion_proof)
+SAR-REQ-127, 133. ... ok
+test_authorization_request_containing_a_rejection_is_refused (test_sar_scitt.Registration.test_authorization_request_containing_a_rejection_is_refused)
+SAR-REQ-124 (S6). ... ok
+test_concurrent_registrations_register_exactly_once (test_sar_scitt.Registration.test_concurrent_registrations_register_exactly_once)
+SAR-REQ-122: 16 threads register the same authorization at once. ... ok
+test_malformed_requests_are_refused (test_sar_scitt.Registration.test_malformed_requests_are_refused) ... ok
+test_policy_failing_at_the_ts_issues_no_receipt (test_sar_scitt.Registration.test_policy_failing_at_the_ts_issues_no_receipt)
+SAR-REQ-120. ... ok
+test_registration_of_a_rejection_and_registered_veto (test_sar_scitt.Registration.test_registration_of_a_rejection_and_registered_veto)
+SAR-REQ-123, 124: the rejection is registered; afterwards an authorization that omits it is refused. ... ok
+test_rejection_request_needs_a_rejected_ratification (test_sar_scitt.Registration.test_rejection_request_needs_a_rejected_ratification)
+SAR-REQ-124. ... ok
+test_second_authorization_registration_is_refused (test_sar_scitt.Registration.test_second_authorization_registration_is_refused)
+SAR-REQ-122. ... ok
+test_consistency_verifier_edge_cases (test_sar_scitt.SweepGaps.test_consistency_verifier_edge_cases)
+SAR-REQ-128: old size 0 or larger than new, equal sizes with a non-empty proof, empty proof, ... ok
+test_every_index_of_every_log_size_verifies_through_the_receipt_path (test_sar_scitt.SweepGaps.test_every_index_of_every_log_size_verifies_through_the_receipt_path)
+SAR-REQ-127, 133: the gate's own audit-path walk, for every leaf of logs of size 1..17. ... ok
+test_gate_revocation_wall_clock_data_item_interface_and_unloggable_denials (test_sar_scitt.SweepGaps.test_gate_revocation_wall_clock_data_item_interface_and_unloggable_denials)
+SAR-REQ-043 through the receipt gate; now=None uses the wall clock; the data-item interface ... ok
+test_offline_tar_rejects_invalid_statements_and_garbage (test_sar_scitt.SweepGaps.test_offline_tar_rejects_invalid_statements_and_garbage)
+SAR-REQ-139: a valid receipt does not make invalid statements verify offline. ... ok
+test_receipt_structure_variants_are_rejected (test_sar_scitt.SweepGaps.test_receipt_structure_variants_are_rejected)
+SAR-REQ-130: COSE structure, CWT claims, vdp, proof shape. ... ok
+test_receipt_with_trailing_or_missing_path_elements_is_rejected (test_sar_scitt.SweepGaps.test_receipt_with_trailing_or_missing_path_elements_is_rejected)
+SAR-REQ-127: an audit path with an extra element after the root level, or one element short. ... ok
+test_reference_matches_the_normative_vectors (test_sar_scitt.SweepGaps.test_reference_matches_the_normative_vectors)
+The registration entry, root and Receipt bytes of vector reg-001 and the Merkle roots and ... ok
+test_registration_results_and_log_accessors (test_sar_scitt.SweepGaps.test_registration_results_and_log_accessors) ... ok
+test_tar_encoding (test_sar_scitt.SweepGaps.test_tar_encoding) ... ok
+test_ts_refuses_each_proposal_fault (test_sar_scitt.SweepGaps.test_ts_refuses_each_proposal_fault)
+SAR-REQ-120 at the TS, with the right class: attacker-chosen proposal_id, unauthorized ... ok
+test_ts_time_boundaries (test_sar_scitt.SweepGaps.test_ts_time_boundaries)
+SAR-REQ-120, 124: touching but disjoint intervals are refused even within the tolerance; a ... ok
+test_lying_ts_cannot_extend_execution_beyond_expiry (test_sar_scitt.TrustedTime.test_lying_ts_cannot_extend_execution_beyond_expiry)
+A receipt 'registered' one second before expiry and presented after it: the gate's own clock ... ok
+test_registration_at_or_after_expiry (test_sar_scitt.TrustedTime.test_registration_at_or_after_expiry) ... ok
+test_registration_before_validity (test_sar_scitt.TrustedTime.test_registration_before_validity) ... ok
+test_stale_receipt (test_sar_scitt.TrustedTime.test_stale_receipt) ... ok
+test_ts_clock_ahead_of_the_gate (test_sar_scitt.TrustedTime.test_ts_clock_ahead_of_the_gate) ... ok
+test_ts_clock_behind_backdated_within_validity_is_stale (test_sar_scitt.TrustedTime.test_ts_clock_behind_backdated_within_validity_is_stale) ... ok
+test_ts_refuses_registration_outside_validity_by_its_own_clock (test_sar_scitt.TrustedTime.test_ts_refuses_registration_outside_validity_by_its_own_clock)
+SAR-REQ-120: S2 at the registration instant, both directions. ... ok
+
+----------------------------------------------------------------------
+Ran 180 tests in 32.979s
+
+OK
+
+    gate/offline equivalence seed=13: 1000 scenarios, 12653 instants (1709 allowed), 0 disagreements 
+    differential seed=20261009: 144 allowed (replay-relevant), 2856 denied, 0 disagreements with the model 
+    single-fault seed=4242: none=557/557 allowed, agent=0/76 allowed, duplicate_overseer=0/94 allowed, expired=0/77 allowed, future_proposal=0/106 allowed, no_rats=0/101 allowed, payload=0/103 allowed, policy=0/91 allowed, psig=0/84 allowed, rat_before_proposal=0/102 allowed, rat_expired=0/77 allowed, rat_future=0/79 allowed, rat_rejected=0/80 allowed, rat_sig=0/85 allowed, rat_unauthorized=0/111 allowed, rat_unbound=0/88 allowed, rat_unknown_verdict=0/89 allowed 
+    gate/offline equivalence, both implementations, seed=9: 600 scenarios, 7569 instants each, 0 disagreements 
+    cross random/seed7: 3000 decision pairs, 156 allowed, 0 disagreements 
+    cross fault/seed8: 3000 decision pairs, 828 allowed, 0 disagreements 
+    scitt differential seed=31337: 1000 scenarios, 12413 instants (334 registered), 0 disagreements with the model == second implementation (independent/, as amended): original harness
+............
+----------------------------------------------------------------------
+Ran 12 tests in 0.006s
+
+OK
+== second implementation (independent/, as amended): its own tests
+......................................................................................
+----------------------------------------------------------------------
+Ran 86 tests in 1.126s
+
+OK
+== reconstructed blind version (independent/original_blind/): original harness and its own tests
+............
+----------------------------------------------------------------------
+Ran 12 tests in 0.006s
+
+OK
+......................................................................................
+----------------------------------------------------------------------
+Ran 86 tests in 1.168s
+
+OK
+== second SCITT implementation (independent/scitt/): its own tests
+........................................
+----------------------------------------------------------------------
+Ran 40 tests in 0.088s
+
+OK

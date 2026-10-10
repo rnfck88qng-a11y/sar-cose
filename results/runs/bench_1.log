@@ -1,0 +1,15 @@
+sar_cose micro-benchmark, N=2000, arm64 Darwin 27.0.0, Python 3.14.5, load average 3.73 11.93 22.99
+operation                                 median us     p99 us
+make_proposal (sign)                           29.5       36.0
+ratify (sign)                                  29.8       39.0
+verify_record_offline                         108.0      129.2
+baseline: unsigned flag, in memory              0.1        0.1
+Gate.authorize, in-memory store               148.4      178.5
+Gate.authorize_bytes, in-memory store         151.6      180.5
+TS.register (log grows to 2000)               181.6      209.7
+ReceiptGate.authorize_bytes, in-memory        237.3      271.3
+verify_tar_offline                            187.3      212.7
+baseline: unsigned flag, file-backed          191.4     2585.8
+Gate.authorize, file-backed store             421.5     3003.9
+ReceiptGate.authorize_bytes, file-backed      517.0     3977.8
+Store.verify_chain (N records)               1240.3     1243.4

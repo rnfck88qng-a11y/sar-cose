@@ -1,0 +1,562 @@
+{
+ "_sources": {
+  "runs": [
+   "audit_mutants.json",
+   "bench_1.json",
+   "bench_2.json",
+   "bench_3.json",
+   "bench_4.json",
+   "bench_5.json",
+   "blind_diff.json",
+   "cddl.json",
+   "concurrency.json",
+   "deep.json",
+   "hand_mutants.json",
+   "manifest.json",
+   "step1_hand_mutants.json",
+   "step1_tests.json",
+   "step2_cddl.json",
+   "step2_manifest.json",
+   "step2_tests.json",
+   "step2_vectors.json",
+   "step2_vectors_regen.json",
+   "step3_cddl.json",
+   "step3_manifest.json",
+   "step3_regen.json",
+   "step3_scitt_mutants.json",
+   "step3_tests.json",
+   "step3_vectors.json",
+   "stub_gaps.json",
+   "sweep_sar_cose.json",
+   "sweep_sar_scitt.json",
+   "tests.json",
+   "vectors.json",
+   "vectors_regen.json",
+   "vectors_vs_mutants.json"
+  ],
+  "tests": "results/runs/tests.json"
+ },
+ "bench": {
+  "load_1min_max": 3.73,
+  "load_1min_min": 3.43,
+  "rows": {
+   "baseline_unsigned_flag_file_backed": {
+    "max_ms": 0.19,
+    "max_us": 191.4,
+    "median_of_medians_us": 187.5,
+    "medians_us": [
+     191.4,
+     187.5,
+     189.4,
+     183.1,
+     183.0
+    ],
+    "min_ms": 0.18,
+    "min_us": 183.0,
+    "name": "baseline: unsigned flag, file-backed",
+    "range_ms": "0.18\u20130.19",
+    "range_us": "183.0\u2013191.4"
+   },
+   "baseline_unsigned_flag_in_memory": {
+    "max_ms": 0.0,
+    "max_us": 0.1,
+    "median_of_medians_us": 0.1,
+    "medians_us": [
+     0.1,
+     0.1,
+     0.1,
+     0.1,
+     0.1
+    ],
+    "min_ms": 0.0,
+    "min_us": 0.1,
+    "name": "baseline: unsigned flag, in memory",
+    "range_ms": "0.00",
+    "range_us": "0.1"
+   },
+   "gate_authorize_bytes_in_memory_store": {
+    "max_ms": 0.15,
+    "max_us": 151.9,
+    "median_of_medians_us": 151.6,
+    "medians_us": [
+     151.6,
+     151.9,
+     151.7,
+     150.7,
+     151.6
+    ],
+    "min_ms": 0.15,
+    "min_us": 150.7,
+    "name": "Gate.authorize_bytes, in-memory store",
+    "range_ms": "0.15",
+    "range_us": "150.7\u2013151.9"
+   },
+   "gate_authorize_file_backed_store": {
+    "max_ms": 0.43,
+    "max_us": 425.2,
+    "median_of_medians_us": 421.8,
+    "medians_us": [
+     421.5,
+     424.6,
+     425.2,
+     421.7,
+     421.8
+    ],
+    "min_ms": 0.42,
+    "min_us": 421.5,
+    "name": "Gate.authorize, file-backed store",
+    "range_ms": "0.42\u20130.43",
+    "range_us": "421.5\u2013425.2"
+   },
+   "gate_authorize_in_memory_store": {
+    "max_ms": 0.15,
+    "max_us": 149.1,
+    "median_of_medians_us": 147.9,
+    "medians_us": [
+     148.4,
+     147.9,
+     149.1,
+     147.7,
+     147.8
+    ],
+    "min_ms": 0.15,
+    "min_us": 147.7,
+    "name": "Gate.authorize, in-memory store",
+    "range_ms": "0.15",
+    "range_us": "147.7\u2013149.1"
+   },
+   "make_proposal_sign": {
+    "max_ms": 0.03,
+    "max_us": 29.6,
+    "median_of_medians_us": 29.5,
+    "medians_us": [
+     29.5,
+     29.6,
+     29.5,
+     29.6,
+     29.5
+    ],
+    "min_ms": 0.03,
+    "min_us": 29.5,
+    "name": "make_proposal (sign)",
+    "range_ms": "0.03",
+    "range_us": "29.5\u201329.6"
+   },
+   "ratify_sign": {
+    "max_ms": 0.03,
+    "max_us": 29.9,
+    "median_of_medians_us": 29.9,
+    "medians_us": [
+     29.8,
+     29.9,
+     29.9,
+     29.9,
+     29.8
+    ],
+    "min_ms": 0.03,
+    "min_us": 29.8,
+    "name": "ratify (sign)",
+    "range_ms": "0.03",
+    "range_us": "29.8\u201329.9"
+   },
+   "receiptgate_authorize_bytes_file_backed": {
+    "max_ms": 0.52,
+    "max_us": 521.6,
+    "median_of_medians_us": 518.5,
+    "medians_us": [
+     517.0,
+     516.7,
+     518.5,
+     521.6,
+     519.3
+    ],
+    "min_ms": 0.52,
+    "min_us": 516.7,
+    "name": "ReceiptGate.authorize_bytes, file-backed",
+    "range_ms": "0.52",
+    "range_us": "516.7\u2013521.6"
+   },
+   "receiptgate_authorize_bytes_in_memory": {
+    "max_ms": 0.24,
+    "max_us": 238.0,
+    "median_of_medians_us": 237.3,
+    "medians_us": [
+     237.3,
+     238.0,
+     237.2,
+     235.9,
+     237.4
+    ],
+    "min_ms": 0.24,
+    "min_us": 235.9,
+    "name": "ReceiptGate.authorize_bytes, in-memory",
+    "range_ms": "0.24",
+    "range_us": "235.9\u2013238.0"
+   },
+   "store_verify_chain_n_records": {
+    "max_ms": 1.26,
+    "max_us": 1257.6,
+    "median_of_medians_us": 1244.7,
+    "medians_us": [
+     1240.3,
+     1257.6,
+     1233.8,
+     1244.7,
+     1247.6
+    ],
+    "min_ms": 1.23,
+    "min_us": 1233.8,
+    "name": "Store.verify_chain (N records)",
+    "range_ms": "1.23\u20131.26",
+    "range_us": "1233.8\u20131257.6"
+   },
+   "ts_register_log_grows_to_2000": {
+    "max_ms": 0.18,
+    "max_us": 182.0,
+    "median_of_medians_us": 181.6,
+    "medians_us": [
+     181.6,
+     182.0,
+     181.2,
+     181.0,
+     181.7
+    ],
+    "min_ms": 0.18,
+    "min_us": 181.0,
+    "name": "TS.register (log grows to 2000)",
+    "range_ms": "0.18",
+    "range_us": "181.0\u2013182.0"
+   },
+   "verify_record_offline": {
+    "max_ms": 0.11,
+    "max_us": 108.5,
+    "median_of_medians_us": 108.0,
+    "medians_us": [
+     108.0,
+     107.9,
+     108.2,
+     108.5,
+     107.4
+    ],
+    "min_ms": 0.11,
+    "min_us": 107.4,
+    "name": "verify_record_offline",
+    "range_ms": "0.11",
+    "range_us": "107.4\u2013108.5"
+   },
+   "verify_tar_offline": {
+    "max_ms": 0.19,
+    "max_us": 188.0,
+    "median_of_medians_us": 187.6,
+    "medians_us": [
+     187.3,
+     188.0,
+     187.7,
+     187.2,
+     187.6
+    ],
+    "min_ms": 0.19,
+    "min_us": 187.2,
+    "name": "verify_tar_offline",
+    "range_ms": "0.19",
+    "range_us": "187.2\u2013188.0"
+   }
+  },
+  "runs": 5
+ },
+ "blind_diff": {
+  "decisions": 6000,
+  "disagreements": 128
+ },
+ "cddl": {
+  "artifacts": 791,
+  "mismatches": 0,
+  "rules": 27
+ },
+ "concurrency": {
+  "deferred_killed": 10,
+  "deferred_runs": 10,
+  "processes_ok": 10,
+  "processes_runs": 10,
+  "threads_ok": 50,
+  "threads_runs": 50
+ },
+ "deep": {
+  "cross": {
+   "allowed": 58332,
+   "disagreements": 0,
+   "pairs": 360000,
+   "runs": 12
+  },
+  "duration_min": 24.1,
+  "equiv": {
+   "allowed": 97776,
+   "instants": 747658,
+   "scenarios": 60000,
+   "seeds": 6
+  },
+  "equiv_both": {
+   "instants_each": 448137,
+   "scenarios": 36000,
+   "seeds": 6
+  },
+  "fault": {
+   "fault_free_allowed": 32483,
+   "fault_types": 16,
+   "scenarios": 120000,
+   "seeds": 6
+  },
+  "load_1min": 3.31,
+  "random": {
+   "allowed": 9408,
+   "denied": 170592,
+   "scenarios": 180000,
+   "seeds": 6
+  },
+  "replay_relevant": 41891,
+  "scitt_diff": {
+   "disagreements": 0,
+   "instants": 739054,
+   "registered": 17385,
+   "scenarios": 60000,
+   "seeds": 6
+  },
+  "seeds_extra": "101,202,303,404,505",
+  "seeds_extra_text": "101, 202, 303, 404 and 505",
+  "tests": 180
+ },
+ "default": {
+  "cross": {
+   "allowed": 984,
+   "disagreements": 0,
+   "pairs": 6000,
+   "runs": 2
+  },
+  "equiv": {
+   "allowed": 1709,
+   "instants": 12653,
+   "scenarios": 1000,
+   "seeds": 1
+  },
+  "equiv_both": {
+   "instants_each": 7569,
+   "scenarios": 600,
+   "seeds": 1
+  },
+  "fault": {
+   "fault_free_allowed": 557,
+   "fault_types": 16,
+   "scenarios": 2000,
+   "seeds": 1
+  },
+  "random": {
+   "allowed": 144,
+   "denied": 2856,
+   "scenarios": 3000,
+   "seeds": 1
+  },
+  "replay_relevant": 701,
+  "scitt_diff": {
+   "disagreements": 0,
+   "instants": 12413,
+   "registered": 334,
+   "scenarios": 1000,
+   "seeds": 1
+  }
+ },
+ "errors": [],
+ "history": {
+  "v1_2": {
+   "audit_mutants": 20,
+   "blind_disagreements": 128,
+   "hand_mutants": 37,
+   "source": "git show f9d968c:RESULTS.md",
+   "sweep_killed": 476,
+   "sweep_score": 96.9,
+   "sweep_survived": 15,
+   "sweep_total": 491,
+   "tests": 137
+  }
+ },
+ "meta": {
+  "commit": "cd5b499973182973233098222b5bd19627f89b2a",
+  "commit_short": "cd5b499",
+  "cores": 15,
+  "cpu": "Apple M5 Pro",
+  "date": "2026-10-10",
+  "libs": {
+   "cbor2": "5.9.0",
+   "coverage": "7.16.2",
+   "cryptography": "50.0.2",
+   "hypothesis": "6.168.5",
+   "pycose": "1.1.0"
+  },
+  "os": "Darwin 27.0.0",
+  "python": "3.14.5"
+ },
+ "mutants": {
+  "audit": {
+   "killed": 20,
+   "total": 20
+  },
+  "hand": {
+   "core_killed": 37,
+   "core_total": 37,
+   "killed": 60,
+   "scitt_killed": 23,
+   "scitt_total": 23,
+   "total": 60
+  },
+  "vectors_detect": {
+   "detected": 51,
+   "not_detected": [
+    "chain_noop",
+    "skip_head_check",
+    "deferred_tx",
+    "split_consume_tx",
+    "deny_record_without_pid",
+    "skip_anchor_check",
+    "skip_anchor_save",
+    "skip_trusted_log",
+    "ts_unlocked"
+   ],
+   "not_detected_count": 9,
+   "total": 60
+  }
+ },
+ "scitt": {
+  "implementations": 2,
+  "merkle_vectors": 1,
+  "registration_vectors": 13,
+  "sc_allow_only_vectors": 6,
+  "sc_deny_vectors": 27,
+  "sc_vectors": 33
+ },
+ "spec": {
+  "issues": 34,
+  "issues_blind_scitt": 10,
+  "issues_step2": 14,
+  "may": 0,
+  "must": 67,
+  "must_with_vectors": 67,
+  "requirements": 71,
+  "should": 4,
+  "status": {
+   "sar_cose": {
+    "not-implemented": 19,
+    "pass": 52
+   },
+   "sar_indep": {
+    "not-implemented": 23,
+    "pass": 48
+   },
+   "sar_indep_scitt": {
+    "n/a": 45,
+    "no-vectors": 3,
+    "pass": 23
+   },
+   "sar_scitt": {
+    "n/a": 45,
+    "no-vectors": 3,
+    "pass": 23
+   }
+  },
+  "vectors": 190
+ },
+ "status": {
+  "scitt": "implemented and empirically verified (reference sar_scitt.py; second implementation independent/scitt written blind from the profile)"
+ },
+ "sweep": {
+  "sar_cose": {
+   "arguments": 13,
+   "equivalent": 15,
+   "killed": 476,
+   "live": 0,
+   "score_percent": 96.9,
+   "survived": 15,
+   "total": 491
+  },
+  "sar_scitt": {
+   "arguments": 8,
+   "equivalent": 23,
+   "killed": 480,
+   "live": 0,
+   "score_percent": 95.4,
+   "survived": 23,
+   "total": 503
+  },
+  "sar_scitt_first": {
+   "arguments": 0,
+   "equivalent": 0,
+   "killed": 415,
+   "live": 88,
+   "score_percent": 82.5,
+   "survived": 88,
+   "total": 503
+  }
+ },
+ "tests": {
+  "all_ok": true,
+  "blind_harness": 12,
+  "blind_own": 86,
+  "blocks": [
+   180,
+   12,
+   86,
+   12,
+   86,
+   40
+  ],
+  "by_module": {
+   "test_sar_conformance": 12,
+   "test_sar_cose_specific": 16,
+   "test_sar_cross": 4,
+   "test_sar_gaps": 11,
+   "test_sar_hardening": 75,
+   "test_sar_properties": 19,
+   "test_sar_scitt": 43
+  },
+  "indep_harness": 12,
+  "indep_own": 86,
+  "indep_scitt_own": 40,
+  "reference_core": 137,
+  "reference_suite": 180,
+  "scitt": 43,
+  "total_all_suites": 416
+ },
+ "vectors": {
+  "by_kind": {
+   "decision": 94,
+   "decoding": 12,
+   "encoding": 37,
+   "merkle": 1,
+   "registration": 13,
+   "scitt": 33
+  },
+  "core": 143,
+  "impl": {
+   "sar_cose": {
+    "fail": 0,
+    "na": 47,
+    "pass": 143
+   },
+   "sar_indep": {
+    "fail": 0,
+    "na": 50,
+    "pass": 140
+   },
+   "sar_indep_scitt": {
+    "fail": 0,
+    "na": 143,
+    "pass": 47
+   },
+   "sar_scitt": {
+    "fail": 0,
+    "na": 143,
+    "pass": 47
+   }
+  },
+  "scitt_all": 47,
+  "total": 190
+ }
+}

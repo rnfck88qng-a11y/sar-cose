@@ -1,0 +1,26 @@
+module: sar_scitt.py  suite: test_sar_scitt
+mutants: 503  killed: 480  survived: 23  score: 95.4%
+survivors classified: equivalent: 23  live: 0
+  SURVIVED  EQ-S01 line   91  [del] delete statement in mth  | if full and (lo, hi) in self.cache:
+  SURVIVED  EQ-S01 line   95  [del] delete statement in mth  | if full:
+  SURVIVED  EQ-S01 line   90  [cmp] Eq->NotEq (op 0) in mth  | full = n & (n - 1) == 0
+  SURVIVED  EQ-S01 line   90  [const] 1->0 in mth  | full = n & (n - 1) == 0
+  SURVIVED  EQ-S01 line   90  [const] 0->1 in mth  | full = n & (n - 1) == 0
+  SURVIVED  EQ-S01 line   95  [if] negate if in mth  | if full:
+  SURVIVED  EQ-S02 line  138  [const] 1->0 in verify_inclusion  | if not fn & 1:
+  SURVIVED  EQ-S02 line  139  [const] 0->1 in verify_inclusion  | while not fn & 1 and fn != 0:
+  SURVIVED  EQ-S02 line  178  [const] 1->0 in verify_consistency  | if not fn & 1:
+  SURVIVED  EQ-S02 line  179  [const] 0->1 in verify_consistency  | while not fn & 1 and fn != 0:
+  SURVIVED  EQ-S02 line  320  [const] 1->0 in _root_from_proof  | if not fn & 1:
+  SURVIVED  EQ-S02 line  321  [const] 0->1 in _root_from_proof  | while not fn & 1 and fn != 0:
+  SURVIVED  EQ-S03 line  338  [bool] Or swap in _validity  | if not S.proposal_shape_ok(pb) or not all(S.ratification_shape_ok(r["body"]) for
+  SURVIVED  EQ-S04 line  350  [del] delete statement in check_registration_time  | if v is None or MUT == "skip_registration_window":
+  SURVIVED  EQ-S05 line  388  [del] delete statement in _evaluate  | if not S.policy_valid(policy):
+  SURVIVED  EQ-S06 line  438  [del] delete statement in _evaluate  | return None
+  SURVIVED  EQ-S07 line  549  [del] delete statement in check_receipt  | if receipt is None and MUT == "skip_receipt_required":
+  SURVIVED  EQ-S06 line  562  [del] delete statement in check_receipt  | return None
+  SURVIVED  EQ-S07 line  549  [cmp] Is->IsNot (op 0) in check_receipt  | if receipt is None and MUT == "skip_receipt_required":
+  SURVIVED  EQ-S07 line  571  [del] delete statement in _instant  | if MUT == "receipt_time_as_now" and receipt is not None:
+  SURVIVED  EQ-S07 line  571  [cmp] IsNot->Is (op 0) in _instant  | if MUT == "receipt_time_as_now" and receipt is not None:
+  SURVIVED  EQ-S08 line  639  [ret] return False->True in verify_tar_offline  | return False
+  SURVIVED  EQ-S08 line  639  [const] False->True in verify_tar_offline  | return False

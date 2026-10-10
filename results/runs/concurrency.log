@@ -1,0 +1,3 @@
+threads, fixed code: 50/50 passed
+processes, fixed code: 10/10 passed
+deferred_tx mutant: killed 10/10

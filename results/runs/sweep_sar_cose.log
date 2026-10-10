@@ -1,0 +1,18 @@
+module: sar_cose.py  suite: test_sar_conformance test_sar_gaps test_sar_cose_specific test_sar_properties test_sar_hardening test_sar_cross test_sar_scitt
+mutants: 491  killed: 476  survived: 15  score: 96.9%
+survivors classified: equivalent: 15  live: 0
+  SURVIVED  EQ-01  line   66  [del] delete statement in _head  | if n < 0:
+  SURVIVED  EQ-02  line  102  [del] delete statement in dcbor  | raise TypeError(f"type not allowed in SAR CBOR: {type(o).__name__}")
+  SURVIVED  EQ-03  line  159  [del] delete statement in from_cose  | if not (isinstance(arr, (list, tuple)) and len(arr) == 4):
+  SURVIVED  EQ-03  line  159  [bool] And swap in from_cose  | if not (isinstance(arr, (list, tuple)) and len(arr) == 4):
+  SURVIVED  EQ-04  line  230  [cmp] Lt->LtE (op 1) in _uint  | return type(x) is int and 0 <= x < 2**64
+  SURVIVED  EQ-05  line  285  [cmp] Lt->LtE (op 0) in proposal_shape_ok  | and _uint(pb["issued_at"]) and _uint(pb["expires_at"]) and pb["issued_at"] < pb[
+  SURVIVED  EQ-06  line  326  [ret] return False->True in policy_valid  | return False
+  SURVIVED  EQ-06  line  326  [const] False->True in policy_valid  | return False
+  SURVIVED  EQ-07  line  330  [const] True->False in _canon_json  | return json.dumps(rec, sort_keys=True, separators=(",", ":"))
+  SURVIVED  EQ-08  line  368  [del] delete statement in save  | pass
+  SURVIVED  EQ-09  line  507  [del] delete statement in consume_and_record  | return None
+  SURVIVED  EQ-11  line  625  [del] delete statement in _authorize  | if MUT != "skip_future_check" and pb["issued_at"] > now + MAX_CLOCK_SKEW:
+  SURVIVED  EQ-10  line  623  [cmp] Eq->NotEq (op 0) in _authorize  | if MUT != "skip_expiry" and not (now < pb["expires_at"] or (MUT == "inclusive_ex
+  SURVIVED  EQ-12  line  647  [cmp] GtE->Gt (op 0) in _authorize  | or rb["reviewed_at"] >= pb["expires_at"]):
+  SURVIVED  EQ-13  line  726  [cmp] Lt->LtE (op 1) in verify_record_offline  | if not (pb["issued_at"] <= rb["reviewed_at"] < pb["expires_at"]):

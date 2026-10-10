@@ -2,11 +2,11 @@
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23270795.svg)](https://doi.org/10.5281/zenodo.23270795)
 
-This is a small working implementation of the Sovereign Acceptance Runtime (SAR) authorization path described in the working paper *Sovereign Acceptance Runtime: Verifiable Human Ratification and Evidentiary Audit Trails for Autonomous AI Agents under the EU AI Act* (v1.2, October 2026; §4 and §6). It exists so that the paper's implementation claims rest on code and tests anyone can re-run.
+This is a small working implementation of the Sovereign Acceptance Runtime (SAR) authorization path, including Registration Policy evaluation at a SCITT Transparency Service and Receipt-gated execution, described in the working paper *Sovereign Acceptance Runtime: Verifiable Human Ratification and Evidentiary Audit Trails for Autonomous AI Agents under the EU AI Act* (v1.3 in preparation; v1.2, October 2026; §4 and §6), together with a normative profile that others can implement. It exists so that the paper's implementation claims rest on code and tests anyone can re-run.
 
 **The paper** is in [`paper/`](paper/): v1.2 ([PDF](paper/SARWP_working_paper_v1.2.pdf), [doi:10.5281/zenodo.23280006](https://doi.org/10.5281/zenodo.23280006)) and v1.1 ([PDF](paper/SARWP_working_paper_v1.1.pdf), [doi:10.5281/zenodo.23270905](https://doi.org/10.5281/zenodo.23270905)).
 
-It comes with a second implementation (`independent/`), written by a separate instance of the same AI assistant from the paper's §3–4 (v1.1) plus a fixed wire-format specification (`independent/BRIEF.md`), without access to `sar_cose`, and amended afterwards. The two are checked against each other. The blind version is reconstructed in `independent/original_blind/`.
+It comes with second implementations of both layers, each written by a separate instance of the same AI assistant without access to the reference code: `independent/sar_indep.py` (core path, from the paper's §3–4 (v1.1) plus a fixed wire-format specification, `independent/BRIEF.md`, amended afterwards; the blind version is reconstructed in `independent/original_blind/`) and `independent/scitt/` (Transparency Service and Receipt-gated execution, written blind from the normative profile; brief in `independent/scitt/BRIEF.md`). All are checked against the same test vectors.
 
 > **Status:** research prototype. It is not production software and has not had an independent security review. See *Limits* below.
 
@@ -26,6 +26,7 @@ It comes with a second implementation (`independent/`), written by a separate in
 - **`Gate.authorize_bytes`** takes the payload as deterministic CBOR bytes and returns exactly those bytes on ALLOW, so the executor can send what was checked.
 - **The store** is a SQLite hash chain. Its head is signed as a checkpoint after each commit, and the signing key can be kept across restarts. A checkpoint kept outside the database detects later truncation or rewriting. Writers take the database write lock before reading the chain tip (`BEGIN IMMEDIATE`), so several gates can share one database file. With an optional **anchor** (`FileAnchor`, or a retained checkpoint), every ALLOW first checks that the database has not been rolled back, truncated or had consumed keys deleted.
 - **Offline verification** needs only the artifacts and the policy's trust anchors. It uses no clock; an optional evaluation instant is checked with the gate's rule.
+- **SCITT (`sar_scitt.py`, v1.3):** a Transparency Service evaluates the Registration Policy at its registration instant before appending an entry to an append-only Merkle log (RFC 9162 hashing) and issuing a Receipt (RFC 9942 structure: `vds` = RFC9162_SHA256, one inclusion proof, CWT claims with log id and registration time, detached root). It registers at most one authorization per proposal and refuses authorizations for proposals with a registered rejection (registered veto). `ReceiptGate` executes only with a valid Receipt from a trusted log that covers exactly the presented statements, registered within their validity and fresh under the gate's own clock, and then applies every check of `Gate`. Signed checkpoints and consistency proofs support monitoring. `verify_tar_offline` verifies a Transparent Authorization Record with its Receipt. The log is in memory, with no HTTP interface. Profile §15–18 lists the deviations from RFC 9943/9942 and the analysis of the registration time as trusted time (it is not: the gate still needs its own clock).
 
 **Trust assumptions.** The gate, its store, its clock (the caller supplies `now`) and the anchor must be outside the agent's control, and protected tools must be reachable only through the gate. None of this is enforced by the code; see paper §3.8.
 
@@ -33,16 +34,17 @@ It comes with a second implementation (`independent/`), written by a separate in
 
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
-PYTHON=.venv/bin/python ./run_tests.sh              # 137 tests on sar_cose + second implementation (~30 s)
+PYTHON=.venv/bin/python ./run_tests.sh              # 180 tests on sar_cose and sar_scitt + second implementations
 SAR_DEEP=1 PYTHON=.venv/bin/python ./run_tests.sh   # 10x scenarios, 1,000 Hypothesis examples
 SAR_SEEDS=101,202,303,404,505 PYTHON=.venv/bin/python ./run_tests.sh  # add seeds (the deep run in RESULTS.md uses these)
-PYTHON=.venv/bin/python ./run_mutants.sh            # 37 hand-written mutants, each must be killed
+PYTHON=.venv/bin/python ./run_mutants.sh            # 60 hand-written mutants, each must be killed
 .venv/bin/python spec/gen_vectors.py --check        # vectors regenerate byte-identically
 .venv/bin/python spec/cddl_check.py                 # CDDL parses; every vector artifact satisfies it (or violates it where intended)
 .venv/bin/python spec/run_vectors.py                # all vectors against sar_cose and sar_indep
 .venv/bin/python spec/check_manifest.py --check     # every MUST has a vector; referenced tests exist; statuses
 .venv/bin/python tools/audit_mutants.py --jobs 8    # 20 semantic mutants from an external audit
-.venv/bin/python tools/mutation_sweep.py --jobs 12  # automated mutation sweep
+.venv/bin/python tools/mutation_sweep.py --module sar_cose.py --jobs 12 --json results/sweep_sar_cose.json   # classified sweep
+.venv/bin/python tools/mutation_sweep.py --module sar_scitt.py --jobs 12 --json results/sweep_sar_scitt.json
 PYTHON=.venv/bin/python tools/reproduce_blind_diff.sh  # sar_cose@e2e39dd vs reconstructed blind version
 PYTHON=.venv/bin/python ./run_stub_against_gaps.sh  # gap tests vs the harness stub (failures expected)
 .venv/bin/python bench.py 2000                      # indicative micro-benchmark
@@ -56,48 +58,52 @@ Each run is archived as a machine-readable record in [`results/`](results/README
 
 | Path | Contents |
 |---|---|
-| `sar_cose.py` | The reference implementation |
+| `sar_cose.py` | The reference implementation (core path) |
+| `sar_scitt.py` | Transparency Service, Receipts, Merkle log, Receipt-gated execution |
+| `spec/` | Normative profile, CDDL, test vectors, vector runner, conformance manifest, decision log |
 | `SEMANTICS.md` | Normative decision rules S1–S13, and why each was chosen |
 | `paper/` | The SARWP paper: v1.2 and v1.1 PDFs (identical to Zenodo), Markdown sources and build script |
-| `independent/` | Second implementation, with its own 86 tests, `DECISIONS.md` and the verbatim brief it was given (`BRIEF.md`); `original_blind/` reconstructs the blind version |
+| `independent/` | Second core implementation, with its own 86 tests, `DECISIONS.md` and the verbatim brief (`BRIEF.md`); `original_blind/` reconstructs the blind version; `scitt/` is the second SCITT implementation with its own 40 tests, `DECISIONS.md` and brief |
 | `harness/` | Original 12-test conformance harness and illustrative stub (unmodified) |
 | `test_sar_*.py` | Test suites (see below) |
 | `tools/mutation_sweep.py`, `tools/EQUIVALENT_MUTANTS.md`, `tools/equivalent_mutants.json` | Automated mutation sweep; every survivor is classified mechanically as equivalent (pointing to a written argument id) or live |
 | `tools/archive_run.py`, `results/` | Machine-readable archive of every run |
 | `tools/audit_mutants.py` | The 20 semantic mutants of the external audit, ported to the current code |
 | `tools/cross_diff.py`, `tools/reproduce_blind_diff.sh` | Report of disagreements between the two implementations; reproduction of the pre-resolution comparison |
-| `CHANGES_v1.2_round2.md` | What changed in the second fix round of v1.2, and why |
+| `CHANGES_v1.3.md`, `CHANGES_v1.2_round2.md` | What changed in v1.3 and in the second fix round of v1.2, and why |
 | `run_tests.sh`, `run_mutants.sh`, `run_stub_against_gaps.sh`, `make_results.sh`, `bench.py` | Runners |
 
-## Test suites (137 tests on sar_cose)
+## Test suites (180 tests on sar_cose and sar_scitt)
 
 | File | Tests | Purpose |
 |---|---|---|
 | `harness/test_sar_conformance.py` | 12 | Original scenario tests, written before the implementation, used unmodified |
-| `test_sar_gaps.py` | 11 | Defects the original tests missed (C07c–C13); the harness stub fails 9 of 11 |
+| `test_sar_gaps.py` | 11 | Defects the original tests missed (C07c–C13) |
 | `test_sar_cose_specific.py` | 16 | RFC 8949 vectors, COSE structure, algorithm/kid/content-type confusion, non-deterministic CBOR, pycose interop in both directions |
 | `test_sar_properties.py` | 19 | Differential vs a reference model, gate/offline equivalence at every interval bound, bit flips, payload properties, time boundaries, concurrency (threads and processes), persistence |
-| `test_sar_hardening.py` | 75 | Rules S1–S13, coverage gaps, external checkpoints, tests for mutation-sweep and audit survivors, revocation, rollback with and without anchor, crash injection, exact-bytes interface |
+| `test_sar_hardening.py` | 75 | Rules S1–S13, external checkpoints, tests for mutation-sweep and audit survivors, revocation, rollback with and without anchor, crash injection, exact-bytes interface |
 | `test_sar_cross.py` | 4 | sar_cose vs the second implementation: byte-identical artifacts, identical decisions, gate/offline equivalence in both |
+| `test_sar_scitt.py` | 43 | End to end to execution of exact bytes, registration under the policy, Receipts, Merkle log and consistency proofs, adversarial Receipts, trusted time, registration differential, sweep-survivor tests |
 
-## Results (see `RESULTS.md`)
+## Results (see `RESULTS.md` and `results/`)
 
-| Check | Default run | Deep run (`SAR_DEEP=1`, seeds 101, 202, 303, 404, 505 added) |
+| Check | Default run | Deep run (`SAR_DEEP=1`, seeds 101,202,303,404,505 added) |
 |---|---|---|
 | Gate vs model, randomized | 3,000 scenarios, 0 disagreements | 180,000, 0 disagreements |
 | Gate vs model, single fault | 2,000; all 557 fault-free allowed, all 16 fault types always denied | 120,000; all 32,483 fault-free allowed, all faults denied |
-| Gate allows at t ⇔ offline verification at t (S13) | 12,653 instants of 1,000 scenarios; both implementations: 7,569 instants of 600 scenarios | 747,658 instants of 60,000 scenarios; both implementations: 448,137 instants each |
+| Gate allows at t ⇔ offline verification at t (S13) | 12,653 instants of 1,000 scenarios; both implementations: 7,569 instants each | 747,658 instants of 60,000 scenarios; both implementations: 448,137 instants each |
 | sar_cose vs second implementation | 6,000 decision pairs, 0 disagreements | 360,000, 0 disagreements |
+| TS registers at t ⇔ model allows at t; receipt gate then allows | 12,413 instants of 1,000 scenarios (334 registered) | 739,054 instants (17,385 registered) |
 | Replay (where the first presentation was allowed) | 701 cases, second always denied | 41,891 cases, second always denied |
-| Concurrency | 16 threads and 8 processes on one database, 5 rounds each: exactly one ALLOW per round | thread test 50/50, process test 10/10 runs; `deferred_tx` mutant killed 10/10 |
-| Crash injection at every DB statement | at most one ALLOW overall; ALLOW record iff keys consumed | |
-| Rollback of the database file | without anchor: replay possible (demonstrated); with anchor: every ALLOW refused | |
-| Hand-written mutants | 37/37 killed | |
-| External audit mutants (`tools/audit_mutants.py`) | 20/20 killed | |
-| Automated mutation sweep | 476/491 killed (96.9%); the 15 survivors are argued decision-equivalent in `tools/EQUIVALENT_MUTANTS.md` | |
-| Pre-resolution comparison (`tools/reproduce_blind_diff.sh`) | 128 disagreements in 6,000 decisions (sar_cose@e2e39dd vs reconstructed blind version) | |
+| Concurrency | thread test 50/50, process test 10/10 runs; `deferred_tx` mutant killed 10/10 | |
+| Test vectors (190; every one of the 67 MUSTs covered) | sar_cose 143 pass, sar_indep 140 pass + 50 n/a, sar_scitt 47 pass, sar_indep_scitt 47 pass; 0 failures | |
+| Hand-written mutants | 60/60 killed (37 core, 23 SCITT); the vectors alone detect 51 | |
+| External audit mutants | 20/20 killed | |
+| Automated sweep, `sar_cose.py` | 476/491 killed (96.9%); survivors: 15 equivalent, 0 live | |
+| Automated sweep, `sar_scitt.py` | first sweep 415/503 (88 live, tests added); final 480/503 (95.4%); survivors: 23 equivalent, 0 live | |
+| Pre-resolution comparison (`tools/reproduce_blind_diff.sh`) | 128 disagreements in 6,000 decisions | |
 
-All randomized tests use fixed seeds, which makes them a reproducible test set. `SAR_SEEDS` adds seeds and `SAR_DEEP` scales.
+All randomized tests use fixed seeds, which makes them a reproducible test set. `SAR_SEEDS` adds seeds and `SAR_DEEP` scales. Every figure above is rendered from `results/paper_claims.json` (`tools/render_claims.py`, checked by `tools/check_claims.py`).
 
 ## What testing found
 
@@ -108,22 +114,27 @@ All randomized tests use fixed seeds, which makes them a reproducible test set. 
    - **no separation of roles**: one key under two overseer ids could meet a quorum of 2, and an agent listed as an overseer could approve its own proposal;
    - the gate could allow what offline verification later rejects.
 4. **Gaps found by the automated mutation sweep.** These included missing tests for chained-comparison boundaries, ratifications with the right digest but the wrong id, touching but disjoint validity intervals, ratified proposals with a bad agent signature, and two anchor paths. Tests were added.
-5. **Found by an external audit** (see `CHANGES_v1.2_round2.md`): the time rules S1/S2/S13 contradicted each other (offline verification at the gate's own instant could reject an ALLOW); seven semantic mutants survived, including replay one second later and an 8-byte digest comparison; a failed COMMIT could leave the store's connection inside a transaction. All fixed and tested.
+5. **Found by the first sweep of `sar_scitt.py` (v1.3):** 88 live survivors, among them unchecked malformed Receipt structures, audit paths with trailing elements, the right-edge branch of the audit-path walk, proposal faults at the Transparency Service and an unloggable receipt denial; tests were added.
+6. **Found by the blind second SCITT implementation (v1.3):** ten ambiguities or gaps in the profile (classes for TS refusals, which rules apply to rejection requests, checkpoint envelope, encoding of trusted-log keys, determinism of the whole Receipt, consistency with an older size of 0, documentation of the vector format); decided in `spec/ISSUES.md` (ISS-111–120).
+7. **Found by the external audit of v1.2** (see `CHANGES_v1.2_round2.md`): the time rules S1/S2/S13 contradicted each other (offline verification at the gate's own instant could reject an ALLOW); seven semantic mutants survived, including replay one second later and an 8-byte digest comparison; a failed COMMIT could leave the store's connection inside a transaction. All fixed and tested.
 
 ## Limits
 
 - **Trust boundary.** SAR protects only actions routed through the gate. The gate, its store, its clock (the caller supplies `now`) and the anchor must be outside the agent's control, and protected tools must be reachable only through the gate. Nothing here demonstrates bypass resistance (paper §3.8).
 - **Origin of the tests.** The reference model, the extra tests and `sar_cose` were written by the author with AI assistance in one session. `independent/` was written by a separate instance of the same AI assistant from the paper plus a fixed wire-format specification, without access to `sar_cose`, and amended afterwards. It catches misreadings shared by `sar_cose` and its tests, and it caught several. It cannot catch misreadings the paper or the shared wire-format specification induce in every reader, or tendencies shared by the model family. An implementation by an unrelated party is still the strongest check.
-- **No SCITT Transparency Service.** Policy evaluation runs inside the gate, and no Receipts are issued or verified. Receipt-gated execution, R6 and T6 remain [Specified].
+- **Transparency Service is a prototype.** In memory, one log, no HTTP interface (SCRAPI), no independent monitoring of its checkpoints, no federation; the gate does not query the log, so a rejection registered after an authorization does not stop it. The registration time is not trusted time (profile §18.1).
+- **Policy extensions** (`policy_version`, action types, targets, maximum validity, replay policy) are specified as future members, not implemented; a v1 policy containing them is rejected.
+- **Independence.** All implementations, the profile, the vectors and the tests were produced with the same AI assistant; an implementation by an unrelated party from `spec/` is the check that is still missing.
 - **Checkpoints and rollback.** Without an anchor, anyone who can write the database file can re-enable a consumed authorization (restoring an old copy, deleting consumed keys). The optional anchor detects this only if it lives in a separate trust domain; it costs O(n) per ALLOW.
 - **At most once, not exactly once.** A crash after the gate commits leaves the authorization consumed and unexecuted.
 - **Replay** is covered for gates sharing one database (threads and processes tested). Gates on different machines need a shared consumed-key service. Transaction ids are compared as CBOR values (`"5"` ≠ `5`) and only at the top level of the payload.
 - **The second implementation keeps no checkpoint.** It fails gap test C10b (log truncation), a known limitation recorded in its `DECISIONS.md` (D18).
 - **Interop:** pycose 1.1.0 lacks algorithm `-19`, so the pycose checks use `-8`, which the gate rejects. pycose is also incompatible with cbor2 6, so `requirements.txt` pins `cbor2<6`.
-- **Performance:** indicative single-thread medians on an Apple M5 Pro, five runs of `bench.py 2000` (load average about 4.7 from another application):
-  - signing: 31–33 µs; offline verification: 0.11–0.12 ms;
-  - authorization: 0.16 ms in memory, 0.46–0.49 ms file-backed;
-  - baselines: unsigned flag in memory about 0.1 µs; unsigned flag in a file-backed SQLite table with payload comparison and consumption 0.20–0.21 ms.
+- **Performance:** indicative single-thread medians on an Apple M5 Pro, five runs of `bench.py 2000` (1-minute load average 3.43–3.73 at the start of the runs):
+  - signing: 29.5–29.6 µs; offline verification: 0.11 ms;
+  - authorization: 0.15 ms in memory, 0.42–0.43 ms file-backed;
+  - receipt-gated authorization: 0.24 ms in memory, 0.52 ms file-backed; registration: 0.18 ms;
+  - baselines: unsigned flag in memory 0.1 µs; unsigned flag in a file-backed SQLite table with payload comparison and consumption 0.18–0.19 ms.
 - **Keys:** keys are generated in memory, with no HSM or rotation procedure; revocation is a policy change. The overseer's review interface (what the human actually saw) is not addressed.
 - **Not a security audit.** Tests and mutants show that the specified guards exist and are exercised. They do not show the absence of other bugs.
 
