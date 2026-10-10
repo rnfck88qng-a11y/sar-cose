@@ -2,6 +2,9 @@
 
     python3 tools/check_claims.py FILE [FILE ...] [--claims results/paper_claims.json]
 
+Targets: the rendered paper and README.md. RESULTS.md is raw output (per-seed subtotals) and is not a target.
+With no FILE the check fails rather than passing vacuously.
+
 Fails (exit 1) if
   1. any {{placeholder}} is left unresolved, or
   2. a number that appears in a counting context ("N tests", "N of M mutants", "N vectors",
@@ -71,6 +74,10 @@ def main():
     if "--claims" in sys.argv:
         cpath = pathlib.Path(sys.argv[sys.argv.index("--claims") + 1])
         args = [a for a in args if a != str(cpath)]
+    if not args:
+        sys.exit("check_claims: no files given (nothing checked). Intended targets: the rendered paper "
+                 "(SARWP_working_paper_v1.3.md) and README.md; RESULTS.md is raw run output with per-seed "
+                 "subtotals and is not a target.")
     claims = json.loads(cpath.read_text())
     # counts only: timings, loads and metadata cannot justify a count
     counts = {k: v for k, v in claims.items() if k not in ("bench", "meta", "_sources", "errors")}
