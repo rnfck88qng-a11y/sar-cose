@@ -43,7 +43,9 @@ PYTHON=.venv/bin/python ./run_stub_against_gaps.sh  # gap tests vs the harness s
 .venv/bin/python bench.py 2000                      # indicative micro-benchmark
 ```
 
-`RESULTS.md` holds the raw output of the last full run. `make_results.sh` regenerates it.
+Each run is archived as a machine-readable record in [`results/`](results/README.md) (command, seeds, environment, load, git commit, counts, pass/fail, full log). `make_results.sh` archives the default runs and `tools/run_slow.sh` the deep run, the classified mutation sweeps and repeated benchmarks; `RESULTS.md` is regenerated from the archived records.
+
+**Status tags.** From v1.3 the paper tags claims [Specified], [Implemented] or [Empirically Verified]. [Empirically Verified] means demonstrated in this implementation by automated tests whose adequacy is checked by mutation analysis; it is not a formal proof, and it holds only within the enforcement boundary of paper §3.8 (it replaces the earlier tag name "Proven").
 
 ## Layout
 
@@ -55,7 +57,8 @@ PYTHON=.venv/bin/python ./run_stub_against_gaps.sh  # gap tests vs the harness s
 | `independent/` | Second implementation, with its own 86 tests, `DECISIONS.md` and the verbatim brief it was given (`BRIEF.md`); `original_blind/` reconstructs the blind version |
 | `harness/` | Original 12-test conformance harness and illustrative stub (unmodified) |
 | `test_sar_*.py` | Test suites (see below) |
-| `tools/mutation_sweep.py`, `tools/EQUIVALENT_MUTANTS.md` | Automated mutation sweep, and the equivalence argument for every survivor |
+| `tools/mutation_sweep.py`, `tools/EQUIVALENT_MUTANTS.md`, `tools/equivalent_mutants.json` | Automated mutation sweep; every survivor is classified mechanically as equivalent (pointing to a written argument id) or live |
+| `tools/archive_run.py`, `results/` | Machine-readable archive of every run |
 | `tools/audit_mutants.py` | The 20 semantic mutants of the external audit, ported to the current code |
 | `tools/cross_diff.py`, `tools/reproduce_blind_diff.sh` | Report of disagreements between the two implementations; reproduction of the pre-resolution comparison |
 | `CHANGES_v1.2_round2.md` | What changed in the second fix round of v1.2, and why |

@@ -1,10 +1,14 @@
-"""Automated mutation sweep for sar_cose.py (complements the hand-written SAR_MUTANT guards).
+"""Automated mutation sweep (complements the hand-written SAR_MUTANT guards).
 
-Every mutation site found mechanically in the AST is mutated in turn and the full test suite
-is run against the mutant. A mutant that leaves the suite green has *survived*: either the
-tests miss a behaviour, or the mutation is semantically equivalent (must be argued case by case).
+Every mutation site found mechanically in the AST of one module (default sar_cose.py; also
+sar_scitt.py) is mutated in turn and the full test suite is run against the mutant. A mutant that
+leaves the suite green has *survived*: either the tests miss a behaviour (a **live** survivor), or
+the mutation is decision-equivalent. Each survivor is classified mechanically: it is `equivalent`
+only if it matches an entry of tools/equivalent_mutants.json (module, kind, mutation text and the
+exact source line), whose `argument` id points to a written argument in
+tools/EQUIVALENT_MUTANTS.md; every other survivor is `live`.
 
-    python3 tools/mutation_sweep.py [--jobs 8] [--json out.json]
+    python3 tools/mutation_sweep.py [--module sar_cose.py] [--jobs 8] [--json out.json] [--fail-on-live]
 
 Mutation operators:
   cmp   swap comparison operators (< <= > >= == != in / not in, is / is not)
@@ -29,8 +33,10 @@ import sys
 import tempfile
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-SRC = ROOT / "sar_cose.py"
-SUITE = ["test_sar_conformance", "test_sar_gaps", "test_sar_cose_specific", "test_sar_properties", "test_sar_hardening", "test_sar_cross"]
+SUITE = ["test_sar_conformance", "test_sar_gaps", "test_sar_cose_specific", "test_sar_properties", "test_sar_hardening",
+         "test_sar_cross"]
+SUITES = {"sar_cose.py": SUITE + ["test_sar_scitt"], "sar_scitt.py": ["test_sar_scitt"]}
+EQUIV = ROOT / "tools" / "equivalent_mutants.json"
 CMP_SWAP = {ast.Lt: ast.LtE, ast.LtE: ast.Lt, ast.Gt: ast.GtE, ast.GtE: ast.Gt, ast.Eq: ast.NotEq,
             ast.NotEq: ast.Eq, ast.In: ast.NotIn, ast.NotIn: ast.In, ast.Is: ast.IsNot, ast.IsNot: ast.Is}
 SKIP_FUNCS = {"__del__", "close"}
@@ -166,13 +172,13 @@ def make_mutant(tree, idx):
     return ast.unparse(t), m.applied
 
 
-def run_suite(src_text, python, timeout=300):
+def run_suite(src_text, python, module="sar_cose.py", suite=SUITE, timeout=600):
     with tempfile.TemporaryDirectory() as d:
-        pathlib.Path(d, "sar_cose.py").write_text(src_text)
+        pathlib.Path(d, module).write_text(src_text)
         env = dict(os.environ, PYTHONDONTWRITEBYTECODE="1", SAR_IMPL="sar_cose", SAR_MUTANT="",
                    PYTHONPATH=os.pathsep.join([d, str(ROOT), str(ROOT / "harness")]))
         try:
-            r = subprocess.run([python, "-m", "unittest", *SUITE], cwd=d, env=env, capture_output=True,
+            r = subprocess.run([python, "-m", "unittest", *suite], cwd=d, env=env, capture_output=True,
                                text=True, timeout=timeout)
         except subprocess.TimeoutExpired:
             return "killed(timeout)"
@@ -180,17 +186,45 @@ def run_suite(src_text, python, timeout=300):
         return "survived" if r.returncode == 0 else "killed"
 
 
+def load_equivalences():
+    if not EQUIV.exists():
+        return []
+    return json.loads(EQUIV.read_text())["equivalent"]
+
+
+def classify(results, module, src_lines, equivs):
+    """killed / equivalent (with argument id) / live, by exact match on module, kind, mutation
+    text and the stripped source line of the mutated node."""
+    for r in results:
+        r["source_line"] = src_lines[r["line"] - 1].strip() if 0 < r["line"] <= len(src_lines) else ""
+        if r["result"].startswith("killed"):
+            r["classification"], r["argument"] = "killed", None
+            continue
+        match = [e for e in equivs if e["module"] == module and e["kind"] == r["kind"]
+                 and e["mutation"] == r["mutation"] and e["source_line"] == r["source_line"]]
+        r["classification"] = "equivalent" if match else "live"
+        r["argument"] = match[0]["argument"] if match else None
+    return results
+
+
 def main():
     ap = argparse.ArgumentParser()
+    ap.add_argument("--module", default="sar_cose.py")
     ap.add_argument("--jobs", type=int, default=os.cpu_count() or 4)
     ap.add_argument("--json")
     ap.add_argument("--python", default=sys.executable)
+    ap.add_argument("--fail-on-live", action="store_true")
+    ap.add_argument("--limit", type=int, help="only the first N sites (smoke test)")
     args = ap.parse_args()
-    tree = ast.parse(SRC.read_text())
+    module = args.module
+    suite = SUITES.get(module, SUITE)
+    suite = [t for t in suite if (ROOT / f"{t}.py").exists() or (ROOT / "harness" / f"{t}.py").exists()]
+    src_text = (ROOT / module).read_text()
+    tree = ast.parse(src_text)
     s = Sites()
     s.visit(copy.deepcopy(tree))
-    sites = s.sites
-    baseline = run_suite(ast.unparse(tree), args.python)
+    sites = s.sites[: args.limit] if args.limit else s.sites
+    baseline = run_suite(ast.unparse(tree), args.python, module, suite)
     if baseline != "survived":
         sys.exit(f"baseline suite fails on the unmutated (unparsed) source: {baseline}")
     results = []
@@ -198,19 +232,32 @@ def main():
         futs = {}
         for idx, kind, line, desc in sites:
             text, applied = make_mutant(tree, idx)
-            futs[ex.submit(run_suite, text, args.python)] = (idx, kind, line, applied or desc)
+            futs[ex.submit(run_suite, text, args.python, module, suite)] = (idx, kind, line, applied or desc)
         for f in cf.as_completed(futs):
             idx, kind, line, desc = futs[f]
             results.append({"id": idx, "kind": kind, "line": line, "mutation": desc, "result": f.result()})
     results.sort(key=lambda r: r["id"])
-    killed = sum(r["result"].startswith("killed") for r in results)
+    classify(results, module, src_text.splitlines(), load_equivalences())
+    killed = sum(r["classification"] == "killed" for r in results)
+    equiv = [r for r in results if r["classification"] == "equivalent"]
+    live = [r for r in results if r["classification"] == "live"]
+    print(f"module: {module}  suite: {' '.join(suite)}")
     print(f"mutants: {len(results)}  killed: {killed}  survived: {len(results) - killed}  "
           f"score: {100 * killed / max(1, len(results)):.1f}%")
+    print(f"survivors classified: equivalent: {len(equiv)}  live: {len(live)}")
     for r in results:
-        if r["result"] == "survived":
-            print(f"  SURVIVED  line {r['line']:4d}  [{r['kind']}] {r['mutation']}")
+        if r["classification"] != "killed":
+            tag = r["argument"] if r["classification"] == "equivalent" else "LIVE"
+            print(f"  SURVIVED  {tag:6s} line {r['line']:4d}  [{r['kind']}] {r['mutation']}  | {r['source_line'][:80]}")
     if args.json:
-        pathlib.Path(args.json).write_text(json.dumps(results, indent=1))
+        summary = {"module": module, "suite": suite, "total": len(results), "killed": killed,
+                   "survived": len(results) - killed, "equivalent": len(equiv), "live": len(live),
+                   "score_percent": round(100 * killed / max(1, len(results)), 1),
+                   "module_sha256": __import__("hashlib").sha256(src_text.encode()).hexdigest(),
+                   "mutants": results}
+        pathlib.Path(args.json).write_text(json.dumps(summary, indent=1) + "\n")
+    if args.fail_on_live and live:
+        sys.exit(1)
 
 
 if __name__ == "__main__":

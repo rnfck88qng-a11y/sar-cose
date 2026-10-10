@@ -1,0 +1,110 @@
+{
+ "_comment": "Survivors of tools/mutation_sweep.py that are argued decision-equivalent. A survivor is classified 'equivalent' only if module, kind, mutation and the stripped source line all match an entry here; 'argument' is the id of the written argument in tools/EQUIVALENT_MUTANTS.md. Anything else that survives is 'live'.",
+ "equivalent": [
+  {
+   "argument": "EQ-01",
+   "module": "sar_cose.py",
+   "kind": "del",
+   "mutation": "delete statement in _head",
+   "source_line": "if n < 0:"
+  },
+  {
+   "argument": "EQ-02",
+   "module": "sar_cose.py",
+   "kind": "del",
+   "mutation": "delete statement in dcbor",
+   "source_line": "raise TypeError(f\"type not allowed in SAR CBOR: {type(o).__name__}\")"
+  },
+  {
+   "argument": "EQ-03",
+   "module": "sar_cose.py",
+   "kind": "del",
+   "mutation": "delete statement in from_cose",
+   "source_line": "if not (isinstance(arr, (list, tuple)) and len(arr) == 4):"
+  },
+  {
+   "argument": "EQ-03",
+   "module": "sar_cose.py",
+   "kind": "bool",
+   "mutation": "And swap in from_cose",
+   "source_line": "if not (isinstance(arr, (list, tuple)) and len(arr) == 4):"
+  },
+  {
+   "argument": "EQ-04",
+   "module": "sar_cose.py",
+   "kind": "cmp",
+   "mutation": "Lt->LtE (op 1) in _uint",
+   "source_line": "return type(x) is int and 0 <= x < 2**64"
+  },
+  {
+   "argument": "EQ-05",
+   "module": "sar_cose.py",
+   "kind": "cmp",
+   "mutation": "Lt->LtE (op 0) in proposal_shape_ok",
+   "source_line": "and _uint(pb[\"issued_at\"]) and _uint(pb[\"expires_at\"]) and pb[\"issued_at\"] < pb[\"expires_at\"]"
+  },
+  {
+   "argument": "EQ-06",
+   "module": "sar_cose.py",
+   "kind": "ret",
+   "mutation": "return False->True in policy_valid",
+   "source_line": "return False"
+  },
+  {
+   "argument": "EQ-06",
+   "module": "sar_cose.py",
+   "kind": "const",
+   "mutation": "False->True in policy_valid",
+   "source_line": "return False"
+  },
+  {
+   "argument": "EQ-07",
+   "module": "sar_cose.py",
+   "kind": "const",
+   "mutation": "True->False in _canon_json",
+   "source_line": "return json.dumps(rec, sort_keys=True, separators=(\",\", \":\"))"
+  },
+  {
+   "argument": "EQ-08",
+   "module": "sar_cose.py",
+   "kind": "del",
+   "mutation": "delete statement in save",
+   "source_line": "pass"
+  },
+  {
+   "argument": "EQ-09",
+   "module": "sar_cose.py",
+   "kind": "del",
+   "mutation": "delete statement in consume_and_record",
+   "source_line": "return None"
+  },
+  {
+   "argument": "EQ-10",
+   "module": "sar_cose.py",
+   "kind": "cmp",
+   "mutation": "Eq->NotEq (op 0) in _authorize",
+   "source_line": "if MUT != \"skip_expiry\" and not (now < pb[\"expires_at\"] or (MUT == \"inclusive_expiry\" and now == pb[\"expires_at\"])):"
+  },
+  {
+   "argument": "EQ-11",
+   "module": "sar_cose.py",
+   "kind": "del",
+   "mutation": "delete statement in _authorize",
+   "source_line": "if MUT != \"skip_future_check\" and pb[\"issued_at\"] > now + MAX_CLOCK_SKEW:"
+  },
+  {
+   "argument": "EQ-12",
+   "module": "sar_cose.py",
+   "kind": "cmp",
+   "mutation": "GtE->Gt (op 0) in _authorize",
+   "source_line": "or rb[\"reviewed_at\"] >= pb[\"expires_at\"]):"
+  },
+  {
+   "argument": "EQ-13",
+   "module": "sar_cose.py",
+   "kind": "cmp",
+   "mutation": "Lt->LtE (op 1) in verify_record_offline",
+   "source_line": "if not (pb[\"issued_at\"] <= rb[\"reviewed_at\"] < pb[\"expires_at\"]):"
+  }
+ ]
+}
