@@ -6,7 +6,7 @@ HARNESS="${HARNESS:-$HERE/harness}"
 PY="${PYTHON:-python3}"
 export PYTHONDONTWRITEBYTECODE=1 PYTHONPATH="$HERE:$HARNESS" SAR_IMPL=sar_cose
 cd "$HERE" || exit 2
-SUITE="test_sar_conformance test_sar_gaps test_sar_cose_specific test_sar_properties"
+SUITE="test_sar_conformance test_sar_gaps test_sar_cose_specific test_sar_properties test_sar_hardening test_sar_cross"
 fail=0; killed=0; total=0
 if SAR_MUTANT= "$PY" -m unittest $SUITE >/dev/null 2>&1; then echo "PASS baseline"; else echo "FAIL baseline"; fail=1; fi
 for m in $("$PY" -c 'import sar_cose; print(" ".join(sar_cose.MUTANTS))'); do

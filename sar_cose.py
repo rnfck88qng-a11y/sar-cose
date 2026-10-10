@@ -34,6 +34,8 @@ MUTANTS = [
     "chain_noop", "dedup_overseer", "skip_policy_bind", "skip_future_check", "offline_skip_quorum",
     "skip_head_check", "skip_alg_check", "skip_ctype_check", "skip_kid_check",
     "accept_nondeterministic", "skip_binding", "offline_skip_binding", "deferred_tx",
+    "skip_policy_shape", "skip_role_separation", "skip_shape_check", "skip_proposal_id_check",
+    "inclusive_expiry", "replay_proposal_id_only", "skip_common_window",
 ]
 
 ALG_ED25519 = -19          # RFC 9864 fully-specified Ed25519
@@ -172,6 +174,9 @@ def verify_statement(stmt, pub_hex, content_type, kid, allowed_algs=(ALG_ED25519
             return False
         if MUT != "skip_kid_check" and hdr[HDR_KID] != kid.encode():
             return False
+        sig = stmt["sig"]
+        if not (isinstance(sig, str) and len(sig) == 128 and sig == sig.lower()):
+            return False
         if MUT == "skip_sig":
             return True
         Ed25519PublicKey.from_public_bytes(bytes.fromhex(pub_hex)).verify(
@@ -205,18 +210,86 @@ def ratify(overseer_priv, overseer_id, proposal, verdict="APPROVED", ttl=60, now
     return sign_statement(overseer_priv, overseer_id, CT_RATIFICATION, body)
 
 
-def policy_valid(policy):
+PROPOSAL_KEYS = frozenset({"v", "agent_id", "payload_digest", "issued_at", "expires_at", "nonce", "policy_id",
+                           "proposal_id"})
+RATIFICATION_KEYS = frozenset({"v", "proposal_digest", "proposal_id", "overseer_id", "verdict", "reviewed_at",
+                               "valid_until", "policy_id"})
+POLICY_KEYS = frozenset({"policy_id", "quorum", "authorized_agents", "authorized_overseers"})
+MAX_ID_LEN = 256
+
+
+def _uint(x):
+    return type(x) is int and 0 <= x < 2**64
+
+
+def _ident(x):
+    return isinstance(x, str) and 0 < len(x) <= MAX_ID_LEN
+
+
+def _pub_hex(x):
+    if not (isinstance(x, str) and len(x) == 64 and x == x.lower()):
+        return False
     try:
-        overseers = policy["authorized_overseers"]
-        return (isinstance(policy["policy_id"], str) and policy["policy_id"]
-                and isinstance(policy["quorum"], int) and not isinstance(policy["quorum"], bool)
-                and 1 <= policy["quorum"] <= len(overseers)
-                and bool(policy["authorized_agents"]))
-    except (KeyError, TypeError):
+        Ed25519PublicKey.from_public_bytes(bytes.fromhex(x))
+        return True
+    except ValueError:
         return False
 
 
-# ---------------------------------------------------------------- authorization store
+def expected_proposal_id(pb):
+    return H(dcbor({k: v for k, v in pb.items() if k != "proposal_id"})).hex()[:32]
+
+
+def proposal_shape_ok(pb):
+    """Rule S9: exact field set and types for a v1 Proposal Statement body."""
+    if MUT == "skip_shape_check":
+        return isinstance(pb, Mapping)
+    return (isinstance(pb, Mapping) and set(pb) == PROPOSAL_KEYS and type(pb["v"]) is int and pb["v"] == 1
+            and _ident(pb["agent_id"]) and _ident(pb["policy_id"])
+            and isinstance(pb["payload_digest"], bytes) and len(pb["payload_digest"]) == 32
+            and _uint(pb["issued_at"]) and _uint(pb["expires_at"]) and pb["issued_at"] < pb["expires_at"]
+            and isinstance(pb["nonce"], (str, bytes)) and 0 < len(pb["nonce"]) <= MAX_ID_LEN
+            and isinstance(pb["proposal_id"], str))
+
+
+def ratification_shape_ok(rb):
+    """Rule S9: exact field set and types for a v1 Ratification Statement body."""
+    if MUT == "skip_shape_check":
+        return isinstance(rb, Mapping)
+    return (isinstance(rb, Mapping) and set(rb) == RATIFICATION_KEYS and type(rb["v"]) is int and rb["v"] == 1
+            and isinstance(rb["proposal_digest"], bytes) and len(rb["proposal_digest"]) == 32
+            and isinstance(rb["proposal_id"], str) and _ident(rb["overseer_id"]) and _ident(rb["policy_id"])
+            and isinstance(rb["verdict"], str)
+            and _uint(rb["reviewed_at"]) and _uint(rb["valid_until"]) and rb["reviewed_at"] < rb["valid_until"])
+
+
+def policy_valid(policy):
+    """Rule S8: exact field set; non-empty agents and overseers with well-formed ids and Ed25519
+    keys; 1 <= quorum <= number of overseers; separation of roles (no key shared by two
+    overseers, no identity or key that is both agent and overseer)."""
+    try:
+        if not isinstance(policy, Mapping):
+            return False
+        if MUT != "skip_policy_shape" and set(policy) != POLICY_KEYS:
+            return False
+        agents, overseers, q = policy["authorized_agents"], policy["authorized_overseers"], policy["quorum"]
+        if not (_ident(policy["policy_id"]) and isinstance(agents, Mapping) and isinstance(overseers, Mapping)
+                and agents and overseers):
+            return False
+        if not (type(q) is int and 1 <= q <= len(overseers)):
+            return False
+        if not all(_ident(k) and _pub_hex(v) for k, v in list(agents.items()) + list(overseers.items())):
+            return False
+        if MUT != "skip_role_separation":
+            okeys = list(overseers.values())
+            if len(set(okeys)) != len(okeys):
+                return False
+            if set(agents) & set(overseers) or set(agents.values()) & set(okeys):
+                return False
+        return True
+    except (KeyError, TypeError, AttributeError):
+        return False
+
 
 def _canon_json(rec):
     return json.dumps(rec, sort_keys=True, separators=(",", ":"))
@@ -224,13 +297,15 @@ def _canon_json(rec):
 
 class Store:
     """SQLite hash-chained decision log plus consumed-nonce table. After every commit the store
-    signs a checkpoint (size, head hash); in a deployment the checkpoint is published outside
-    the store (e.g. registered with a transparency service), which is what makes truncation
-    detectable. Here the last published checkpoint is held by the Store object."""
+    signs a checkpoint (size, head hash) with its checkpoint key. Truncation or rewriting is
+    detectable against any checkpoint retained *outside* the database (see checkpoint() and
+    verify_chain(checkpoint, checkpoint_key)); the most recent checkpoint is also kept on the
+    Store object as `published`. Pass a persistent `signing_key` so that checkpoints remain
+    verifiable after the store is reopened."""
 
     GENESIS = "0" * 64
 
-    def __init__(self, path=":memory:"):
+    def __init__(self, path=":memory:", signing_key=None):
         # Autocommit mode with explicit BEGIN IMMEDIATE: a writer takes the database write lock
         # *before* reading the chain tip, so concurrent gates sharing one database file cannot
         # fork the hash chain (found by test_concurrent_presentations_allow_exactly_once).
@@ -238,10 +313,9 @@ class Store:
         with self._write():
             self.db.execute("create table if not exists log(seq integer primary key, record text, prev text, hash text)")
             self.db.execute("create table if not exists consumed(k text primary key)")
-        self._key = Ed25519PrivateKey.generate()
+        self._key = signing_key or Ed25519PrivateKey.generate()
         self.checkpoint_key = self._key.public_key().public_bytes(
             serialization.Encoding.Raw, serialization.PublicFormat.Raw).hex()
-        self.published = None
         self._publish()
 
     @contextlib.contextmanager
@@ -283,21 +357,14 @@ class Store:
             self._insert(rec)
         self._publish()
 
-    def consume(self, key):
-        """Standalone consume (kept for interface compatibility)."""
-        try:
-            with self._write():
-                self.db.execute("insert into consumed(k) values(?)", (key,))
-            return True
-        except sqlite3.IntegrityError:
-            return False
-
-    def consume_and_record(self, key, rec):
-        """Atomically consume an authorization and record ALLOW; False if already consumed."""
+    def consume_and_record(self, keys, rec):
+        """Atomically consume every replay key of an authorization and record ALLOW. Returns False
+        (and changes nothing) if any key was already consumed."""
         try:
             with self._write():
                 if MUT != "skip_replay":
-                    self.db.execute("insert into consumed(k) values(?)", (key,))
+                    for key in keys:
+                        self.db.execute("insert into consumed(k) values(?)", (key,))
                 self._insert(rec)
         except sqlite3.IntegrityError:
             return False
@@ -317,7 +384,15 @@ class Store:
         """Hash-chain linkage only (no checkpoint): detects modification, not truncation."""
         return MUT == "chain_noop" or self._walk() is not None
 
-    def verify_chain(self, checkpoint=None):
+    def checkpoint(self):
+        """The latest signed checkpoint, for retention outside the store."""
+        return dict(self.published)
+
+    def verify_chain(self, checkpoint=None, checkpoint_key=None):
+        """True iff every record links to its predecessor and the chain matches the given signed
+        checkpoint (default: the store's own latest one) exactly in size and head. Pass a
+        checkpoint retained outside the database to detect truncation or rewriting by anyone
+        with write access to the database file."""
         if MUT == "chain_noop":
             return True
         walked = self._walk()
@@ -328,7 +403,7 @@ class Store:
             return True
         cp = checkpoint or self.published
         try:
-            Ed25519PublicKey.from_public_bytes(bytes.fromhex(self.checkpoint_key)).verify(
+            Ed25519PublicKey.from_public_bytes(bytes.fromhex(checkpoint_key or self.checkpoint_key)).verify(
                 bytes.fromhex(cp["sig"]), dcbor(["sar-checkpoint", cp["size"], cp["head"]]))
         except (InvalidSignature, ValueError, KeyError, TypeError):
             return False
@@ -338,6 +413,9 @@ class Store:
 # ---------------------------------------------------------------- execution gate
 
 class Gate:
+    """Execution Gate. Implements rules S1-S12 (SEMANTICS.md): it starts from DENY and allows only
+    if every check passes; every decision, including every denial, is recorded in the store."""
+
     def __init__(self, policy, store):
         self.policy, self.store = policy, store
 
@@ -349,19 +427,29 @@ class Gate:
         try:
             return self._authorize(runtime_payload, proposal, ratifications, now)
         except Exception as e:  # fail closed on anything unexpected (malformed input etc.)
-            return self._deny(f"malformed:{type(e).__name__}")
+            try:
+                return self._deny(f"malformed:{type(e).__name__}")
+            except Exception:  # even if the denial cannot be logged, never allow (S12)
+                return False, "deny_unlogged"
 
     def _authorize(self, runtime_payload, proposal, ratifications, now):
-        now = int(time.time() if now is None else now)
+        if now is None:
+            now = int(time.time())
+        if type(now) is not int:
+            return self._deny("invalid_clock")
         pol = self.policy
         if not policy_valid(pol):
             return self._deny("policy_invalid")
         if not proposal:
             return self._deny("missing_proposal")
-        if not ratifications:
+        if not ratifications or not isinstance(ratifications, (list, tuple)):
             return self._deny("missing_ratification")
         pb = proposal["body"]
-        pid = pb.get("proposal_id")
+        if not proposal_shape_ok(pb):
+            return self._deny("malformed_proposal")
+        pid = pb["proposal_id"]
+        if MUT != "skip_proposal_id_check" and pid != expected_proposal_id(pb):
+            return self._deny("proposal_id_mismatch", pid)
         if MUT != "skip_policy_bind" and pb["policy_id"] != pol["policy_id"]:
             return self._deny("policy_mismatch", pid)
         agent_pub = pol["authorized_agents"].get(pb["agent_id"])
@@ -369,14 +457,17 @@ class Gate:
             return self._deny("agent_not_authorized", pid)
         if not verify_statement(proposal, agent_pub, CT_PROPOSAL, pb["agent_id"]):
             return self._deny("bad_proposal", pid)
-        if MUT != "skip_expiry" and now > pb["expires_at"]:
+        if MUT != "skip_expiry" and not (now < pb["expires_at"] or (MUT == "inclusive_expiry" and now == pb["expires_at"])):
             return self._deny("proposal_expired", pid)
         if MUT != "skip_future_check" and pb["issued_at"] > now + MAX_CLOCK_SKEW:
             return self._deny("proposal_from_future", pid)
         pdig = statement_digest(proposal)
-        approvals = []
+        approvers = set()
+        start, end = pb["issued_at"], pb["expires_at"]
         for r in ratifications:
             rb = r["body"]
+            if not ratification_shape_ok(rb):
+                return self._deny("malformed_ratification", pid)
             opub = pol["authorized_overseers"].get(rb["overseer_id"])
             if opub is None:
                 return self._deny("overseer_not_authorized", pid)
@@ -386,35 +477,54 @@ class Gate:
                 return self._deny("ratification_not_bound", pid)
             if MUT != "skip_policy_bind" and rb["policy_id"] != pol["policy_id"]:
                 return self._deny("policy_mismatch", pid)
+            if MUT != "dedup_overseer" and rb["overseer_id"] in approvers:
+                return self._deny("duplicate_ratification", pid)
             if MUT != "skip_future_check" and (rb["reviewed_at"] > now + MAX_CLOCK_SKEW
-                                               or rb["reviewed_at"] < pb["issued_at"]):
+                                               or rb["reviewed_at"] < pb["issued_at"]
+                                               or rb["reviewed_at"] >= pb["expires_at"]):
                 return self._deny("ratification_time_invalid", pid)
             if rb["verdict"] not in VERDICTS:
                 return self._deny("unknown_verdict", pid)
-            if rb["verdict"] == "REJECTED" and MUT != "allow_rejected":
+            if rb["verdict"] == "REJECTED":
+                if MUT == "allow_rejected":
+                    continue
                 return self._deny("rejected", pid)
-            if rb["verdict"] == "APPROVED" and (MUT == "skip_rat_expiry" or now <= rb["valid_until"]):
-                approvals.append(rb["overseer_id"])
-        count = len(approvals) if MUT == "dedup_overseer" else len(set(approvals))
-        if count < pol["quorum"] and MUT != "allow_rejected":
+            if MUT != "skip_rat_expiry" and now >= rb["valid_until"]:
+                return self._deny("ratification_expired", pid)
+            start, end = max(start, rb["reviewed_at"]), min(end, rb["valid_until"])
+            approvers.add(rb["overseer_id"])
+        count = len(approvers) + (len(ratifications) - len(approvers) if MUT == "dedup_overseer" else 0)
+        if count < pol["quorum"]:
             return self._deny("quorum_not_met", pid)
+        if MUT != "skip_common_window" and not start < end:  # S13: every ALLOW is offline-verifiable
+            return self._deny("no_common_validity", pid)
         if MUT != "skip_digest" and payload_digest(runtime_payload) != pb["payload_digest"]:
             return self._deny("payload_mismatch", pid)
-        key = f'{pol["policy_id"]}|{pb["agent_id"]}|{pb["nonce"]}'
-        if not self.store.consume_and_record(key, {"decision": "ALLOW", "proposal_id": pid}):
+        keys = [f'pid|{pol["policy_id"]}|{pid}']
+        if MUT != "replay_proposal_id_only":
+            keys.append(f'nonce|{pol["policy_id"]}|{dcbor(pb["nonce"]).hex()}')
+            if isinstance(runtime_payload, Mapping) and "transaction_id" in runtime_payload:
+                keys.append(f'txn|{pol["policy_id"]}|{dcbor(runtime_payload["transaction_id"]).hex()}')
+        if not self.store.consume_and_record(keys, {"decision": "ALLOW", "proposal_id": pid}):
             return self._deny("replay", pid)
         return True, "ok"
 
 
 # ---------------------------------------------------------------- offline verification
 
-def verify_record_offline(proposal, ratifications, policy):
-    """Stateless check that the artifacts constitute a valid authorization under `policy`:
-    authentic proposal, every ratification authentic and bound to it, no rejection, and a
-    quorum of distinct approving overseers who reviewed within the proposal's validity window.
-    Needs only the artifacts and trust anchors (no store, no runtime)."""
+def verify_record_offline(proposal, ratifications, policy, at=None):
+    """Stateless check (rule S11) that the artifacts constitute a valid authorization under
+    `policy`, using only the artifacts and the policy's trust anchors (no store, no clock):
+    authentic, well-formed, policy-bound proposal; every ratification authentic, bound to it,
+    distinct, APPROVED and issued within the proposal's validity window; a quorum of distinct
+    approvers; and a non-empty interval in which the proposal and all ratifications were valid
+    together (which must contain `at`, if given)."""
     try:
+        if not policy_valid(policy):
+            return False
         pb = proposal["body"]
+        if not proposal_shape_ok(pb) or pb["proposal_id"] != expected_proposal_id(pb):
+            return False
         if pb["policy_id"] != policy["policy_id"]:
             return False
         ap = policy["authorized_agents"].get(pb["agent_id"])
@@ -422,22 +532,28 @@ def verify_record_offline(proposal, ratifications, policy):
             return False
         pdig = statement_digest(proposal)
         approvers = set()
+        start, end = pb["issued_at"], pb["expires_at"]
         for r in ratifications:
             rb = r["body"]
+            if not ratification_shape_ok(rb):
+                return False
             op = policy["authorized_overseers"].get(rb["overseer_id"])
             if op is None or not verify_statement(r, op, CT_RATIFICATION, rb["overseer_id"]):
                 return False
-            if MUT != "offline_skip_binding" and rb["proposal_digest"] != pdig:
+            if MUT != "offline_skip_binding" and (rb["proposal_digest"] != pdig or rb["proposal_id"] != pb["proposal_id"]):
                 return False
-            if rb["policy_id"] != policy["policy_id"]:
+            if rb["policy_id"] != policy["policy_id"] or rb["verdict"] != "APPROVED":
                 return False
-            if rb["verdict"] != "APPROVED":
+            if rb["overseer_id"] in approvers:
                 return False
-            if not (pb["issued_at"] <= rb["reviewed_at"] <= min(pb["expires_at"], rb["valid_until"])):
+            if not (pb["issued_at"] <= rb["reviewed_at"] < pb["expires_at"]):
                 return False
+            start, end = max(start, rb["reviewed_at"]), min(end, rb["valid_until"])
             approvers.add(rb["overseer_id"])
         if MUT == "offline_skip_quorum":
             return True
-        return len(approvers) >= policy["quorum"]
+        if len(approvers) < policy["quorum"] or not start < end:
+            return False
+        return at is None or start <= at < end
     except (KeyError, TypeError, ValueError, AttributeError):
         return False

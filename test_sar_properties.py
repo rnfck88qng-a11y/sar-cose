@@ -6,8 +6,10 @@ boundaries, concurrency and persistence of replay protection.
 """
 import os
 import random
+import sys
 import tempfile
 import threading
+import time
 import unittest
 
 import cbor2
@@ -19,7 +21,11 @@ import sar_cose as S
 NOW = 1_800_000_000
 SKEW = S.MAX_CLOCK_SKEW
 PAYLOAD = {"action_type": "wire_transfer", "amount": 5000, "currency": "EUR", "destination_account": "DE00"}
-HSET = settings(deadline=None, derandomize=True, suppress_health_check=[HealthCheck.too_slow])
+DEEP = os.environ.get("SAR_DEEP") == "1"
+N_RANDOM, N_FAULT = (30000, 20000) if DEEP else (3000, 2000)
+EXTRA_SEEDS = [int(s) for s in os.environ.get("SAR_SEEDS", "").split(",") if s.strip()]
+HSET = settings(deadline=None, derandomize=not EXTRA_SEEDS, max_examples=1000 if DEEP else 100,
+                suppress_health_check=[HealthCheck.too_slow])
 
 KEYS = {name: S.new_keypair() for name in ("agent-1", "agent-x", "ov-1", "ov-2", "ov-3", "ov-x")}
 
@@ -39,27 +45,35 @@ def _break_sig(stmt):
 # ------------------------------------------------------------------ independent model of the spec
 
 def model_allows(sc):
-    """SARWP v1.1 sections 4.5-4.10 written as a plain rule list, independent of sar_cose's code.
-    Returns True iff the gate must allow the action."""
+    """Reference model: the rules of SEMANTICS.md S1-S7 written as a plain rule list over the
+    abstract scenario, without reference to sar_cose's code. True iff the gate must allow."""
     issued = NOW + sc["issued_off"]
+    expires = issued + sc["ttl"]
     if not sc["policy_ok"] or not sc["agent_ok"] or not sc["psig_ok"]:
         return False
-    if NOW > issued + sc["ttl"] or issued > NOW + SKEW:
+    if not NOW < expires or issued > NOW + SKEW:                       # S1, S2
         return False
     if not sc["rats"]:
         return False
-    approvers = set()
+    seen = set()
+    start, end = issued, expires
     for r in sc["rats"]:
         reviewed = NOW + r["rev_off"]
-        if r["overseer"] == "ov-x" or not r["sig_ok"] or not r["bound"]:
+        if r["overseer"] == "ov-x" or not r["sig_ok"] or not r["bound"]:  # S4
             return False
-        if reviewed > NOW + SKEW or reviewed < issued:
+        if r["overseer"] in seen:                                         # S5
             return False
-        if r["verdict"] not in ("APPROVED", "REJECTED") or r["verdict"] == "REJECTED":
+        if reviewed > NOW + SKEW or not issued <= reviewed < expires:     # S1, S3
             return False
-        if NOW <= reviewed + r["ttl"]:
-            approvers.add(r["overseer"])
-    if len(approvers) < sc["quorum"]:
+        if r["verdict"] not in ("APPROVED", "REJECTED") or r["verdict"] == "REJECTED":  # S6, S7
+            return False
+        if not NOW < reviewed + r["ttl"]:                                 # S2, S4: expired denies
+            return False
+        start, end = max(start, reviewed), min(end, reviewed + r["ttl"])
+        seen.add(r["overseer"])
+    if len(seen) < sc["quorum"]:
+        return False
+    if not start < end:                                                   # S13
         return False
     return sc["payload_ok"]
 
@@ -149,42 +163,46 @@ def build_and_run(sc, nonce):
     gate = S.Gate(_policy(sc["quorum"]), S.Store())
     first = gate.authorize(runtime, prop, rats, now=NOW)[0]
     second = gate.authorize(runtime, prop, rats, now=NOW)[0]
+    if first:  # S13: every allowed authorization must pass offline verification
+        assert S.verify_record_offline(prop, rats, _policy(sc["quorum"])), f"allowed but not offline-verifiable: {sc}"
     return first, second, gate.store
 
 
 class DifferentialTests(unittest.TestCase):
     def test_gate_matches_spec_model_single_fault_injection(self):
-        rng = random.Random(4242)
-        seen = {}
-        for i in range(2000):
-            sc, fault = single_fault_scenario(rng)
-            first, second, _ = build_and_run(sc, nonce=f"s{i}")
-            self.assertEqual(first, model_allows(sc), f"scenario {i} fault={fault}: {sc}")
-            self.assertFalse(second)
-            seen.setdefault(fault, [0, 0])[first] += 1
-        self.assertEqual(set(seen) - {None}, set(FAULTS), "every fault type must be exercised")
-        self.assertGreater(seen[None][1], 300)  # valid scenarios allowed
-        for fault in ("policy", "agent", "psig", "payload", "expired", "future_proposal", "no_rats",
-                      "rat_unauthorized", "rat_sig", "rat_unbound", "rat_rejected", "rat_unknown_verdict",
-                      "rat_future", "rat_before_proposal"):
-            self.assertEqual(seen[fault][1], 0, f"fault {fault} was allowed")
-        print(f"\n    single-fault: " + ", ".join(f"{k or 'none'}={v[1]}/{sum(v)} allowed" for k, v in sorted(seen.items(), key=lambda kv: str(kv[0]))), end=" ")
+        for seed in [4242] + EXTRA_SEEDS:
+            rng = random.Random(seed)
+            seen = {}
+            for i in range(N_FAULT):
+                sc, fault = single_fault_scenario(rng)
+                first, second, _ = build_and_run(sc, nonce=f"s{i}")
+                self.assertEqual(first, model_allows(sc), f"seed {seed} scenario {i} fault={fault}: {sc}")
+                self.assertFalse(second)
+                seen.setdefault(fault, [0, 0])[first] += 1
+            self.assertEqual(set(seen) - {None}, set(FAULTS), "every fault type must be exercised")
+            self.assertEqual(seen[None][0], 0, "a fault-free scenario was denied")
+            self.assertGreater(seen[None][1], N_FAULT // 7)
+            for fault in FAULTS:  # under SEMANTICS.md every injected fault must cause denial
+                self.assertEqual(seen[fault][1], 0, f"seed {seed}: fault {fault} was allowed")
+            print(f"\n    single-fault seed={seed}: " + ", ".join(
+                f"{k or 'none'}={v[1]}/{sum(v)} allowed" for k, v in sorted(seen.items(), key=lambda kv: str(kv[0]))), end=" ")
 
-    def test_gate_matches_spec_model_on_3000_random_scenarios(self):
-        rng = random.Random(20261009)
-        allowed = denied = 0
-        for i in range(3000):
-            sc = random_scenario(rng)
-            first, second, store = build_and_run(sc, nonce=f"n{i}")
-            expected = model_allows(sc)
-            self.assertEqual(first, expected, f"scenario {i}: {sc}")
-            self.assertFalse(second, f"scenario {i}: second presentation must never be allowed")
-            self.assertTrue(store.verify_chain())
-            allowed += first
-            denied += not first
-        print(f"\n    differential: {allowed} allowed, {denied} denied, 0 disagreements with the model", end=" ")
-        self.assertGreater(allowed, 100, "too few allow cases for a meaningful comparison")
-        self.assertGreater(denied, 300)
+    def test_gate_matches_spec_model_randomized(self):
+        for seed in [20261009] + EXTRA_SEEDS:
+            rng = random.Random(seed)
+            allowed = denied = replay_relevant = 0
+            for i in range(N_RANDOM):
+                sc = random_scenario(rng)
+                first, second, store = build_and_run(sc, nonce=f"n{i}")
+                self.assertEqual(first, model_allows(sc), f"seed {seed} scenario {i}: {sc}")
+                self.assertFalse(second, f"seed {seed} scenario {i}: second presentation allowed")
+                self.assertTrue(store.verify_chain())
+                allowed += first
+                denied += not first
+            self.assertGreater(allowed, N_RANDOM // 60, "too few allow cases for a meaningful comparison")
+            self.assertGreater(denied, N_RANDOM // 10)
+            print(f"\n    differential seed={seed}: {allowed} allowed (replay-relevant), {denied} denied, "
+                  f"0 disagreements with the model", end=" ")
 
     @HSET
     @given(st.randoms(use_true_random=False))
@@ -314,18 +332,20 @@ class CborPropertyTests(unittest.TestCase):
 # ------------------------------------------------------------------ exact boundaries
 
 class BoundaryTests(unittest.TestCase):
+    """SEMANTICS.md S1-S3: half-open validity intervals, inclusive skew bound."""
+
     def _run(self, issued, ttl, reviewed, rttl):
         prop = S.make_proposal(KEYS["agent-1"][0], "agent-1", PAYLOAD, ttl=ttl, now=issued)
         rats = [S.ratify(KEYS["ov-1"][0], "ov-1", prop, ttl=rttl, now=reviewed)]
         return S.Gate(_policy(1), S.Store()).authorize(PAYLOAD, prop, rats, now=NOW)[0]
 
     def test_proposal_expiry_boundary(self):
-        self.assertTrue(self._run(NOW - 100, 100, NOW - 50, 1000))   # now == expires_at
-        self.assertFalse(self._run(NOW - 101, 100, NOW - 50, 1000))  # now == expires_at + 1
+        self.assertTrue(self._run(NOW - 100, 101, NOW - 50, 1000))   # expires_at == now + 1
+        self.assertFalse(self._run(NOW - 100, 100, NOW - 50, 1000))  # expires_at == now
 
     def test_ratification_expiry_boundary(self):
-        self.assertTrue(self._run(NOW - 100, 1000, NOW - 50, 50))    # now == valid_until
-        self.assertFalse(self._run(NOW - 100, 1000, NOW - 50, 49))   # now == valid_until + 1
+        self.assertTrue(self._run(NOW - 100, 1000, NOW - 50, 51))    # valid_until == now + 1
+        self.assertFalse(self._run(NOW - 100, 1000, NOW - 50, 50))   # valid_until == now
 
     def test_clock_skew_boundary(self):
         self.assertTrue(self._run(NOW + SKEW, 100, NOW + SKEW, 100))
@@ -334,6 +354,10 @@ class BoundaryTests(unittest.TestCase):
     def test_review_not_before_proposal_boundary(self):
         self.assertTrue(self._run(NOW - 100, 1000, NOW - 100, 1000))   # reviewed == issued
         self.assertFalse(self._run(NOW - 100, 1000, NOW - 101, 1000))  # reviewed == issued - 1
+
+    def test_review_before_proposal_expiry_boundary(self):
+        self.assertTrue(self._run(NOW - 100, 110, NOW + 9, 1000))      # reviewed == expires - 1
+        self.assertFalse(self._run(NOW - 100, 110, NOW + 10, 1000))    # reviewed == expires
 
 
 # ------------------------------------------------------------------ concurrency and persistence
@@ -368,6 +392,37 @@ class StoreConcurrencyTests(unittest.TestCase):
             self.assertTrue(check.verify_links())
             allows = check.db.execute("select count(*) from log where record like '%\"ALLOW\"%'").fetchone()[0]
             self.assertEqual(allows, 5)
+
+    def test_concurrent_processes_allow_exactly_once(self):
+        """Separate OS processes (not threads), each with its own gate, on one database file."""
+        import json, subprocess
+        worker = (
+            "import json,sys,time; import sar_cose as S\n"
+            "a=json.load(open(sys.argv[1]))\n"
+            "while time.time() < a['start']: pass\n"
+            "p=S.from_cose(bytes.fromhex(a['p'])); r=[S.from_cose(bytes.fromhex(x)) for x in a['r']]\n"
+            "st=S.Store(a['db']); print(json.dumps(S.Gate(a['policy'], st).authorize(a['payload'], p, r, now=a['now'])))\n")
+        here = os.path.dirname(os.path.abspath(S.__file__))
+        env = dict(os.environ, PYTHONPATH=here, PYTHONDONTWRITEBYTECODE="1")
+        with tempfile.TemporaryDirectory() as d:
+            path = os.path.join(d, "sar.db")
+            S.Store(path).close()
+            for round_ in range(5):
+                prop = S.make_proposal(KEYS["agent-1"][0], "agent-1", PAYLOAD, nonce=f"mp{round_}", now=NOW)
+                rats = [S.ratify(KEYS["ov-1"][0], "ov-1", prop, now=NOW)]
+                job = os.path.join(d, f"job{round_}.json")
+                json.dump({"p": S.to_cose(prop).hex(), "r": [S.to_cose(x).hex() for x in rats], "db": path,
+                           "policy": _policy(1), "payload": PAYLOAD, "now": NOW, "start": time.time() + 1.5},
+                          open(job, "w"))
+                procs = [subprocess.Popen([sys.executable, "-c", worker, job], env=env, stdout=subprocess.PIPE, text=True)
+                         for _ in range(8)]
+                results = [json.loads(pr.communicate(timeout=120)[0]) for pr in procs]
+                self.assertEqual(sum(ok for ok, _ in results), 1, results)
+                self.assertTrue(all(reason in ("ok", "replay") for _, reason in results), results)
+            check = S.Store(path)
+            self.assertTrue(check.verify_links())
+            self.assertEqual(check.db.execute("select count(*) from log where record like '%\"ALLOW\"%'").fetchone()[0], 5)
+            check.close()
 
     def test_replay_protection_survives_restart(self):
         prop = S.make_proposal(KEYS["agent-1"][0], "agent-1", PAYLOAD, now=NOW)
