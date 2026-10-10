@@ -7,7 +7,8 @@
    "section": "5",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "gate-001",
     "gate-002",
@@ -29,7 +30,8 @@
    "section": "5",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "gate-001",
     "gate-002",
@@ -51,7 +53,8 @@
    "section": "5",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "gate-001",
     "gate-002",
@@ -69,7 +72,8 @@
    "section": "5",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "gate-001",
     "gate-002",
@@ -87,7 +91,8 @@
    "section": "5",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "gate-001",
     "gate-002",
@@ -105,7 +110,8 @@
    "section": "5",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "gate-001",
     "gate-002",
@@ -123,7 +129,8 @@
    "section": "5",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "gate-001",
     "gate-002",
@@ -143,7 +150,8 @@
    "section": "5",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "gate-001",
     "gate-002",
@@ -166,7 +174,8 @@
    "section": "6",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "enc-001",
     "enc-002",
@@ -220,7 +229,8 @@
    "section": "6",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass (some vectors n/a)",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "dec-001",
     "dec-002",
@@ -250,7 +260,8 @@
    "section": "6",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass (some vectors n/a)",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "dec-010",
     "dec-011",
@@ -271,7 +282,8 @@
    "section": "7",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "gate-001",
     "gate-002",
@@ -299,7 +311,8 @@
    "section": "7",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "gate-036",
     "gate-037"
@@ -316,7 +329,8 @@
    "section": "7",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "gate-001",
     "gate-002",
@@ -335,7 +349,8 @@
    "section": "7",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "gate-004",
     "gate-005",
@@ -354,7 +369,8 @@
    "section": "7",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "gate-039",
     "gate-040"
@@ -372,7 +388,8 @@
    "section": "8",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "gate-001",
     "gate-002",
@@ -392,7 +409,8 @@
    "section": "8",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "gate-001",
     "gate-002",
@@ -412,7 +430,8 @@
    "section": "8",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "gate-001",
     "gate-002",
@@ -431,7 +450,8 @@
    "section": "8",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "gate-001",
     "gate-002",
@@ -450,7 +470,8 @@
    "section": "8",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "gate-055",
     "gate-057",
@@ -470,7 +491,8 @@
    "section": "9",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "gate-001",
     "gate-002",
@@ -494,7 +516,8 @@
    "section": "9",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "gate-065",
     "gate-066",
@@ -514,7 +537,8 @@
    "section": "9",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "gate-063",
     "gate-064"
@@ -531,7 +555,8 @@
    "section": "9",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "gate-073",
     "gate-074"
@@ -550,7 +575,8 @@
    "section": "9",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "gate-001",
     "gate-002",
@@ -572,7 +598,8 @@
    "section": "9",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "gate-001",
     "gate-002",
@@ -592,9 +619,10 @@
    "level": "MUST",
    "requirement": "SAR-REQ-050",
    "section": "10",
-   "status_sar_cose": "pass",
-   "status_sar_indep": "pass",
-   "status_sar_scitt": "not-run",
+   "status_sar_cose": "pass (some vectors n/a)",
+   "status_sar_indep": "pass (some vectors n/a)",
+   "status_sar_indep_scitt": "pass (some vectors n/a)",
+   "status_sar_scitt": "pass (some vectors n/a)",
    "test_vectors": [
     "gate-001",
     "gate-002",
@@ -605,7 +633,8 @@
     "gate-084",
     "gate-085",
     "gate-091",
-    "gate-092"
+    "gate-092",
+    "sc-022"
    ],
    "tests": [
     "test_sar_properties.BoundaryTests.test_proposal_expiry_boundary",
@@ -623,7 +652,8 @@
    "section": "10",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "gate-086",
     "gate-087"
@@ -642,7 +672,8 @@
    "section": "10",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "gate-025",
     "gate-037",
@@ -670,7 +701,8 @@
    "section": "10",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "gate-089",
     "gate-090"
@@ -688,7 +720,8 @@
    "section": "11",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "gate-101",
     "gate-102"
@@ -706,7 +739,8 @@
    "section": "11",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "gate-001",
     "gate-002",
@@ -725,7 +759,8 @@
    "section": "11",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "gate-103",
     "gate-104"
@@ -743,7 +778,8 @@
    "section": "11",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "gate-105",
     "gate-106"
@@ -759,13 +795,15 @@
    "level": "MUST",
    "requirement": "SAR-REQ-070",
    "section": "11",
-   "status_sar_cose": "pass",
-   "status_sar_indep": "pass",
-   "status_sar_scitt": "not-run",
+   "status_sar_cose": "pass (some vectors n/a)",
+   "status_sar_indep": "pass (some vectors n/a)",
+   "status_sar_indep_scitt": "pass (some vectors n/a)",
+   "status_sar_scitt": "pass (some vectors n/a)",
    "test_vectors": [
     "gate-001",
     "gate-002",
-    "gate-056"
+    "gate-056",
+    "sc-010"
    ],
    "tests": [
     "test_sar_conformance.SarTests.test_05_modified_payload_after_approval_denied",
@@ -780,7 +818,8 @@
    "section": "11",
    "status_sar_cose": "pass",
    "status_sar_indep": "not-implemented",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "gate-058",
     "gate-059",
@@ -799,7 +838,8 @@
    "section": "11",
    "status_sar_cose": "pass (interface returns the exact octets; use by the executor is a deployment obligation)",
    "status_sar_indep": "not-implemented (no bytes interface; ISS-004)",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "no-vectors",
+   "status_sar_scitt": "no-vectors",
    "test_vectors": [],
    "tests": [
     "test_sar_hardening.ExactBytes.test_allow_returns_the_exact_immutable_bytes"
@@ -811,12 +851,14 @@
    "level": "MUST",
    "requirement": "SAR-REQ-080",
    "section": "11",
-   "status_sar_cose": "pass",
-   "status_sar_indep": "pass",
-   "status_sar_scitt": "not-run",
+   "status_sar_cose": "pass (some vectors n/a)",
+   "status_sar_indep": "pass (some vectors n/a)",
+   "status_sar_indep_scitt": "pass (some vectors n/a)",
+   "status_sar_scitt": "pass (some vectors n/a)",
    "test_vectors": [
     "gate-001",
     "gate-002",
+    "sc-018",
     "seq-110",
     "seq-111",
     "seq-112",
@@ -841,7 +883,8 @@
    "section": "11",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "seq-112",
     "seq-113",
@@ -861,7 +904,8 @@
    "section": "11",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "seq-115",
     "seq-116",
@@ -881,7 +925,8 @@
    "section": "11",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "seq-111"
    ],
@@ -897,7 +942,8 @@
    "section": "11",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "seq-110",
     "seq-111",
@@ -924,7 +970,8 @@
    "section": "11",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "seq-119"
    ],
@@ -943,7 +990,8 @@
    "section": "12",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass (some vectors n/a)",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "gate-001",
     "gate-002",
@@ -1054,7 +1102,8 @@
    "section": "12",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "gate-001",
     "gate-002",
@@ -1079,7 +1128,8 @@
    "section": "12",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass (some vectors n/a)",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "gate-001",
     "gate-002",
@@ -1189,7 +1239,8 @@
    "section": "13",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass (some vectors n/a)",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "gate-001",
     "gate-002",
@@ -1299,7 +1350,8 @@
    "section": "13",
    "status_sar_cose": "pass",
    "status_sar_indep": "pass",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "n/a (core path is sar_indep)",
+   "status_sar_scitt": "n/a (core path is sar_cose)",
    "test_vectors": [
     "gate-130",
     "gate-131",
@@ -1318,7 +1370,8 @@
    "section": "13",
    "status_sar_cose": "pass (tests)",
    "status_sar_indep": "not-implemented (hash chain without signed checkpoint; fails gap test C10b; ISS-008)",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "no-vectors",
+   "status_sar_scitt": "no-vectors",
    "test_vectors": [],
    "tests": [
     "test_sar_conformance.SarTests.test_10_history_is_tamper_evident",
@@ -1335,7 +1388,8 @@
    "section": "13",
    "status_sar_cose": "pass (tests; optional anchor)",
    "status_sar_indep": "not-implemented (re-verifies its own chain before ALLOW, but has no external anchor)",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "no-vectors",
+   "status_sar_scitt": "no-vectors",
    "test_vectors": [],
    "tests": [
     "test_sar_hardening.RollbackAndCrash.test_anchor_refuses_a_rolled_back_or_truncated_database",
@@ -1348,9 +1402,10 @@
    "level": "MUST",
    "requirement": "SAR-REQ-095",
    "section": "13.1",
-   "status_sar_cose": "pass",
+   "status_sar_cose": "pass (some vectors n/a)",
    "status_sar_indep": "pass (some vectors n/a)",
-   "status_sar_scitt": "not-run",
+   "status_sar_indep_scitt": "pass (some vectors n/a)",
+   "status_sar_scitt": "pass (some vectors n/a)",
    "test_vectors": [
     "gate-001",
     "gate-002",
@@ -1434,6 +1489,52 @@
     "gate-106",
     "gate-130",
     "gate-131",
+    "reg-001",
+    "reg-002",
+    "reg-003",
+    "reg-004",
+    "reg-005",
+    "reg-006",
+    "reg-007",
+    "reg-008",
+    "reg-009",
+    "reg-010",
+    "reg-011",
+    "reg-012",
+    "reg-013",
+    "sc-001",
+    "sc-002",
+    "sc-003",
+    "sc-004",
+    "sc-005",
+    "sc-006",
+    "sc-007",
+    "sc-007b",
+    "sc-007c",
+    "sc-008",
+    "sc-009",
+    "sc-010",
+    "sc-011",
+    "sc-011b",
+    "sc-012",
+    "sc-013",
+    "sc-014",
+    "sc-015",
+    "sc-016",
+    "sc-017",
+    "sc-018",
+    "sc-019",
+    "sc-019b",
+    "sc-020",
+    "sc-021",
+    "sc-022",
+    "sc-023",
+    "sc-024",
+    "sc-024b",
+    "sc-025",
+    "sc-026",
+    "sc-027",
+    "sc-028",
     "seq-110",
     "seq-111",
     "seq-112",
@@ -1450,27 +1551,650 @@
    "tests": [
     "test_sar_hardening.MutationSweepGaps.test_missing_inputs_are_denied_for_the_right_reason"
    ],
-   "text": "Every DENY MUST carry a reason that maps to exactly one of the following classes, and an implementation MUST distinguish the classes from each other. Within a c"
+   "text": "Every DENY, and every refusal by a Transparency Service (Section 15), MUST carry a reason that maps to exactly one of the following classes, and an implementati"
+  },
+  {
+   "cddl_rule": "registration-request",
+   "level": "MUST",
+   "requirement": "SAR-REQ-120",
+   "section": "15.2",
+   "status_sar_cose": "not-implemented",
+   "status_sar_indep": "not-implemented",
+   "status_sar_indep_scitt": "pass",
+   "status_sar_scitt": "pass",
+   "test_vectors": [
+    "reg-001",
+    "reg-002",
+    "reg-003",
+    "reg-004",
+    "reg-005",
+    "reg-006",
+    "reg-007",
+    "reg-008",
+    "reg-009",
+    "reg-010",
+    "reg-011",
+    "reg-012",
+    "reg-013"
+   ],
+   "tests": [
+    "test_sar_scitt.Registration.test_policy_failing_at_the_ts_issues_no_receipt",
+    "test_sar_scitt.TrustedTime.test_ts_refuses_registration_outside_validity_by_its_own_clock",
+    "test_sar_scitt.Differential.test_registration_and_receipt_gate_agree_with_the_model_at_every_bound"
+   ],
+   "text": "For a request of kind `authorization`, the TS MUST register an entry only if the statements satisfy, under the policy identified by `policy_id`, every requireme"
+  },
+  {
+   "cddl_rule": "",
+   "level": "MUST",
+   "requirement": "SAR-REQ-121",
+   "section": "15.2",
+   "status_sar_cose": "not-implemented",
+   "status_sar_indep": "not-implemented",
+   "status_sar_indep_scitt": "pass",
+   "status_sar_scitt": "pass",
+   "test_vectors": [
+    "reg-001"
+   ],
+   "tests": [
+    "test_sar_scitt.ReceiptAdversarial.test_replay_with_a_valid_receipt",
+    "test_sar_scitt.EndToEnd.test_proposal_ratification_registration_receipt_gate_execution_of_exact_bytes"
+   ],
+   "text": "The TS MUST NOT consume replay keys, and registration MUST NOT be treated as execution. The payload binding (SAR-REQ-070, 071) and replay rules (SAR-REQ-080\u2013085"
+  },
+  {
+   "cddl_rule": "",
+   "level": "MUST",
+   "requirement": "SAR-REQ-122",
+   "section": "15.2",
+   "status_sar_cose": "not-implemented",
+   "status_sar_indep": "not-implemented",
+   "status_sar_indep_scitt": "pass",
+   "status_sar_scitt": "pass",
+   "test_vectors": [
+    "reg-008"
+   ],
+   "tests": [
+    "test_sar_scitt.Registration.test_second_authorization_registration_is_refused",
+    "test_sar_scitt.Registration.test_concurrent_registrations_register_exactly_once"
+   ],
+   "text": "The TS MUST register at most one entry of kind `authorization` per (`policy_id`, `proposal_id`). A later request for the same pair MUST be refused (class `regis"
+  },
+  {
+   "cddl_rule": "",
+   "level": "MUST",
+   "requirement": "SAR-REQ-123",
+   "section": "15.2",
+   "status_sar_cose": "not-implemented",
+   "status_sar_indep": "not-implemented",
+   "status_sar_indep_scitt": "pass",
+   "status_sar_scitt": "pass",
+   "test_vectors": [
+    "reg-007"
+   ],
+   "tests": [
+    "test_sar_scitt.Registration.test_registration_of_a_rejection_and_registered_veto"
+   ],
+   "text": "If the TS has registered an entry of kind `rejection` for a (`policy_id`, `proposal_id`), it MUST refuse every later `authorization` request for that pair (regi"
+  },
+  {
+   "cddl_rule": "registration-kind",
+   "level": "MUST",
+   "requirement": "SAR-REQ-124",
+   "section": "15.2",
+   "status_sar_cose": "not-implemented",
+   "status_sar_indep": "not-implemented",
+   "status_sar_indep_scitt": "pass",
+   "status_sar_scitt": "pass",
+   "test_vectors": [
+    "reg-006",
+    "reg-007",
+    "reg-009",
+    "reg-010"
+   ],
+   "tests": [
+    "test_sar_scitt.Registration.test_registration_of_a_rejection_and_registered_veto",
+    "test_sar_scitt.Registration.test_authorization_request_containing_a_rejection_is_refused",
+    "test_sar_scitt.Registration.test_rejection_request_needs_a_rejected_ratification"
+   ],
+   "text": "A request of kind `rejection` MUST contain a valid proposal and at least one valid `REJECTED` ratification by an authorized overseer. Each statement is checked "
+  },
+  {
+   "cddl_rule": "registration-entry",
+   "level": "MUST",
+   "requirement": "SAR-REQ-125",
+   "section": "15.3",
+   "status_sar_cose": "not-implemented",
+   "status_sar_indep": "not-implemented",
+   "status_sar_indep_scitt": "pass",
+   "status_sar_scitt": "pass",
+   "test_vectors": [
+    "reg-001",
+    "reg-002",
+    "reg-003",
+    "reg-004",
+    "reg-005",
+    "reg-006",
+    "reg-007",
+    "reg-008",
+    "reg-009",
+    "reg-010",
+    "reg-011",
+    "reg-012",
+    "reg-013",
+    "sc-001",
+    "sc-002"
+   ],
+   "tests": [
+    "test_sar_scitt.ReceiptAdversarial.test_receipt_for_a_different_statement_set",
+    "test_sar_scitt.EndToEnd.test_proposal_ratification_registration_receipt_gate_execution_of_exact_bytes"
+   ],
+   "text": "The TS MUST record each registration as the deterministic CBOR encoding of the map (CDDL `registration-entry`) `{\"v\": 1, \"kind\": kind, \"log_id\": log_id, \"policy"
+  },
+  {
+   "cddl_rule": "",
+   "level": "MUST",
+   "requirement": "SAR-REQ-126",
+   "section": "16",
+   "status_sar_cose": "not-implemented",
+   "status_sar_indep": "not-implemented",
+   "status_sar_indep_scitt": "pass",
+   "status_sar_scitt": "pass",
+   "test_vectors": [
+    "merkle-001",
+    "reg-001",
+    "reg-002",
+    "reg-003",
+    "reg-004",
+    "reg-005",
+    "reg-006",
+    "reg-007",
+    "reg-008",
+    "reg-009",
+    "reg-010",
+    "reg-011",
+    "reg-012",
+    "reg-013",
+    "sc-001",
+    "sc-002"
+   ],
+   "tests": [
+    "test_sar_scitt.MerkleLog.test_roots_and_inclusion_proofs_for_every_index_and_size"
+   ],
+   "text": "The TS MUST keep its entries in an append-only sequence and MUST compute the Merkle Tree Hash with SHA-256 exactly as RFC 9162 \u00a72.1.1 (leaf `H(0x00 || d)`, inte"
+  },
+  {
+   "cddl_rule": "inclusion-proof",
+   "level": "MUST",
+   "requirement": "SAR-REQ-127",
+   "section": "16",
+   "status_sar_cose": "not-implemented",
+   "status_sar_indep": "not-implemented",
+   "status_sar_indep_scitt": "pass",
+   "status_sar_scitt": "pass",
+   "test_vectors": [
+    "merkle-001",
+    "sc-001",
+    "sc-002",
+    "sc-006",
+    "sc-007",
+    "sc-007b",
+    "sc-007c",
+    "sc-024",
+    "sc-024b"
+   ],
+   "tests": [
+    "test_sar_scitt.MerkleLog.test_roots_and_inclusion_proofs_for_every_index_and_size",
+    "test_sar_scitt.ReceiptAdversarial.test_tampered_inclusion_proof",
+    "test_sar_scitt.ReceiptAdversarial.test_structurally_invalid_proofs_that_reproduce_the_signed_root"
+   ],
+   "text": "Inclusion proofs MUST be the audit path of RFC 9162 \u00a72.1.3.1 and MUST be verified by the algorithm of RFC 9162 \u00a72.1.3.2, which in particular fails if `leaf_inde"
+  },
+  {
+   "cddl_rule": "sar-checkpoint-payload",
+   "level": "SHOULD",
+   "requirement": "SAR-REQ-128",
+   "section": "16",
+   "status_sar_cose": "not-implemented (no Transparency Service)",
+   "status_sar_indep": "not-implemented (no Transparency Service)",
+   "status_sar_indep_scitt": "pass",
+   "status_sar_scitt": "pass",
+   "test_vectors": [
+    "merkle-001"
+   ],
+   "tests": [
+    "test_sar_scitt.MerkleLog.test_consistency_proofs_between_all_tree_sizes",
+    "test_sar_scitt.MerkleLog.test_signed_checkpoints_and_log_consistency_of_a_running_ts"
+   ],
+   "text": "The TS SHOULD issue signed checkpoints (log id, tree size, root) and consistency proofs between tree sizes (RFC 9162 \u00a72.1.4; a verifier MUST reject a consistenc"
+  },
+  {
+   "cddl_rule": "sar-receipt",
+   "level": "MUST",
+   "requirement": "SAR-REQ-130",
+   "section": "17",
+   "status_sar_cose": "not-implemented",
+   "status_sar_indep": "not-implemented",
+   "status_sar_indep_scitt": "pass",
+   "status_sar_scitt": "pass",
+   "test_vectors": [
+    "reg-001",
+    "reg-002",
+    "reg-003",
+    "reg-004",
+    "reg-005",
+    "reg-006",
+    "reg-007",
+    "reg-008",
+    "reg-009",
+    "reg-010",
+    "reg-011",
+    "reg-012",
+    "reg-013",
+    "sc-001",
+    "sc-002",
+    "sc-003",
+    "sc-004",
+    "sc-005",
+    "sc-006",
+    "sc-007",
+    "sc-007b",
+    "sc-007c",
+    "sc-008",
+    "sc-009",
+    "sc-010",
+    "sc-011",
+    "sc-011b",
+    "sc-012",
+    "sc-013",
+    "sc-014",
+    "sc-015",
+    "sc-016",
+    "sc-017",
+    "sc-018",
+    "sc-019",
+    "sc-019b",
+    "sc-020",
+    "sc-021",
+    "sc-022",
+    "sc-023",
+    "sc-024",
+    "sc-024b",
+    "sc-025",
+    "sc-026",
+    "sc-027",
+    "sc-028"
+   ],
+   "tests": [
+    "test_sar_scitt.ReceiptAdversarial.test_receipt_header_variants"
+   ],
+   "text": "A Receipt MUST be a COSE_Sign1 (tag 18) whose protected header is exactly `{1: -19, 4: kid, 395: 1, 15: {1: log_id, 6: registered_at}}` with `kid` the UTF-8 enc"
+  },
+  {
+   "cddl_rule": "",
+   "level": "MUST",
+   "requirement": "SAR-REQ-131",
+   "section": "17",
+   "status_sar_cose": "not-implemented",
+   "status_sar_indep": "not-implemented",
+   "status_sar_indep_scitt": "pass",
+   "status_sar_scitt": "pass",
+   "test_vectors": [
+    "sc-001",
+    "sc-002",
+    "sc-003",
+    "sc-004",
+    "sc-005",
+    "sc-006",
+    "sc-007",
+    "sc-007b",
+    "sc-007c",
+    "sc-008",
+    "sc-009",
+    "sc-010",
+    "sc-011",
+    "sc-011b",
+    "sc-012",
+    "sc-013",
+    "sc-014",
+    "sc-015",
+    "sc-016",
+    "sc-017",
+    "sc-018",
+    "sc-019",
+    "sc-019b",
+    "sc-020",
+    "sc-021",
+    "sc-022",
+    "sc-023",
+    "sc-024",
+    "sc-024b",
+    "sc-025",
+    "sc-026",
+    "sc-027",
+    "sc-028"
+   ],
+   "tests": [
+    "test_sar_scitt.ReceiptAdversarial.test_forged_receipt_signed_by_another_key",
+    "test_sar_scitt.ReceiptAdversarial.test_receipt_from_an_untrusted_log"
+   ],
+   "text": "A gate or verifier MUST be configured with the set of trusted logs, each a `log_id` and an Ed25519 public key encoded as 64 lowercase hexadecimal characters (as"
+  },
+  {
+   "cddl_rule": "",
+   "level": "MUST",
+   "requirement": "SAR-REQ-132",
+   "section": "18",
+   "status_sar_cose": "not-implemented",
+   "status_sar_indep": "not-implemented",
+   "status_sar_indep_scitt": "pass",
+   "status_sar_scitt": "pass",
+   "test_vectors": [
+    "sc-001",
+    "sc-002",
+    "sc-003",
+    "sc-004",
+    "sc-005",
+    "sc-006",
+    "sc-007",
+    "sc-007b",
+    "sc-007c",
+    "sc-008",
+    "sc-009",
+    "sc-010",
+    "sc-011",
+    "sc-011b",
+    "sc-012",
+    "sc-013",
+    "sc-014",
+    "sc-015",
+    "sc-016",
+    "sc-017",
+    "sc-018",
+    "sc-019",
+    "sc-019b",
+    "sc-020",
+    "sc-021",
+    "sc-022",
+    "sc-023",
+    "sc-024",
+    "sc-024b",
+    "sc-025",
+    "sc-026",
+    "sc-027",
+    "sc-028"
+   ],
+   "tests": [
+    "test_sar_scitt.EndToEnd.test_receipt_gate_without_receipt_denies_and_logs"
+   ],
+   "text": "A gate that requires Receipts MUST deny (class `receipt_invalid`) any request without a Receipt or with a Receipt that fails SAR-REQ-130\u2013135."
+  },
+  {
+   "cddl_rule": "registration-entry",
+   "level": "MUST",
+   "requirement": "SAR-REQ-133",
+   "section": "18",
+   "status_sar_cose": "not-implemented",
+   "status_sar_indep": "not-implemented",
+   "status_sar_indep_scitt": "pass",
+   "status_sar_scitt": "pass",
+   "test_vectors": [
+    "sc-001",
+    "sc-002",
+    "sc-003",
+    "sc-004",
+    "sc-005",
+    "sc-006",
+    "sc-007",
+    "sc-007b",
+    "sc-007c",
+    "sc-008",
+    "sc-009",
+    "sc-010",
+    "sc-011",
+    "sc-011b",
+    "sc-012",
+    "sc-013",
+    "sc-014",
+    "sc-015",
+    "sc-016",
+    "sc-017",
+    "sc-018",
+    "sc-019",
+    "sc-019b",
+    "sc-020",
+    "sc-021",
+    "sc-022",
+    "sc-023",
+    "sc-024",
+    "sc-024b",
+    "sc-025",
+    "sc-026",
+    "sc-027",
+    "sc-028"
+   ],
+   "tests": [
+    "test_sar_scitt.ReceiptAdversarial.test_receipt_for_a_different_statement_set",
+    "test_sar_scitt.ReceiptAdversarial.test_tampered_inclusion_proof"
+   ],
+   "text": "The gate MUST reconstruct the registration entry from the presented proposal and ratification set, kind `authorization`, its own policy's `policy_id`, and the R"
+  },
+  {
+   "cddl_rule": "",
+   "level": "MUST",
+   "requirement": "SAR-REQ-134",
+   "section": "18",
+   "status_sar_cose": "not-implemented",
+   "status_sar_indep": "not-implemented",
+   "status_sar_indep_scitt": "pass",
+   "status_sar_scitt": "pass",
+   "test_vectors": [
+    "sc-011",
+    "sc-011b",
+    "sc-012"
+   ],
+   "tests": [
+    "test_sar_scitt.TrustedTime.test_registration_before_validity",
+    "test_sar_scitt.TrustedTime.test_registration_at_or_after_expiry"
+   ],
+   "text": "The registration time MUST lie within the statements' validity: `lo - \u03c4 <= registered_at < hi`, with `lo` and `hi` as in Section 10. Otherwise the gate MUST den"
+  },
+  {
+   "cddl_rule": "",
+   "level": "MUST",
+   "requirement": "SAR-REQ-135",
+   "section": "18",
+   "status_sar_cose": "not-implemented",
+   "status_sar_indep": "not-implemented",
+   "status_sar_indep_scitt": "pass",
+   "status_sar_scitt": "pass",
+   "test_vectors": [
+    "sc-013",
+    "sc-014",
+    "sc-015",
+    "sc-016",
+    "sc-025"
+   ],
+   "tests": [
+    "test_sar_scitt.TrustedTime.test_ts_clock_ahead_of_the_gate",
+    "test_sar_scitt.TrustedTime.test_stale_receipt",
+    "test_sar_scitt.TrustedTime.test_ts_clock_behind_backdated_within_validity_is_stale"
+   ],
+   "text": "The Receipt MUST be fresh under the gate's own clock: `registered_at <= t + \u03c4` and `t < registered_at + max_receipt_age`, where `max_receipt_age` is a deploymen"
+  },
+  {
+   "cddl_rule": "",
+   "level": "MUST",
+   "requirement": "SAR-REQ-136",
+   "section": "18",
+   "status_sar_cose": "not-implemented",
+   "status_sar_indep": "not-implemented",
+   "status_sar_indep_scitt": "pass",
+   "status_sar_scitt": "pass",
+   "test_vectors": [
+    "sc-017"
+   ],
+   "tests": [
+    "test_sar_scitt.ReceiptAdversarial.test_rejection_receipt_never_authorizes"
+   ],
+   "text": "An entry of kind `rejection` MUST NOT authorize execution (by SAR-REQ-133 the gate reconstructs kind `authorization`, so a rejection Receipt fails)."
+  },
+  {
+   "cddl_rule": "",
+   "level": "MUST",
+   "requirement": "SAR-REQ-137",
+   "section": "18",
+   "status_sar_cose": "not-implemented",
+   "status_sar_indep": "not-implemented",
+   "status_sar_indep_scitt": "pass",
+   "status_sar_scitt": "pass",
+   "test_vectors": [
+    "sc-001",
+    "sc-002",
+    "sc-003",
+    "sc-004",
+    "sc-005",
+    "sc-006",
+    "sc-007",
+    "sc-007b",
+    "sc-007c",
+    "sc-008",
+    "sc-009",
+    "sc-010",
+    "sc-011",
+    "sc-011b",
+    "sc-012",
+    "sc-013",
+    "sc-014",
+    "sc-015",
+    "sc-016",
+    "sc-017",
+    "sc-018",
+    "sc-019",
+    "sc-019b",
+    "sc-020",
+    "sc-021",
+    "sc-022",
+    "sc-023",
+    "sc-024",
+    "sc-024b",
+    "sc-025",
+    "sc-026",
+    "sc-027",
+    "sc-028"
+   ],
+   "tests": [
+    "test_sar_scitt.ReceiptAdversarial.test_receipt_reused_for_a_different_payload",
+    "test_sar_scitt.ReceiptAdversarial.test_replay_with_a_valid_receipt",
+    "test_sar_scitt.ReceiptAdversarial.test_faulty_ts_registered_an_invalid_set"
+   ],
+   "text": "A valid Receipt MUST NOT replace any check of Sections 5\u201313: the gate MUST still verify the statements and the policy, apply SAR-REQ-050 at its own instant `t`,"
+  },
+  {
+   "cddl_rule": "",
+   "level": "MUST",
+   "requirement": "SAR-REQ-138",
+   "section": "18",
+   "status_sar_cose": "not-implemented",
+   "status_sar_indep": "not-implemented",
+   "status_sar_indep_scitt": "pass",
+   "status_sar_scitt": "pass",
+   "test_vectors": [
+    "sc-001",
+    "sc-002",
+    "sc-003",
+    "sc-004",
+    "sc-005",
+    "sc-006",
+    "sc-007",
+    "sc-007b",
+    "sc-007c",
+    "sc-008",
+    "sc-009",
+    "sc-010",
+    "sc-011",
+    "sc-011b",
+    "sc-012",
+    "sc-013",
+    "sc-014",
+    "sc-015",
+    "sc-016",
+    "sc-017",
+    "sc-018",
+    "sc-019",
+    "sc-019b",
+    "sc-020",
+    "sc-021",
+    "sc-022",
+    "sc-023",
+    "sc-024",
+    "sc-024b",
+    "sc-025",
+    "sc-026",
+    "sc-027",
+    "sc-028"
+   ],
+   "tests": [
+    "test_sar_scitt.TrustedTime.test_lying_ts_cannot_extend_execution_beyond_expiry"
+   ],
+   "text": "The gate MUST use its own trusted clock for SAR-REQ-050 and SAR-REQ-135. It MUST NOT use `registered_at` as the evaluation instant."
+  },
+  {
+   "cddl_rule": "transparent-authorization-record",
+   "level": "MUST",
+   "requirement": "SAR-REQ-139",
+   "section": "18",
+   "status_sar_cose": "not-implemented",
+   "status_sar_indep": "not-implemented",
+   "status_sar_indep_scitt": "pass",
+   "status_sar_scitt": "pass",
+   "test_vectors": [
+    "sc-001",
+    "sc-002",
+    "sc-004",
+    "sc-005",
+    "sc-008",
+    "sc-011",
+    "sc-011b",
+    "sc-012",
+    "sc-013",
+    "sc-017",
+    "sc-023",
+    "sc-026"
+   ],
+   "tests": [
+    "test_sar_scitt.ReceiptAdversarial.test_offline_tar_verification_rejects_forged_receipts",
+    "test_sar_scitt.EndToEnd.test_proposal_ratification_registration_receipt_gate_execution_of_exact_bytes"
+   ],
+   "text": "Offline verification of a Transparent Authorization Record with a Receipt MUST perform SAR-REQ-100 and SAR-REQ-130\u2013134, using no clock. If it succeeds, `registe"
   }
  ],
  "summary": {
   "may": 0,
-  "must": 49,
-  "must_with_vectors": 49,
-  "requirements": 52,
-  "should": 3,
+  "must": 67,
+  "must_with_vectors": 67,
+  "requirements": 71,
+  "should": 4,
   "status": {
    "sar_cose": {
+    "not-implemented": 19,
     "pass": 52
    },
    "sar_indep": {
-    "not-implemented": 4,
+    "not-implemented": 23,
     "pass": 48
    },
+   "sar_indep_scitt": {
+    "n/a": 45,
+    "no-vectors": 3,
+    "pass": 23
+   },
    "sar_scitt": {
-    "not-run": 52
+    "n/a": 45,
+    "no-vectors": 3,
+    "pass": 23
    }
   },
-  "vectors": 143
+  "vectors": 190
  }
 }

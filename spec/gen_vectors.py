@@ -650,7 +650,322 @@ def build():
         BASE_REQS + ["SAR-REQ-091", "SAR-REQ-084"], P1,
         [step(p, [r1], now, log_fails=True), step(p, [r1], now)], [D("store_failure", logged=False), ALLOW],
         offline=True, offline_at=[(now, True)])
+    build_scitt()
     return VECTORS
+
+
+# ------------------------------------------------------------------ SCITT (profile Sections 15-18)
+# Own RFC 9162 Merkle tree and RFC 9942-style Receipt construction (no implementation imported).
+MAX_AGE = 300
+LOG1, LOG2 = "log-1", "log-2"
+LOG_KEYS = {LOG1: "ts-1", LOG2: "ts-2"}
+
+
+def mth(d):
+    n = len(d)
+    if n == 0:
+        return H(b"")
+    if n == 1:
+        return H(b"\x00" + d[0])
+    k = 1
+    while k * 2 < n:
+        k *= 2
+    return H(b"\x01" + mth(d[:k]) + mth(d[k:]))
+
+
+def _k(n):
+    k = 1
+    while k * 2 < n:
+        k *= 2
+    return k
+
+
+def mpath(m, d):
+    n = len(d)
+    if n <= 1:
+        return []
+    k = _k(n)
+    return mpath(m, d[:k]) + [mth(d[k:])] if m < k else mpath(m - k, d[k:]) + [mth(d[:k])]
+
+
+def subproof(m, d, b):
+    n = len(d)
+    if m == n:
+        return [] if b else [mth(d)]
+    k = _k(n)
+    if m <= k:
+        return subproof(m, d[:k], b) + [mth(d[k:])]
+    return subproof(m - k, d[k:], False) + [mth(d[:k])]
+
+
+def verify_inclusion(leaf_data, index, size, path, root):
+    """RFC 9162 section 2.1.3.2."""
+    if index >= size:
+        return False
+    fn, sn, r = index, size - 1, H(b"\x00" + leaf_data)
+    for p in path:
+        if sn == 0:
+            return False
+        if fn & 1 or fn == sn:
+            r = H(b"\x01" + p + r)
+            if not fn & 1:
+                while not fn & 1 and fn != 0:
+                    fn >>= 1
+                    sn >>= 1
+        else:
+            r = H(b"\x01" + r + p)
+        fn >>= 1
+        sn >>= 1
+    return sn == 0 and r == root
+
+
+def set_digest(prop_cose, rats_cose):
+    return H(enc([H(prop_cose), sorted(H(r) for r in rats_cose)]))
+
+
+def entry(kind, prop, rats_cose, t_reg, log_id=LOG1, policy_id="p1"):
+    return enc({"v": 1, "kind": kind, "log_id": log_id, "policy_id": policy_id,
+                "proposal_id": prop["body"]["proposal_id"], "set_digest": set_digest(prop["cose"], rats_cose),
+                "registered_at": t_reg})
+
+
+def receipt(entries, index, t_reg, log_id=LOG1, signer=None, size=None, alg=-19, extra_hdr=None, kid=None,
+            attach_root=False, path_mutate=None, size_in_proof=None, sig_mutate=None, index_in_proof=None):
+    size = len(entries) if size is None else size
+    root = mth(entries[:size])
+    path = mpath(index, entries[:size])
+    if path_mutate:
+        path = path_mutate(path)
+    hdr = {1: alg, 4: (kid or log_id).encode(), 395: 1, 15: {1: log_id, 6: t_reg}}
+    if extra_hdr:
+        hdr.update(extra_hdr)
+    prot = enc(hdr)
+    proof = enc([size if size_in_proof is None else size_in_proof, index if index_in_proof is None else index_in_proof,
+                 path])
+    sig = priv(signer or LOG_KEYS[log_id]).sign(enc(["Signature1", prot, b"", root]))
+    if sig_mutate:
+        sig = sig_mutate(sig)
+    return enc(Tag(18, [prot, {396: {-1: [proof]}}, root if attach_root else None, sig]))
+
+
+def filler(i):
+    return enc({"v": 1, "kind": "authorization", "log_id": LOG1, "policy_id": "p1", "proposal_id": f"{i:032x}",
+                "set_digest": H(b"filler %d" % i), "registered_at": T0 - 1000 + i})
+
+
+OFFLINE_TAR = {"sc-001": True, "sc-002": True, "sc-004": False, "sc-005": False, "sc-008": False, "sc-011": False,
+               "sc-011b": True, "sc-012": False, "sc-013": True, "sc-017": False, "sc-023": False, "sc-026": True}
+
+
+def add_scitt(vid, desc, reqs, pol, steps, outcomes, cddl_invalid=()):
+    """OFFLINE_TAR: expected SAR-REQ-139 offline verification of step 0 (statements + Receipt) under
+    the policy and trusted logs; it uses no clock, so a stale Receipt (sc-013) and a lying TS within
+    the validity window (sc-026) verify offline."""
+    exp = {"steps": outcomes}
+    if vid in OFFLINE_TAR:
+        exp["offline_tar"] = OFFLINE_TAR[vid]
+        reqs = list(reqs) + ["SAR-REQ-139"]
+    VECTORS.append({"id": vid, "description": desc, "requirements": sorted(set(reqs)), "kind": "scitt", "tau": TAU,
+                    "max_receipt_age": MAX_AGE, "cddl_invalid": list(cddl_invalid),
+                    "inputs": {"keys": {k: KEYS[k] for k in sorted(KEYS)}, "policy": pol,
+                               "trusted_logs": {LOG1: KEYS["ts-1"]["public"]}, "steps": steps},
+                    "expected": exp})
+
+
+def sstep(prop, rats, rec, now, payload_bytes=None):
+    s = step(prop, rats, now, payload_bytes=payload_bytes)
+    s["receipt_cose"] = rec.hex() if rec is not None else None
+    return s
+
+
+def build_scitt():
+    P1 = policy()
+    SC = ["SAR-REQ-095", "SAR-REQ-130", "SAR-REQ-131", "SAR-REQ-132", "SAR-REQ-133", "SAR-REQ-137", "SAR-REQ-138"]
+    p = proposal(ttl=3600, nonce="n-scitt")
+    r1 = ratification(p, ttl=3600)
+    r2 = ratification(p, overseer="ov-2", reviewed=T0 + 12, ttl=3600)
+    t_reg, now = T0 + 15, T0 + 20
+    e = entry("authorization", p, [r1], t_reg)
+    log7 = [filler(i) for i in range(4)] + [e] + [filler(i) for i in range(4, 6)]
+    assert verify_inclusion(e, 4, 7, mpath(4, log7), mth(log7))
+    rec1 = receipt([e], 0, t_reg)
+    rec7 = receipt(log7, 4, t_reg)
+    ok = outcome("ALLOW")
+    add_scitt("sc-001", "Receipt-gated execution, log of one entry: ALLOW", SC + ["SAR-REQ-125", "SAR-REQ-126",
+                                                                                 "SAR-REQ-127"], P1,
+              [sstep(p, [r1], rec1, now)], [ok])
+    add_scitt("sc-002", "Receipt-gated execution, entry at index 4 of a log of 7: ALLOW",
+              SC + ["SAR-REQ-125", "SAR-REQ-126", "SAR-REQ-127"], P1, [sstep(p, [r1], rec7, now)], [ok])
+    RI = lambda: outcome("DENY", "receipt_invalid")  # noqa: E731
+    add_scitt("sc-003", "No Receipt presented to a gate that requires one: DENY receipt_invalid", SC, P1,
+              [sstep(p, [r1], None, now)], [RI()])
+    add_scitt("sc-004", "Receipt naming the trusted log-1 but signed with another key: DENY receipt_invalid",
+              SC + ["SAR-REQ-131"], P1, [sstep(p, [r1], receipt(log7, 4, t_reg, signer="ts-2"), now)], [RI()])
+    e2 = entry("authorization", p, [r1], t_reg, log_id=LOG2)
+    add_scitt("sc-005", "Receipt from an untrusted log (log-2, correctly signed by its own key): DENY "
+              "receipt_invalid", SC + ["SAR-REQ-131"], P1, [sstep(p, [r1], receipt([e2], 0, t_reg, log_id=LOG2), now)],
+              [RI()])
+    add_scitt("sc-006", "Inclusion path with one byte changed: DENY receipt_invalid", SC + ["SAR-REQ-127"], P1,
+              [sstep(p, [r1], receipt(log7, 4, t_reg, path_mutate=lambda pa: [pa[0][:-1] + bytes([pa[0][-1] ^ 1])] +
+                                      pa[1:]), now)], [RI()])
+    add_scitt("sc-007", "Inclusion proof with leaf_index = tree_size: DENY receipt_invalid", SC + ["SAR-REQ-127"],
+              P1, [sstep(p, [r1], receipt([e], 0, t_reg, size_in_proof=0), now)], [RI()])
+    bad_size = receipt(log7, 4, t_reg, size_in_proof=8)
+    # For a log of one entry the root is the leaf hash, so proofs [1, 1, []] and [2, 0, []] reproduce the
+    # signed root; only the structural checks of RFC 9162 2.1.3.2 reject them.
+    add_scitt("sc-007b", "Log of one entry, proof [tree_size 1, leaf_index 1, []] (reproduces the signed root): "
+              "DENY receipt_invalid", SC + ["SAR-REQ-127"], P1,
+              [sstep(p, [r1], receipt([e], 0, t_reg, path_mutate=lambda pa: pa, size_in_proof=1, index_in_proof=1),
+                     now)], [RI()])
+    add_scitt("sc-007c", "Log of one entry, proof [tree_size 2, leaf_index 0, []] (reproduces the signed root): "
+              "DENY receipt_invalid", SC + ["SAR-REQ-127"], P1,
+              [sstep(p, [r1], receipt([e], 0, t_reg, size_in_proof=2), now)], [RI()])
+    add_scitt("sc-008", "Receipt registered for {r1} presented with {r1, r2}: DENY receipt_invalid (another set)",
+              SC, P1, [sstep(p, [r1, r2], rec7, now)], [RI()])
+    q = proposal(ttl=3600, nonce="n-scitt-other")
+    add_scitt("sc-009", "Receipt for one proposal presented with another, validly ratified: DENY receipt_invalid",
+              SC, P1, [sstep(q, [ratification(q, ttl=3600)], rec7, now)], [RI()])
+    add_scitt("sc-010", "Valid Receipt reused with a different payload: DENY payload_mismatch",
+              SC + ["SAR-REQ-070"], P1,
+              [sstep(p, [r1], rec7, now, payload_bytes=enc(dict(PAYLOAD, amount=5001)))],
+              [outcome("DENY", "payload_mismatch")])
+    for vid, tr, good, desc in [("sc-011", T0 + 10 - TAU - 1, False, "lo - tau - 1 (TS clock behind)"),
+                                ("sc-011b", T0 + 10 - TAU, True, "lo - tau")]:
+        ee = entry("authorization", p, [r1], tr)
+        add_scitt(vid, f"Registration time {desc}: " + ("ALLOW" if good else "DENY receipt_invalid"),
+                  SC + ["SAR-REQ-134"], P1, [sstep(p, [r1], receipt([ee], 0, tr), now)], [ok if good else RI()])
+    ps = proposal(ttl=60, nonce="n-short")
+    rs = ratification(ps)  # [T0+10, T0+70); common [T0+10, T0+60)
+    es = entry("authorization", ps, [rs], T0 + 60)
+    add_scitt("sc-012", "Registration time at hi (statements already expired at registration): DENY receipt_invalid",
+              SC + ["SAR-REQ-134"], P1, [sstep(ps, [rs], receipt([es], 0, T0 + 60), T0 + 59)], [RI()])
+    for vid, n_, good in [("sc-013", t_reg + MAX_AGE, False), ("sc-014", t_reg + MAX_AGE - 1, True)]:
+        add_scitt(vid, f"Presented {n_ - t_reg} s after registration (max_receipt_age {MAX_AGE}): " +
+                  ("ALLOW" if good else "DENY receipt_invalid (stale)"), SC + ["SAR-REQ-135"], P1,
+                  [sstep(p, [r1], rec1, n_)], [ok if good else RI()])
+    for vid, tr, good in [("sc-015", now + TAU + 1, False), ("sc-016", now + TAU, True)]:
+        ee = entry("authorization", p, [r1], tr)
+        add_scitt(vid, f"TS clock ahead: registered_at = now + {tr - now}: " +
+                  ("ALLOW" if good else "DENY receipt_invalid"), SC + ["SAR-REQ-135"], P1,
+                  [sstep(p, [r1], receipt([ee], 0, tr), now)], [ok if good else RI()])
+    rrej = ratification(p, overseer="ov-2", verdict="REJECTED", reviewed=T0 + 12, ttl=3600)
+    ej = entry("rejection", p, [r1], t_reg)
+    add_scitt("sc-017", "Receipt for a rejection entry over the same statements presented as authorization: DENY "
+              "receipt_invalid", SC + ["SAR-REQ-136"], P1, [sstep(p, [r1], receipt([ej], 0, t_reg), now)], [RI()])
+    add_scitt("sc-018", "Valid Receipt presented twice: ALLOW then DENY replay", SC + ["SAR-REQ-080"], P1,
+              [sstep(p, [r1], rec7, now), sstep(p, [r1], rec7, now + 1)], [ok, outcome("DENY", "replay")])
+    add_scitt("sc-019", "Receipt with alg -8: DENY receipt_invalid", SC, P1,
+              [sstep(p, [r1], receipt(log7, 4, t_reg, alg=-8), now)], [RI()], cddl_invalid=["receipt"])
+    add_scitt("sc-019b", "Receipt protected header with an extra label 3: DENY receipt_invalid", SC, P1,
+              [sstep(p, [r1], receipt(log7, 4, t_reg, extra_hdr={3: "application/cose"}), now)], [RI()],
+              cddl_invalid=["receipt"])
+    add_scitt("sc-020", "Receipt with the root attached as payload (not detached): DENY receipt_invalid", SC, P1,
+              [sstep(p, [r1], receipt(log7, 4, t_reg, attach_root=True), now)], [RI()], cddl_invalid=["receipt"])
+    add_scitt("sc-021", "Receipt signature with one bit flipped: DENY receipt_invalid", SC, P1,
+              [sstep(p, [r1], receipt(log7, 4, t_reg, sig_mutate=lambda s: s[:-1] + bytes([s[-1] ^ 1])), now)],
+              [RI()])
+    es2 = entry("authorization", ps, [rs], T0 + 15)
+    add_scitt("sc-022", "Fresh, valid Receipt but the statements expire at the gate's instant: DENY time_invalid",
+              SC + ["SAR-REQ-050", "SAR-REQ-138"], P1, [sstep(ps, [rs], receipt([es2], 0, T0 + 15), T0 + 60)],
+              [outcome("DENY", "time_invalid")])
+    rbad = ratification(p, sig_mutate=lambda s: s[:-1] + bytes([s[-1] ^ 1]), ttl=3600)
+    eb = entry("authorization", p, [rbad], t_reg)
+    add_scitt("sc-023", "A faulty TS registered a set whose ratification signature is invalid; the Receipt itself is "
+              "valid: DENY invalid_statement", SC, P1, [sstep(p, [rbad], receipt([eb], 0, t_reg), now)],
+              [outcome("DENY", "invalid_statement")])
+    # ISS-108: tree size is not signed. For leaf 4, the audit path of a 7-leaf tree also verifies as a
+    # proof in an 8-leaf tree (same root), so that change is NOT detected -- by design of RFC 9942/9162,
+    # and harmless because the signed root still commits to the entry. Changing it to 5 is detected.
+    assert verify_inclusion(e, 4, 8, mpath(4, log7), mth(log7))
+    assert not verify_inclusion(e, 4, 5, mpath(4, log7), mth(log7))
+    add_scitt("sc-024", "Inclusion proof with tree_size changed from 7 to 8: still verifies (tree size is not "
+              "signed, ISS-108; the signed root commits to the entry): ALLOW", SC + ["SAR-REQ-127"], P1,
+              [sstep(p, [r1], bad_size, now)], [ok])
+    add_scitt("sc-024b", "Inclusion proof with tree_size changed from 7 to 5: DENY receipt_invalid",
+              SC + ["SAR-REQ-127"], P1, [sstep(p, [r1], receipt(log7, 4, t_reg, size_in_proof=5), now)], [RI()])
+    e25 = entry("authorization", p, [r1], T0 + 12)
+    add_scitt("sc-025", "TS clock behind: registered_at backdated within validity, presented 388 s later (stale): "
+              "DENY receipt_invalid", SC + ["SAR-REQ-135"], P1, [sstep(p, [r1], receipt([e25], 0, T0 + 12), T0 + 400)],
+              [RI()])
+    e26 = entry("authorization", ps, [rs], T0 + 59)
+    add_scitt("sc-026", "Lying TS: statements expired at T0+60, registration time claimed T0+59, presented at "
+              "T0+100 (fresh by the Receipt): DENY time_invalid (gate's own clock)", SC + ["SAR-REQ-138"], P1,
+              [sstep(ps, [rs], receipt([e26], 0, T0 + 59), T0 + 100)], [outcome("DENY", "time_invalid")])
+    add_scitt("sc-027", "Receipt kid \"log-2\" with iss \"log-1\": DENY receipt_invalid", SC, P1,
+              [sstep(p, [r1], receipt(log7, 4, t_reg, kid=LOG2), now)], [RI()])
+    e28 = entry("authorization", p, [r1], t_reg, policy_id="p0")
+    add_scitt("sc-028", "Receipt for the same statements registered under policy id p0: DENY receipt_invalid",
+              SC, P1, [sstep(p, [r1], receipt([e28], 0, t_reg), now)], [RI()])
+
+    # ---- registration (TS behaviour); expected entries and receipts are byte-exact
+    def req(kind, prop, rats, pid="p1"):
+        return enc({"v": 1, "kind": kind, "policy_id": pid, "proposal": prop["cose"], "ratifications": rats}).hex()
+
+    def reg_vec(vid, desc, reqs, pol, rsteps):
+        """rsteps: list of (request_hex, ts_time, expected) where expected is ("ok", kind, prop, rats) or
+        ("refuse", class)."""
+        log, steps, outs = [], [], []
+        for rq, tt, ex in rsteps:
+            steps.append({"request_cbor": rq, "ts_time": tt})
+            if ex[0] == "ok":
+                _, kind, prop, rats = ex
+                en = entry(kind, prop, rats, tt)
+                log.append(en)
+                rec = receipt(log, len(log) - 1, tt)
+                assert verify_inclusion(en, len(log) - 1, len(log), mpath(len(log) - 1, log), mth(log))
+                outs.append({"registered": True, "entry_cbor": en.hex(), "leaf_index": len(log) - 1,
+                             "tree_size": len(log), "root": mth(log).hex(), "receipt_cose": rec.hex()})
+            else:
+                outs.append({"registered": False, "refusal_class": ex[1]})
+        VECTORS.append({"id": vid, "description": desc, "requirements": sorted(set(reqs)), "kind": "registration",
+                        "tau": TAU, "inputs": {"keys": {k: KEYS[k] for k in sorted(KEYS)}, "policy": pol,
+                                               "log_id": LOG1, "ts_key": "ts-1", "steps": steps},
+                        "expected": {"steps": outs}})
+    RG = ["SAR-REQ-095", "SAR-REQ-120", "SAR-REQ-125", "SAR-REQ-126", "SAR-REQ-130"]
+    reg_vec("reg-001", "Valid authorization registered; entry, root and Receipt are byte-exact", RG + ["SAR-REQ-121"],
+            P1, [(req("authorization", p, [r1]), t_reg, ("ok", "authorization", p, [r1]))])
+    reg_vec("reg-002", "Ratification by an overseer not in the policy: refused unauthorized_signer", RG, P1,
+            [(req("authorization", p, [ratification(p, overseer="ov-x", signer="outsider", ttl=3600)]), t_reg,
+              ("refuse", "unauthorized_signer"))])
+    reg_vec("reg-003", "Quorum 2, one approval: refused quorum_not_met", RG, policy(quorum=2),
+            [(req("authorization", p, [r1]), t_reg, ("refuse", "quorum_not_met"))])
+    reg_vec("reg-004", "TS clock at hi (statements expired): refused time_invalid", RG, P1,
+            [(req("authorization", ps, [rs]), T0 + 60, ("refuse", "time_invalid"))])
+    reg_vec("reg-005", "TS clock at lo - tau - 1: refused time_invalid", RG, P1,
+            [(req("authorization", p, [r1]), T0 + 10 - TAU - 1, ("refuse", "time_invalid"))])
+    reg_vec("reg-006", "Rejection registered as a rejection entry", RG + ["SAR-REQ-124"], P1,
+            [(req("rejection", p, [rrej]), t_reg, ("ok", "rejection", p, [rrej]))])
+    reg_vec("reg-007", "Rejection registered, then an authorization for the same proposal refused "
+            "(registered veto)", RG + ["SAR-REQ-123", "SAR-REQ-124"], P1,
+            [(req("rejection", p, [rrej]), t_reg, ("ok", "rejection", p, [rrej])),
+             (req("authorization", p, [r1]), t_reg + 1, ("refuse", "registration_conflict"))])
+    reg_vec("reg-008", "Second authorization registration for the same proposal refused", RG + ["SAR-REQ-122"], P1,
+            [(req("authorization", p, [r1]), t_reg, ("ok", "authorization", p, [r1])),
+             (req("authorization", p, [r1, r2]), t_reg + 1, ("refuse", "registration_conflict"))])
+    reg_vec("reg-009", "Authorization request containing a rejection: refused rejected", RG + ["SAR-REQ-124"], P1,
+            [(req("authorization", p, [r1, rrej]), t_reg, ("refuse", "rejected"))])
+    reg_vec("reg-010", "Rejection request without any REJECTED ratification: refused", RG + ["SAR-REQ-124"], P1,
+            [(req("rejection", p, [r1]), t_reg, ("refuse", "invalid_statement"))])
+    reg_vec("reg-011", "Invalid policy at the TS: refused policy_invalid", RG, policy(quorum=0),
+            [(req("authorization", p, [r1]), t_reg, ("refuse", "policy_invalid"))])
+    reg_vec("reg-012", "Request naming another policy id: refused binding_mismatch", RG, P1,
+            [(req("authorization", p, [r1], pid="p2"), t_reg, ("refuse", "binding_mismatch"))])
+    reg_vec("reg-013", "Ratification with a bad signature: refused invalid_statement", RG, P1,
+            [(req("authorization", p, [rbad]), t_reg, ("refuse", "invalid_statement"))])
+
+    # ---- Merkle tree (RFC 9162): roots, inclusion and consistency proofs over 13 leaves
+    leaves = [enc(["leaf", i]) for i in range(13)]
+    roots = {n: mth(leaves[:n]).hex() for n in range(0, 14)}
+    incl = [{"index": m, "size": n, "path": [x.hex() for x in mpath(m, leaves[:n])]}
+            for n in (1, 2, 3, 5, 7, 8, 13) for m in range(n)]
+    cons = [{"m": m, "n": n, "proof": [x.hex() for x in subproof(m, leaves[:n], True)]}
+            for n in (2, 3, 5, 7, 8, 13) for m in range(1, n + 1)]
+    VECTORS.append({"id": "merkle-001", "description": "RFC 9162 Merkle Tree Hash, inclusion and consistency proofs "
+                    "for 13 leaves (computed by the generator's own implementation of RFC 9162 sections 2.1.1, "
+                    "2.1.3.1 and 2.1.4.1)", "requirements": ["SAR-REQ-126", "SAR-REQ-127", "SAR-REQ-128"],
+                    "kind": "merkle", "inputs": {"leaves": [x.hex() for x in leaves]},
+                    "expected": {"roots": {str(k): v for k, v in roots.items()}, "inclusion": incl,
+                                 "consistency": cons}})
 
 
 def files():

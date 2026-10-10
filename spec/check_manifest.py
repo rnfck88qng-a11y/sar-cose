@@ -28,7 +28,8 @@ ROOT = HERE.parent
 sys.path.insert(0, str(HERE))
 import cddl_check  # noqa: E402
 
-IMPLS = ["sar_cose", "sar_indep", "sar_scitt"]
+IMPLS = ["sar_cose", "sar_indep", "sar_scitt", "sar_indep_scitt"]
+SCITT_CORE = {"sar_scitt": "sar_cose", "sar_indep_scitt": "sar_indep"}
 REQ = re.compile(r"^\*\*(SAR-REQ-\d{3})\*\* \((MUST NOT|MUST|SHOULD NOT|SHOULD|MAY)\)")
 HEAD = re.compile(r"^(#{2,3}) (\d+(?:\.\d+)?)\.? ")
 
@@ -108,7 +109,7 @@ def build():
                 elif any(s == "fail" for s in st):
                     status[impl] = "fail"
                 elif st and all(s == "n/a" for s in st):
-                    status[impl] = "not-implemented"
+                    status[impl] = f"n/a (core path is {SCITT_CORE[impl]})" if impl in SCITT_CORE else "not-implemented"
                 elif any(s == "pass" for s in st):
                     status[impl] = "pass" + (" (some vectors n/a)" if "n/a" in st else "")
                 else:

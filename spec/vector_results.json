@@ -2,13 +2,23 @@
  "counts": {
   "sar_cose": {
    "fail": 0,
-   "n/a": 0,
+   "n/a": 47,
    "pass": 143
   },
   "sar_indep": {
    "fail": 0,
-   "n/a": 3,
+   "n/a": 50,
    "pass": 140
+  },
+  "sar_indep_scitt": {
+   "fail": 0,
+   "n/a": 143,
+   "pass": 47
+  },
+  "sar_scitt": {
+   "fail": 0,
+   "n/a": 143,
+   "pass": 47
   }
  },
  "results": {
@@ -406,6 +416,194 @@
    "gate-131": {
     "status": "pass"
    },
+   "merkle-001": {
+    "note": "sar_cose does not implement merkle vectors",
+    "status": "n/a"
+   },
+   "reg-001": {
+    "note": "sar_cose does not implement registration vectors",
+    "status": "n/a"
+   },
+   "reg-002": {
+    "note": "sar_cose does not implement registration vectors",
+    "status": "n/a"
+   },
+   "reg-003": {
+    "note": "sar_cose does not implement registration vectors",
+    "status": "n/a"
+   },
+   "reg-004": {
+    "note": "sar_cose does not implement registration vectors",
+    "status": "n/a"
+   },
+   "reg-005": {
+    "note": "sar_cose does not implement registration vectors",
+    "status": "n/a"
+   },
+   "reg-006": {
+    "note": "sar_cose does not implement registration vectors",
+    "status": "n/a"
+   },
+   "reg-007": {
+    "note": "sar_cose does not implement registration vectors",
+    "status": "n/a"
+   },
+   "reg-008": {
+    "note": "sar_cose does not implement registration vectors",
+    "status": "n/a"
+   },
+   "reg-009": {
+    "note": "sar_cose does not implement registration vectors",
+    "status": "n/a"
+   },
+   "reg-010": {
+    "note": "sar_cose does not implement registration vectors",
+    "status": "n/a"
+   },
+   "reg-011": {
+    "note": "sar_cose does not implement registration vectors",
+    "status": "n/a"
+   },
+   "reg-012": {
+    "note": "sar_cose does not implement registration vectors",
+    "status": "n/a"
+   },
+   "reg-013": {
+    "note": "sar_cose does not implement registration vectors",
+    "status": "n/a"
+   },
+   "sc-001": {
+    "note": "sar_cose does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-002": {
+    "note": "sar_cose does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-003": {
+    "note": "sar_cose does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-004": {
+    "note": "sar_cose does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-005": {
+    "note": "sar_cose does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-006": {
+    "note": "sar_cose does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-007": {
+    "note": "sar_cose does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-007b": {
+    "note": "sar_cose does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-007c": {
+    "note": "sar_cose does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-008": {
+    "note": "sar_cose does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-009": {
+    "note": "sar_cose does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-010": {
+    "note": "sar_cose does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-011": {
+    "note": "sar_cose does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-011b": {
+    "note": "sar_cose does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-012": {
+    "note": "sar_cose does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-013": {
+    "note": "sar_cose does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-014": {
+    "note": "sar_cose does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-015": {
+    "note": "sar_cose does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-016": {
+    "note": "sar_cose does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-017": {
+    "note": "sar_cose does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-018": {
+    "note": "sar_cose does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-019": {
+    "note": "sar_cose does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-019b": {
+    "note": "sar_cose does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-020": {
+    "note": "sar_cose does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-021": {
+    "note": "sar_cose does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-022": {
+    "note": "sar_cose does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-023": {
+    "note": "sar_cose does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-024": {
+    "note": "sar_cose does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-024b": {
+    "note": "sar_cose does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-025": {
+    "note": "sar_cose does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-026": {
+    "note": "sar_cose does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-027": {
+    "note": "sar_cose does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-028": {
+    "note": "sar_cose does not implement scitt vectors",
+    "status": "n/a"
+   },
    "seq-110": {
     "status": "pass"
    },
@@ -840,6 +1038,194 @@
    "gate-131": {
     "status": "pass"
    },
+   "merkle-001": {
+    "note": "sar_indep does not implement merkle vectors",
+    "status": "n/a"
+   },
+   "reg-001": {
+    "note": "sar_indep does not implement registration vectors",
+    "status": "n/a"
+   },
+   "reg-002": {
+    "note": "sar_indep does not implement registration vectors",
+    "status": "n/a"
+   },
+   "reg-003": {
+    "note": "sar_indep does not implement registration vectors",
+    "status": "n/a"
+   },
+   "reg-004": {
+    "note": "sar_indep does not implement registration vectors",
+    "status": "n/a"
+   },
+   "reg-005": {
+    "note": "sar_indep does not implement registration vectors",
+    "status": "n/a"
+   },
+   "reg-006": {
+    "note": "sar_indep does not implement registration vectors",
+    "status": "n/a"
+   },
+   "reg-007": {
+    "note": "sar_indep does not implement registration vectors",
+    "status": "n/a"
+   },
+   "reg-008": {
+    "note": "sar_indep does not implement registration vectors",
+    "status": "n/a"
+   },
+   "reg-009": {
+    "note": "sar_indep does not implement registration vectors",
+    "status": "n/a"
+   },
+   "reg-010": {
+    "note": "sar_indep does not implement registration vectors",
+    "status": "n/a"
+   },
+   "reg-011": {
+    "note": "sar_indep does not implement registration vectors",
+    "status": "n/a"
+   },
+   "reg-012": {
+    "note": "sar_indep does not implement registration vectors",
+    "status": "n/a"
+   },
+   "reg-013": {
+    "note": "sar_indep does not implement registration vectors",
+    "status": "n/a"
+   },
+   "sc-001": {
+    "note": "sar_indep does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-002": {
+    "note": "sar_indep does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-003": {
+    "note": "sar_indep does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-004": {
+    "note": "sar_indep does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-005": {
+    "note": "sar_indep does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-006": {
+    "note": "sar_indep does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-007": {
+    "note": "sar_indep does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-007b": {
+    "note": "sar_indep does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-007c": {
+    "note": "sar_indep does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-008": {
+    "note": "sar_indep does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-009": {
+    "note": "sar_indep does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-010": {
+    "note": "sar_indep does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-011": {
+    "note": "sar_indep does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-011b": {
+    "note": "sar_indep does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-012": {
+    "note": "sar_indep does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-013": {
+    "note": "sar_indep does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-014": {
+    "note": "sar_indep does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-015": {
+    "note": "sar_indep does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-016": {
+    "note": "sar_indep does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-017": {
+    "note": "sar_indep does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-018": {
+    "note": "sar_indep does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-019": {
+    "note": "sar_indep does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-019b": {
+    "note": "sar_indep does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-020": {
+    "note": "sar_indep does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-021": {
+    "note": "sar_indep does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-022": {
+    "note": "sar_indep does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-023": {
+    "note": "sar_indep does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-024": {
+    "note": "sar_indep does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-024b": {
+    "note": "sar_indep does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-025": {
+    "note": "sar_indep does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-026": {
+    "note": "sar_indep does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-027": {
+    "note": "sar_indep does not implement scitt vectors",
+    "status": "n/a"
+   },
+   "sc-028": {
+    "note": "sar_indep does not implement scitt vectors",
+    "status": "n/a"
+   },
    "seq-110": {
     "status": "pass"
    },
@@ -876,7 +1262,1437 @@
    "seq-132": {
     "status": "pass"
    }
+  },
+  "sar_indep_scitt": {
+   "dec-001": {
+    "note": "sar_indep_scitt does not implement decoding vectors",
+    "status": "n/a"
+   },
+   "dec-002": {
+    "note": "sar_indep_scitt does not implement decoding vectors",
+    "status": "n/a"
+   },
+   "dec-003": {
+    "note": "sar_indep_scitt does not implement decoding vectors",
+    "status": "n/a"
+   },
+   "dec-004": {
+    "note": "sar_indep_scitt does not implement decoding vectors",
+    "status": "n/a"
+   },
+   "dec-005": {
+    "note": "sar_indep_scitt does not implement decoding vectors",
+    "status": "n/a"
+   },
+   "dec-006": {
+    "note": "sar_indep_scitt does not implement decoding vectors",
+    "status": "n/a"
+   },
+   "dec-007": {
+    "note": "sar_indep_scitt does not implement decoding vectors",
+    "status": "n/a"
+   },
+   "dec-008": {
+    "note": "sar_indep_scitt does not implement decoding vectors",
+    "status": "n/a"
+   },
+   "dec-009": {
+    "note": "sar_indep_scitt does not implement decoding vectors",
+    "status": "n/a"
+   },
+   "dec-010": {
+    "note": "sar_indep_scitt does not implement decoding vectors",
+    "status": "n/a"
+   },
+   "dec-011": {
+    "note": "sar_indep_scitt does not implement decoding vectors",
+    "status": "n/a"
+   },
+   "dec-012": {
+    "note": "sar_indep_scitt does not implement decoding vectors",
+    "status": "n/a"
+   },
+   "enc-001": {
+    "note": "sar_indep_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-002": {
+    "note": "sar_indep_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-003": {
+    "note": "sar_indep_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-004": {
+    "note": "sar_indep_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-005": {
+    "note": "sar_indep_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-006": {
+    "note": "sar_indep_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-007": {
+    "note": "sar_indep_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-008": {
+    "note": "sar_indep_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-009": {
+    "note": "sar_indep_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-010": {
+    "note": "sar_indep_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-011": {
+    "note": "sar_indep_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-012": {
+    "note": "sar_indep_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-013": {
+    "note": "sar_indep_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-014": {
+    "note": "sar_indep_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-015": {
+    "note": "sar_indep_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-016": {
+    "note": "sar_indep_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-017": {
+    "note": "sar_indep_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-018": {
+    "note": "sar_indep_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-019": {
+    "note": "sar_indep_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-020": {
+    "note": "sar_indep_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-021": {
+    "note": "sar_indep_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-022": {
+    "note": "sar_indep_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-023": {
+    "note": "sar_indep_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-024": {
+    "note": "sar_indep_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-025": {
+    "note": "sar_indep_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-026": {
+    "note": "sar_indep_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-027": {
+    "note": "sar_indep_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-028": {
+    "note": "sar_indep_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-029": {
+    "note": "sar_indep_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-030": {
+    "note": "sar_indep_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-031": {
+    "note": "sar_indep_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-032": {
+    "note": "sar_indep_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-033": {
+    "note": "sar_indep_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-034": {
+    "note": "sar_indep_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-035": {
+    "note": "sar_indep_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-100": {
+    "note": "sar_indep_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-101": {
+    "note": "sar_indep_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "gate-001": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-002": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-003": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-004": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-005": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-006": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-010": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-011": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-012": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-013": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-014": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-015": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-016": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-017": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-018": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-019": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-020": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-021": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-022": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-023": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-024": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-025": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-030": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-031": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-032": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-033": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-034": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-035": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-036": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-037": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-038": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-039": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-040": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-041": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-042": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-050": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-051": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-052": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-053": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-054": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-055": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-056": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-057": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-058": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-059": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-059b": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-060": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-061": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-062": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-063": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-064": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-065": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-066": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-067": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-068": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-070": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-071": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-072": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-073": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-074": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-080": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-081": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-082": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-083": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-084": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-085": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-086": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-087": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-088": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-089": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-090": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-091": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-092": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-100": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-101": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-102": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-103": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-104": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-105": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-106": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-130": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-131": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "merkle-001": {
+    "status": "pass"
+   },
+   "reg-001": {
+    "status": "pass"
+   },
+   "reg-002": {
+    "status": "pass"
+   },
+   "reg-003": {
+    "status": "pass"
+   },
+   "reg-004": {
+    "status": "pass"
+   },
+   "reg-005": {
+    "status": "pass"
+   },
+   "reg-006": {
+    "status": "pass"
+   },
+   "reg-007": {
+    "status": "pass"
+   },
+   "reg-008": {
+    "status": "pass"
+   },
+   "reg-009": {
+    "status": "pass"
+   },
+   "reg-010": {
+    "status": "pass"
+   },
+   "reg-011": {
+    "status": "pass"
+   },
+   "reg-012": {
+    "status": "pass"
+   },
+   "reg-013": {
+    "status": "pass"
+   },
+   "sc-001": {
+    "status": "pass"
+   },
+   "sc-002": {
+    "status": "pass"
+   },
+   "sc-003": {
+    "status": "pass"
+   },
+   "sc-004": {
+    "status": "pass"
+   },
+   "sc-005": {
+    "status": "pass"
+   },
+   "sc-006": {
+    "status": "pass"
+   },
+   "sc-007": {
+    "status": "pass"
+   },
+   "sc-007b": {
+    "status": "pass"
+   },
+   "sc-007c": {
+    "status": "pass"
+   },
+   "sc-008": {
+    "status": "pass"
+   },
+   "sc-009": {
+    "status": "pass"
+   },
+   "sc-010": {
+    "status": "pass"
+   },
+   "sc-011": {
+    "status": "pass"
+   },
+   "sc-011b": {
+    "status": "pass"
+   },
+   "sc-012": {
+    "status": "pass"
+   },
+   "sc-013": {
+    "status": "pass"
+   },
+   "sc-014": {
+    "status": "pass"
+   },
+   "sc-015": {
+    "status": "pass"
+   },
+   "sc-016": {
+    "status": "pass"
+   },
+   "sc-017": {
+    "status": "pass"
+   },
+   "sc-018": {
+    "status": "pass"
+   },
+   "sc-019": {
+    "status": "pass"
+   },
+   "sc-019b": {
+    "status": "pass"
+   },
+   "sc-020": {
+    "status": "pass"
+   },
+   "sc-021": {
+    "status": "pass"
+   },
+   "sc-022": {
+    "status": "pass"
+   },
+   "sc-023": {
+    "status": "pass"
+   },
+   "sc-024": {
+    "status": "pass"
+   },
+   "sc-024b": {
+    "status": "pass"
+   },
+   "sc-025": {
+    "status": "pass"
+   },
+   "sc-026": {
+    "status": "pass"
+   },
+   "sc-027": {
+    "status": "pass"
+   },
+   "sc-028": {
+    "status": "pass"
+   },
+   "seq-110": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "seq-111": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "seq-112": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "seq-113": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "seq-114": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "seq-115": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "seq-116": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "seq-117": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "seq-118": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "seq-119": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "seq-120": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "seq-132": {
+    "note": "sar_indep_scitt does not implement decision vectors",
+    "status": "n/a"
+   }
+  },
+  "sar_scitt": {
+   "dec-001": {
+    "note": "sar_scitt does not implement decoding vectors",
+    "status": "n/a"
+   },
+   "dec-002": {
+    "note": "sar_scitt does not implement decoding vectors",
+    "status": "n/a"
+   },
+   "dec-003": {
+    "note": "sar_scitt does not implement decoding vectors",
+    "status": "n/a"
+   },
+   "dec-004": {
+    "note": "sar_scitt does not implement decoding vectors",
+    "status": "n/a"
+   },
+   "dec-005": {
+    "note": "sar_scitt does not implement decoding vectors",
+    "status": "n/a"
+   },
+   "dec-006": {
+    "note": "sar_scitt does not implement decoding vectors",
+    "status": "n/a"
+   },
+   "dec-007": {
+    "note": "sar_scitt does not implement decoding vectors",
+    "status": "n/a"
+   },
+   "dec-008": {
+    "note": "sar_scitt does not implement decoding vectors",
+    "status": "n/a"
+   },
+   "dec-009": {
+    "note": "sar_scitt does not implement decoding vectors",
+    "status": "n/a"
+   },
+   "dec-010": {
+    "note": "sar_scitt does not implement decoding vectors",
+    "status": "n/a"
+   },
+   "dec-011": {
+    "note": "sar_scitt does not implement decoding vectors",
+    "status": "n/a"
+   },
+   "dec-012": {
+    "note": "sar_scitt does not implement decoding vectors",
+    "status": "n/a"
+   },
+   "enc-001": {
+    "note": "sar_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-002": {
+    "note": "sar_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-003": {
+    "note": "sar_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-004": {
+    "note": "sar_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-005": {
+    "note": "sar_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-006": {
+    "note": "sar_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-007": {
+    "note": "sar_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-008": {
+    "note": "sar_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-009": {
+    "note": "sar_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-010": {
+    "note": "sar_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-011": {
+    "note": "sar_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-012": {
+    "note": "sar_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-013": {
+    "note": "sar_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-014": {
+    "note": "sar_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-015": {
+    "note": "sar_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-016": {
+    "note": "sar_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-017": {
+    "note": "sar_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-018": {
+    "note": "sar_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-019": {
+    "note": "sar_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-020": {
+    "note": "sar_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-021": {
+    "note": "sar_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-022": {
+    "note": "sar_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-023": {
+    "note": "sar_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-024": {
+    "note": "sar_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-025": {
+    "note": "sar_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-026": {
+    "note": "sar_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-027": {
+    "note": "sar_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-028": {
+    "note": "sar_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-029": {
+    "note": "sar_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-030": {
+    "note": "sar_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-031": {
+    "note": "sar_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-032": {
+    "note": "sar_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-033": {
+    "note": "sar_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-034": {
+    "note": "sar_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-035": {
+    "note": "sar_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-100": {
+    "note": "sar_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "enc-101": {
+    "note": "sar_scitt does not implement encoding vectors",
+    "status": "n/a"
+   },
+   "gate-001": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-002": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-003": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-004": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-005": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-006": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-010": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-011": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-012": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-013": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-014": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-015": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-016": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-017": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-018": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-019": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-020": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-021": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-022": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-023": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-024": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-025": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-030": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-031": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-032": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-033": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-034": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-035": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-036": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-037": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-038": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-039": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-040": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-041": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-042": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-050": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-051": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-052": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-053": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-054": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-055": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-056": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-057": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-058": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-059": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-059b": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-060": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-061": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-062": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-063": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-064": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-065": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-066": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-067": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-068": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-070": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-071": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-072": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-073": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-074": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-080": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-081": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-082": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-083": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-084": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-085": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-086": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-087": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-088": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-089": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-090": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-091": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-092": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-100": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-101": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-102": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-103": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-104": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-105": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-106": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-130": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "gate-131": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "merkle-001": {
+    "status": "pass"
+   },
+   "reg-001": {
+    "status": "pass"
+   },
+   "reg-002": {
+    "status": "pass"
+   },
+   "reg-003": {
+    "status": "pass"
+   },
+   "reg-004": {
+    "status": "pass"
+   },
+   "reg-005": {
+    "status": "pass"
+   },
+   "reg-006": {
+    "status": "pass"
+   },
+   "reg-007": {
+    "status": "pass"
+   },
+   "reg-008": {
+    "status": "pass"
+   },
+   "reg-009": {
+    "status": "pass"
+   },
+   "reg-010": {
+    "status": "pass"
+   },
+   "reg-011": {
+    "status": "pass"
+   },
+   "reg-012": {
+    "status": "pass"
+   },
+   "reg-013": {
+    "status": "pass"
+   },
+   "sc-001": {
+    "status": "pass"
+   },
+   "sc-002": {
+    "status": "pass"
+   },
+   "sc-003": {
+    "status": "pass"
+   },
+   "sc-004": {
+    "status": "pass"
+   },
+   "sc-005": {
+    "status": "pass"
+   },
+   "sc-006": {
+    "status": "pass"
+   },
+   "sc-007": {
+    "status": "pass"
+   },
+   "sc-007b": {
+    "status": "pass"
+   },
+   "sc-007c": {
+    "status": "pass"
+   },
+   "sc-008": {
+    "status": "pass"
+   },
+   "sc-009": {
+    "status": "pass"
+   },
+   "sc-010": {
+    "status": "pass"
+   },
+   "sc-011": {
+    "status": "pass"
+   },
+   "sc-011b": {
+    "status": "pass"
+   },
+   "sc-012": {
+    "status": "pass"
+   },
+   "sc-013": {
+    "status": "pass"
+   },
+   "sc-014": {
+    "status": "pass"
+   },
+   "sc-015": {
+    "status": "pass"
+   },
+   "sc-016": {
+    "status": "pass"
+   },
+   "sc-017": {
+    "status": "pass"
+   },
+   "sc-018": {
+    "status": "pass"
+   },
+   "sc-019": {
+    "status": "pass"
+   },
+   "sc-019b": {
+    "status": "pass"
+   },
+   "sc-020": {
+    "status": "pass"
+   },
+   "sc-021": {
+    "status": "pass"
+   },
+   "sc-022": {
+    "status": "pass"
+   },
+   "sc-023": {
+    "status": "pass"
+   },
+   "sc-024": {
+    "status": "pass"
+   },
+   "sc-024b": {
+    "status": "pass"
+   },
+   "sc-025": {
+    "status": "pass"
+   },
+   "sc-026": {
+    "status": "pass"
+   },
+   "sc-027": {
+    "status": "pass"
+   },
+   "sc-028": {
+    "status": "pass"
+   },
+   "seq-110": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "seq-111": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "seq-112": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "seq-113": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "seq-114": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "seq-115": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "seq-116": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "seq-117": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "seq-118": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "seq-119": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "seq-120": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   },
+   "seq-132": {
+    "note": "sar_scitt does not implement decision vectors",
+    "status": "n/a"
+   }
   }
  },
- "vectors": 143
+ "vectors": 190
 }

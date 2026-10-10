@@ -1621,6 +1621,677 @@
     "SAR-REQ-100",
     "SAR-REQ-102"
    ]
+  },
+  {
+   "description": "Receipt-gated execution, log of one entry: ALLOW",
+   "id": "sc-001",
+   "kind": "scitt",
+   "requirements": [
+    "SAR-REQ-095",
+    "SAR-REQ-125",
+    "SAR-REQ-126",
+    "SAR-REQ-127",
+    "SAR-REQ-130",
+    "SAR-REQ-131",
+    "SAR-REQ-132",
+    "SAR-REQ-133",
+    "SAR-REQ-137",
+    "SAR-REQ-138",
+    "SAR-REQ-139"
+   ]
+  },
+  {
+   "description": "Receipt-gated execution, entry at index 4 of a log of 7: ALLOW",
+   "id": "sc-002",
+   "kind": "scitt",
+   "requirements": [
+    "SAR-REQ-095",
+    "SAR-REQ-125",
+    "SAR-REQ-126",
+    "SAR-REQ-127",
+    "SAR-REQ-130",
+    "SAR-REQ-131",
+    "SAR-REQ-132",
+    "SAR-REQ-133",
+    "SAR-REQ-137",
+    "SAR-REQ-138",
+    "SAR-REQ-139"
+   ]
+  },
+  {
+   "description": "No Receipt presented to a gate that requires one: DENY receipt_invalid",
+   "id": "sc-003",
+   "kind": "scitt",
+   "requirements": [
+    "SAR-REQ-095",
+    "SAR-REQ-130",
+    "SAR-REQ-131",
+    "SAR-REQ-132",
+    "SAR-REQ-133",
+    "SAR-REQ-137",
+    "SAR-REQ-138"
+   ]
+  },
+  {
+   "description": "Receipt naming the trusted log-1 but signed with another key: DENY receipt_invalid",
+   "id": "sc-004",
+   "kind": "scitt",
+   "requirements": [
+    "SAR-REQ-095",
+    "SAR-REQ-130",
+    "SAR-REQ-131",
+    "SAR-REQ-132",
+    "SAR-REQ-133",
+    "SAR-REQ-137",
+    "SAR-REQ-138",
+    "SAR-REQ-139"
+   ]
+  },
+  {
+   "description": "Receipt from an untrusted log (log-2, correctly signed by its own key): DENY receipt_invalid",
+   "id": "sc-005",
+   "kind": "scitt",
+   "requirements": [
+    "SAR-REQ-095",
+    "SAR-REQ-130",
+    "SAR-REQ-131",
+    "SAR-REQ-132",
+    "SAR-REQ-133",
+    "SAR-REQ-137",
+    "SAR-REQ-138",
+    "SAR-REQ-139"
+   ]
+  },
+  {
+   "description": "Inclusion path with one byte changed: DENY receipt_invalid",
+   "id": "sc-006",
+   "kind": "scitt",
+   "requirements": [
+    "SAR-REQ-095",
+    "SAR-REQ-127",
+    "SAR-REQ-130",
+    "SAR-REQ-131",
+    "SAR-REQ-132",
+    "SAR-REQ-133",
+    "SAR-REQ-137",
+    "SAR-REQ-138"
+   ]
+  },
+  {
+   "description": "Inclusion proof with leaf_index = tree_size: DENY receipt_invalid",
+   "id": "sc-007",
+   "kind": "scitt",
+   "requirements": [
+    "SAR-REQ-095",
+    "SAR-REQ-127",
+    "SAR-REQ-130",
+    "SAR-REQ-131",
+    "SAR-REQ-132",
+    "SAR-REQ-133",
+    "SAR-REQ-137",
+    "SAR-REQ-138"
+   ]
+  },
+  {
+   "description": "Log of one entry, proof [tree_size 1, leaf_index 1, []] (reproduces the signed root): DENY receipt_invalid",
+   "id": "sc-007b",
+   "kind": "scitt",
+   "requirements": [
+    "SAR-REQ-095",
+    "SAR-REQ-127",
+    "SAR-REQ-130",
+    "SAR-REQ-131",
+    "SAR-REQ-132",
+    "SAR-REQ-133",
+    "SAR-REQ-137",
+    "SAR-REQ-138"
+   ]
+  },
+  {
+   "description": "Log of one entry, proof [tree_size 2, leaf_index 0, []] (reproduces the signed root): DENY receipt_invalid",
+   "id": "sc-007c",
+   "kind": "scitt",
+   "requirements": [
+    "SAR-REQ-095",
+    "SAR-REQ-127",
+    "SAR-REQ-130",
+    "SAR-REQ-131",
+    "SAR-REQ-132",
+    "SAR-REQ-133",
+    "SAR-REQ-137",
+    "SAR-REQ-138"
+   ]
+  },
+  {
+   "description": "Receipt registered for {r1} presented with {r1, r2}: DENY receipt_invalid (another set)",
+   "id": "sc-008",
+   "kind": "scitt",
+   "requirements": [
+    "SAR-REQ-095",
+    "SAR-REQ-130",
+    "SAR-REQ-131",
+    "SAR-REQ-132",
+    "SAR-REQ-133",
+    "SAR-REQ-137",
+    "SAR-REQ-138",
+    "SAR-REQ-139"
+   ]
+  },
+  {
+   "description": "Receipt for one proposal presented with another, validly ratified: DENY receipt_invalid",
+   "id": "sc-009",
+   "kind": "scitt",
+   "requirements": [
+    "SAR-REQ-095",
+    "SAR-REQ-130",
+    "SAR-REQ-131",
+    "SAR-REQ-132",
+    "SAR-REQ-133",
+    "SAR-REQ-137",
+    "SAR-REQ-138"
+   ]
+  },
+  {
+   "description": "Valid Receipt reused with a different payload: DENY payload_mismatch",
+   "id": "sc-010",
+   "kind": "scitt",
+   "requirements": [
+    "SAR-REQ-070",
+    "SAR-REQ-095",
+    "SAR-REQ-130",
+    "SAR-REQ-131",
+    "SAR-REQ-132",
+    "SAR-REQ-133",
+    "SAR-REQ-137",
+    "SAR-REQ-138"
+   ]
+  },
+  {
+   "description": "Registration time lo - tau - 1 (TS clock behind): DENY receipt_invalid",
+   "id": "sc-011",
+   "kind": "scitt",
+   "requirements": [
+    "SAR-REQ-095",
+    "SAR-REQ-130",
+    "SAR-REQ-131",
+    "SAR-REQ-132",
+    "SAR-REQ-133",
+    "SAR-REQ-134",
+    "SAR-REQ-137",
+    "SAR-REQ-138",
+    "SAR-REQ-139"
+   ]
+  },
+  {
+   "description": "Registration time lo - tau: ALLOW",
+   "id": "sc-011b",
+   "kind": "scitt",
+   "requirements": [
+    "SAR-REQ-095",
+    "SAR-REQ-130",
+    "SAR-REQ-131",
+    "SAR-REQ-132",
+    "SAR-REQ-133",
+    "SAR-REQ-134",
+    "SAR-REQ-137",
+    "SAR-REQ-138",
+    "SAR-REQ-139"
+   ]
+  },
+  {
+   "description": "Registration time at hi (statements already expired at registration): DENY receipt_invalid",
+   "id": "sc-012",
+   "kind": "scitt",
+   "requirements": [
+    "SAR-REQ-095",
+    "SAR-REQ-130",
+    "SAR-REQ-131",
+    "SAR-REQ-132",
+    "SAR-REQ-133",
+    "SAR-REQ-134",
+    "SAR-REQ-137",
+    "SAR-REQ-138",
+    "SAR-REQ-139"
+   ]
+  },
+  {
+   "description": "Presented 300 s after registration (max_receipt_age 300): DENY receipt_invalid (stale)",
+   "id": "sc-013",
+   "kind": "scitt",
+   "requirements": [
+    "SAR-REQ-095",
+    "SAR-REQ-130",
+    "SAR-REQ-131",
+    "SAR-REQ-132",
+    "SAR-REQ-133",
+    "SAR-REQ-135",
+    "SAR-REQ-137",
+    "SAR-REQ-138",
+    "SAR-REQ-139"
+   ]
+  },
+  {
+   "description": "Presented 299 s after registration (max_receipt_age 300): ALLOW",
+   "id": "sc-014",
+   "kind": "scitt",
+   "requirements": [
+    "SAR-REQ-095",
+    "SAR-REQ-130",
+    "SAR-REQ-131",
+    "SAR-REQ-132",
+    "SAR-REQ-133",
+    "SAR-REQ-135",
+    "SAR-REQ-137",
+    "SAR-REQ-138"
+   ]
+  },
+  {
+   "description": "TS clock ahead: registered_at = now + 31: DENY receipt_invalid",
+   "id": "sc-015",
+   "kind": "scitt",
+   "requirements": [
+    "SAR-REQ-095",
+    "SAR-REQ-130",
+    "SAR-REQ-131",
+    "SAR-REQ-132",
+    "SAR-REQ-133",
+    "SAR-REQ-135",
+    "SAR-REQ-137",
+    "SAR-REQ-138"
+   ]
+  },
+  {
+   "description": "TS clock ahead: registered_at = now + 30: ALLOW",
+   "id": "sc-016",
+   "kind": "scitt",
+   "requirements": [
+    "SAR-REQ-095",
+    "SAR-REQ-130",
+    "SAR-REQ-131",
+    "SAR-REQ-132",
+    "SAR-REQ-133",
+    "SAR-REQ-135",
+    "SAR-REQ-137",
+    "SAR-REQ-138"
+   ]
+  },
+  {
+   "description": "Receipt for a rejection entry over the same statements presented as authorization: DENY receipt_invalid",
+   "id": "sc-017",
+   "kind": "scitt",
+   "requirements": [
+    "SAR-REQ-095",
+    "SAR-REQ-130",
+    "SAR-REQ-131",
+    "SAR-REQ-132",
+    "SAR-REQ-133",
+    "SAR-REQ-136",
+    "SAR-REQ-137",
+    "SAR-REQ-138",
+    "SAR-REQ-139"
+   ]
+  },
+  {
+   "description": "Valid Receipt presented twice: ALLOW then DENY replay",
+   "id": "sc-018",
+   "kind": "scitt",
+   "requirements": [
+    "SAR-REQ-080",
+    "SAR-REQ-095",
+    "SAR-REQ-130",
+    "SAR-REQ-131",
+    "SAR-REQ-132",
+    "SAR-REQ-133",
+    "SAR-REQ-137",
+    "SAR-REQ-138"
+   ]
+  },
+  {
+   "description": "Receipt with alg -8: DENY receipt_invalid",
+   "id": "sc-019",
+   "kind": "scitt",
+   "requirements": [
+    "SAR-REQ-095",
+    "SAR-REQ-130",
+    "SAR-REQ-131",
+    "SAR-REQ-132",
+    "SAR-REQ-133",
+    "SAR-REQ-137",
+    "SAR-REQ-138"
+   ]
+  },
+  {
+   "description": "Receipt protected header with an extra label 3: DENY receipt_invalid",
+   "id": "sc-019b",
+   "kind": "scitt",
+   "requirements": [
+    "SAR-REQ-095",
+    "SAR-REQ-130",
+    "SAR-REQ-131",
+    "SAR-REQ-132",
+    "SAR-REQ-133",
+    "SAR-REQ-137",
+    "SAR-REQ-138"
+   ]
+  },
+  {
+   "description": "Receipt with the root attached as payload (not detached): DENY receipt_invalid",
+   "id": "sc-020",
+   "kind": "scitt",
+   "requirements": [
+    "SAR-REQ-095",
+    "SAR-REQ-130",
+    "SAR-REQ-131",
+    "SAR-REQ-132",
+    "SAR-REQ-133",
+    "SAR-REQ-137",
+    "SAR-REQ-138"
+   ]
+  },
+  {
+   "description": "Receipt signature with one bit flipped: DENY receipt_invalid",
+   "id": "sc-021",
+   "kind": "scitt",
+   "requirements": [
+    "SAR-REQ-095",
+    "SAR-REQ-130",
+    "SAR-REQ-131",
+    "SAR-REQ-132",
+    "SAR-REQ-133",
+    "SAR-REQ-137",
+    "SAR-REQ-138"
+   ]
+  },
+  {
+   "description": "Fresh, valid Receipt but the statements expire at the gate's instant: DENY time_invalid",
+   "id": "sc-022",
+   "kind": "scitt",
+   "requirements": [
+    "SAR-REQ-050",
+    "SAR-REQ-095",
+    "SAR-REQ-130",
+    "SAR-REQ-131",
+    "SAR-REQ-132",
+    "SAR-REQ-133",
+    "SAR-REQ-137",
+    "SAR-REQ-138"
+   ]
+  },
+  {
+   "description": "A faulty TS registered a set whose ratification signature is invalid; the Receipt itself is valid: DENY invalid_statement",
+   "id": "sc-023",
+   "kind": "scitt",
+   "requirements": [
+    "SAR-REQ-095",
+    "SAR-REQ-130",
+    "SAR-REQ-131",
+    "SAR-REQ-132",
+    "SAR-REQ-133",
+    "SAR-REQ-137",
+    "SAR-REQ-138",
+    "SAR-REQ-139"
+   ]
+  },
+  {
+   "description": "Inclusion proof with tree_size changed from 7 to 8: still verifies (tree size is not signed, ISS-108; the signed root commits to the entry): ALLOW",
+   "id": "sc-024",
+   "kind": "scitt",
+   "requirements": [
+    "SAR-REQ-095",
+    "SAR-REQ-127",
+    "SAR-REQ-130",
+    "SAR-REQ-131",
+    "SAR-REQ-132",
+    "SAR-REQ-133",
+    "SAR-REQ-137",
+    "SAR-REQ-138"
+   ]
+  },
+  {
+   "description": "Inclusion proof with tree_size changed from 7 to 5: DENY receipt_invalid",
+   "id": "sc-024b",
+   "kind": "scitt",
+   "requirements": [
+    "SAR-REQ-095",
+    "SAR-REQ-127",
+    "SAR-REQ-130",
+    "SAR-REQ-131",
+    "SAR-REQ-132",
+    "SAR-REQ-133",
+    "SAR-REQ-137",
+    "SAR-REQ-138"
+   ]
+  },
+  {
+   "description": "TS clock behind: registered_at backdated within validity, presented 388 s later (stale): DENY receipt_invalid",
+   "id": "sc-025",
+   "kind": "scitt",
+   "requirements": [
+    "SAR-REQ-095",
+    "SAR-REQ-130",
+    "SAR-REQ-131",
+    "SAR-REQ-132",
+    "SAR-REQ-133",
+    "SAR-REQ-135",
+    "SAR-REQ-137",
+    "SAR-REQ-138"
+   ]
+  },
+  {
+   "description": "Lying TS: statements expired at T0+60, registration time claimed T0+59, presented at T0+100 (fresh by the Receipt): DENY time_invalid (gate's own clock)",
+   "id": "sc-026",
+   "kind": "scitt",
+   "requirements": [
+    "SAR-REQ-095",
+    "SAR-REQ-130",
+    "SAR-REQ-131",
+    "SAR-REQ-132",
+    "SAR-REQ-133",
+    "SAR-REQ-137",
+    "SAR-REQ-138",
+    "SAR-REQ-139"
+   ]
+  },
+  {
+   "description": "Receipt kid \"log-2\" with iss \"log-1\": DENY receipt_invalid",
+   "id": "sc-027",
+   "kind": "scitt",
+   "requirements": [
+    "SAR-REQ-095",
+    "SAR-REQ-130",
+    "SAR-REQ-131",
+    "SAR-REQ-132",
+    "SAR-REQ-133",
+    "SAR-REQ-137",
+    "SAR-REQ-138"
+   ]
+  },
+  {
+   "description": "Receipt for the same statements registered under policy id p0: DENY receipt_invalid",
+   "id": "sc-028",
+   "kind": "scitt",
+   "requirements": [
+    "SAR-REQ-095",
+    "SAR-REQ-130",
+    "SAR-REQ-131",
+    "SAR-REQ-132",
+    "SAR-REQ-133",
+    "SAR-REQ-137",
+    "SAR-REQ-138"
+   ]
+  },
+  {
+   "description": "Valid authorization registered; entry, root and Receipt are byte-exact",
+   "id": "reg-001",
+   "kind": "registration",
+   "requirements": [
+    "SAR-REQ-095",
+    "SAR-REQ-120",
+    "SAR-REQ-121",
+    "SAR-REQ-125",
+    "SAR-REQ-126",
+    "SAR-REQ-130"
+   ]
+  },
+  {
+   "description": "Ratification by an overseer not in the policy: refused unauthorized_signer",
+   "id": "reg-002",
+   "kind": "registration",
+   "requirements": [
+    "SAR-REQ-095",
+    "SAR-REQ-120",
+    "SAR-REQ-125",
+    "SAR-REQ-126",
+    "SAR-REQ-130"
+   ]
+  },
+  {
+   "description": "Quorum 2, one approval: refused quorum_not_met",
+   "id": "reg-003",
+   "kind": "registration",
+   "requirements": [
+    "SAR-REQ-095",
+    "SAR-REQ-120",
+    "SAR-REQ-125",
+    "SAR-REQ-126",
+    "SAR-REQ-130"
+   ]
+  },
+  {
+   "description": "TS clock at hi (statements expired): refused time_invalid",
+   "id": "reg-004",
+   "kind": "registration",
+   "requirements": [
+    "SAR-REQ-095",
+    "SAR-REQ-120",
+    "SAR-REQ-125",
+    "SAR-REQ-126",
+    "SAR-REQ-130"
+   ]
+  },
+  {
+   "description": "TS clock at lo - tau - 1: refused time_invalid",
+   "id": "reg-005",
+   "kind": "registration",
+   "requirements": [
+    "SAR-REQ-095",
+    "SAR-REQ-120",
+    "SAR-REQ-125",
+    "SAR-REQ-126",
+    "SAR-REQ-130"
+   ]
+  },
+  {
+   "description": "Rejection registered as a rejection entry",
+   "id": "reg-006",
+   "kind": "registration",
+   "requirements": [
+    "SAR-REQ-095",
+    "SAR-REQ-120",
+    "SAR-REQ-124",
+    "SAR-REQ-125",
+    "SAR-REQ-126",
+    "SAR-REQ-130"
+   ]
+  },
+  {
+   "description": "Rejection registered, then an authorization for the same proposal refused (registered veto)",
+   "id": "reg-007",
+   "kind": "registration",
+   "requirements": [
+    "SAR-REQ-095",
+    "SAR-REQ-120",
+    "SAR-REQ-123",
+    "SAR-REQ-124",
+    "SAR-REQ-125",
+    "SAR-REQ-126",
+    "SAR-REQ-130"
+   ]
+  },
+  {
+   "description": "Second authorization registration for the same proposal refused",
+   "id": "reg-008",
+   "kind": "registration",
+   "requirements": [
+    "SAR-REQ-095",
+    "SAR-REQ-120",
+    "SAR-REQ-122",
+    "SAR-REQ-125",
+    "SAR-REQ-126",
+    "SAR-REQ-130"
+   ]
+  },
+  {
+   "description": "Authorization request containing a rejection: refused rejected",
+   "id": "reg-009",
+   "kind": "registration",
+   "requirements": [
+    "SAR-REQ-095",
+    "SAR-REQ-120",
+    "SAR-REQ-124",
+    "SAR-REQ-125",
+    "SAR-REQ-126",
+    "SAR-REQ-130"
+   ]
+  },
+  {
+   "description": "Rejection request without any REJECTED ratification: refused",
+   "id": "reg-010",
+   "kind": "registration",
+   "requirements": [
+    "SAR-REQ-095",
+    "SAR-REQ-120",
+    "SAR-REQ-124",
+    "SAR-REQ-125",
+    "SAR-REQ-126",
+    "SAR-REQ-130"
+   ]
+  },
+  {
+   "description": "Invalid policy at the TS: refused policy_invalid",
+   "id": "reg-011",
+   "kind": "registration",
+   "requirements": [
+    "SAR-REQ-095",
+    "SAR-REQ-120",
+    "SAR-REQ-125",
+    "SAR-REQ-126",
+    "SAR-REQ-130"
+   ]
+  },
+  {
+   "description": "Request naming another policy id: refused binding_mismatch",
+   "id": "reg-012",
+   "kind": "registration",
+   "requirements": [
+    "SAR-REQ-095",
+    "SAR-REQ-120",
+    "SAR-REQ-125",
+    "SAR-REQ-126",
+    "SAR-REQ-130"
+   ]
+  },
+  {
+   "description": "Ratification with a bad signature: refused invalid_statement",
+   "id": "reg-013",
+   "kind": "registration",
+   "requirements": [
+    "SAR-REQ-095",
+    "SAR-REQ-120",
+    "SAR-REQ-125",
+    "SAR-REQ-126",
+    "SAR-REQ-130"
+   ]
+  },
+  {
+   "description": "RFC 9162 Merkle Tree Hash, inclusion and consistency proofs for 13 leaves (computed by the generator's own implementation of RFC 9162 sections 2.1.1, 2.1.3.1 and 2.1.4.1)",
+   "id": "merkle-001",
+   "kind": "merkle",
+   "requirements": [
+    "SAR-REQ-126",
+    "SAR-REQ-127",
+    "SAR-REQ-128"
+   ]
   }
  ]
 }

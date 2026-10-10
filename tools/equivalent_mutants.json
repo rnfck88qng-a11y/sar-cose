@@ -105,6 +105,167 @@
    "kind": "cmp",
    "mutation": "Lt->LtE (op 1) in verify_record_offline",
    "source_line": "if not (pb[\"issued_at\"] <= rb[\"reviewed_at\"] < pb[\"expires_at\"]):"
+  },
+  {
+   "argument": "EQ-S01",
+   "module": "sar_scitt.py",
+   "kind": "del",
+   "mutation": "delete statement in mth",
+   "source_line": "if full and (lo, hi) in self.cache:"
+  },
+  {
+   "argument": "EQ-S01",
+   "module": "sar_scitt.py",
+   "kind": "del",
+   "mutation": "delete statement in mth",
+   "source_line": "if full:"
+  },
+  {
+   "argument": "EQ-S01",
+   "module": "sar_scitt.py",
+   "kind": "cmp",
+   "mutation": "Eq->NotEq (op 0) in mth",
+   "source_line": "full = n & (n - 1) == 0"
+  },
+  {
+   "argument": "EQ-S01",
+   "module": "sar_scitt.py",
+   "kind": "const",
+   "mutation": "1->0 in mth",
+   "source_line": "full = n & (n - 1) == 0"
+  },
+  {
+   "argument": "EQ-S01",
+   "module": "sar_scitt.py",
+   "kind": "const",
+   "mutation": "0->1 in mth",
+   "source_line": "full = n & (n - 1) == 0"
+  },
+  {
+   "argument": "EQ-S01",
+   "module": "sar_scitt.py",
+   "kind": "if",
+   "mutation": "negate if in mth",
+   "source_line": "if full:"
+  },
+  {
+   "argument": "EQ-S02",
+   "module": "sar_scitt.py",
+   "kind": "const",
+   "mutation": "1->0 in verify_inclusion",
+   "source_line": "if not fn & 1:"
+  },
+  {
+   "argument": "EQ-S02",
+   "module": "sar_scitt.py",
+   "kind": "const",
+   "mutation": "0->1 in verify_inclusion",
+   "source_line": "while not fn & 1 and fn != 0:"
+  },
+  {
+   "argument": "EQ-S02",
+   "module": "sar_scitt.py",
+   "kind": "const",
+   "mutation": "1->0 in verify_consistency",
+   "source_line": "if not fn & 1:"
+  },
+  {
+   "argument": "EQ-S02",
+   "module": "sar_scitt.py",
+   "kind": "const",
+   "mutation": "0->1 in verify_consistency",
+   "source_line": "while not fn & 1 and fn != 0:"
+  },
+  {
+   "argument": "EQ-S02",
+   "module": "sar_scitt.py",
+   "kind": "const",
+   "mutation": "1->0 in _root_from_proof",
+   "source_line": "if not fn & 1:"
+  },
+  {
+   "argument": "EQ-S02",
+   "module": "sar_scitt.py",
+   "kind": "const",
+   "mutation": "0->1 in _root_from_proof",
+   "source_line": "while not fn & 1 and fn != 0:"
+  },
+  {
+   "argument": "EQ-S03",
+   "module": "sar_scitt.py",
+   "kind": "bool",
+   "mutation": "Or swap in _validity",
+   "source_line": "if not S.proposal_shape_ok(pb) or not all(S.ratification_shape_ok(r[\"body\"]) for r in ratifications):"
+  },
+  {
+   "argument": "EQ-S04",
+   "module": "sar_scitt.py",
+   "kind": "del",
+   "mutation": "delete statement in check_registration_time",
+   "source_line": "if v is None or MUT == \"skip_registration_window\":"
+  },
+  {
+   "argument": "EQ-S05",
+   "module": "sar_scitt.py",
+   "kind": "del",
+   "mutation": "delete statement in _evaluate",
+   "source_line": "if not S.policy_valid(policy):"
+  },
+  {
+   "argument": "EQ-S06",
+   "module": "sar_scitt.py",
+   "kind": "del",
+   "mutation": "delete statement in _evaluate",
+   "source_line": "return None"
+  },
+  {
+   "argument": "EQ-S07",
+   "module": "sar_scitt.py",
+   "kind": "del",
+   "mutation": "delete statement in check_receipt",
+   "source_line": "if receipt is None and MUT == \"skip_receipt_required\":"
+  },
+  {
+   "argument": "EQ-S06",
+   "module": "sar_scitt.py",
+   "kind": "del",
+   "mutation": "delete statement in check_receipt",
+   "source_line": "return None"
+  },
+  {
+   "argument": "EQ-S07",
+   "module": "sar_scitt.py",
+   "kind": "cmp",
+   "mutation": "Is->IsNot (op 0) in check_receipt",
+   "source_line": "if receipt is None and MUT == \"skip_receipt_required\":"
+  },
+  {
+   "argument": "EQ-S07",
+   "module": "sar_scitt.py",
+   "kind": "del",
+   "mutation": "delete statement in _instant",
+   "source_line": "if MUT == \"receipt_time_as_now\" and receipt is not None:"
+  },
+  {
+   "argument": "EQ-S07",
+   "module": "sar_scitt.py",
+   "kind": "cmp",
+   "mutation": "IsNot->Is (op 0) in _instant",
+   "source_line": "if MUT == \"receipt_time_as_now\" and receipt is not None:"
+  },
+  {
+   "argument": "EQ-S08",
+   "module": "sar_scitt.py",
+   "kind": "ret",
+   "mutation": "return False->True in verify_tar_offline",
+   "source_line": "return False"
+  },
+  {
+   "argument": "EQ-S08",
+   "module": "sar_scitt.py",
+   "kind": "const",
+   "mutation": "False->True in verify_tar_offline",
+   "source_line": "return False"
   }
  ]
 }

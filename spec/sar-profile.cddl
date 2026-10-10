@@ -83,3 +83,56 @@ transparent-authorization-record = {
   policy_ref: identifier,
   ? receipt: bstr
 }
+
+; ---------------------------------------------------------------- SCITT (Sections 15-18)
+registration-request = {
+  v: 1,
+  kind: registration-kind,
+  policy_id: identifier,
+  proposal: bstr .cbor sar-statement,
+  ratifications: [+ bstr .cbor sar-statement]
+}
+
+registration-kind = "authorization" / "rejection"
+
+registration-entry = {
+  v: 1,
+  kind: registration-kind,
+  log_id: identifier,
+  policy_id: identifier,
+  proposal_id: tstr,
+  set_digest: digest,
+  registered_at: time
+}
+
+; RFC 9942 COSE Receipt, RFC9162_SHA256 inclusion proof, as constrained by SAR-REQ-130
+sar-receipt = #6.18([
+  protected: bstr .cbor receipt-protected-header,
+  unprotected: receipt-unprotected-header,
+  payload: nil,                         ; detached: the Merkle root at tree-size
+  signature: bstr .size 64
+])
+
+receipt-protected-header = {
+  1 => -19,                             ; alg Ed25519
+  4 => bstr,                            ; kid = UTF-8 of log_id
+  395 => 1,                             ; vds = RFC9162_SHA256 (RFC 9942)
+  15 => receipt-cwt-claims              ; CWT Claims (RFC 9597)
+}
+
+receipt-cwt-claims = {
+  1 => identifier,                      ; iss = log_id
+  6 => time                             ; iat = registered_at
+}
+
+receipt-unprotected-header = {
+  396 => { -1 => [ bstr .cbor inclusion-proof ] }   ; vdp: exactly one inclusion proof
+}
+
+inclusion-proof = [
+  tree-size: uint,
+  leaf-index: uint,
+  inclusion-path: [* bstr .size 32]
+]
+
+sar-checkpoint-payload = ["sar-ts-checkpoint", identifier, uint, bstr .size 32]   ; log_id, tree size, root

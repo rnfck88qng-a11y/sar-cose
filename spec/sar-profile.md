@@ -218,13 +218,13 @@ verify_offline(proposal, rats, policy, at=None):
 
 ### 13.1 Deny-reason taxonomy
 
-**SAR-REQ-095** (MUST) Every DENY MUST carry a reason that maps to exactly one of the following classes, and an implementation MUST distinguish the classes from each other. Within a class, the subclasses SHOULD be reported and MAY be merged. The order in which an implementation evaluates conditions is not normative; when several conditions fail at once, any of the failing classes is a conforming reason. Test vectors therefore contain one fault each.
+**SAR-REQ-095** (MUST) Every DENY, and every refusal by a Transparency Service (Section 15), MUST carry a reason that maps to exactly one of the following classes, and an implementation MUST distinguish the classes from each other. Within a class, the subclasses SHOULD be reported and MAY be merged. The order in which an implementation evaluates conditions is not normative; when several conditions fail at once, any of the failing classes is a conforming reason. Test vectors therefore contain one fault each.
 
 | Class | Subclasses (SHOULD distinguish, MAY merge) | Requirements |
 |---|---|---|
 | `policy_invalid` | malformed policy; role overlap; unknown member | 040–042 |
 | `missing_evidence` | no proposal; no ratification | 063 |
-| `invalid_statement` | not COSE_Sign1 or not deterministic; protected header; algorithm; content type; kid; bad signature; body shape; empty interval; `proposal_id` not derived; unknown verdict | 001–012, 020–024, 032 |
+| `invalid_statement` | not COSE_Sign1 or not deterministic; protected header; algorithm; content type; kid; bad signature; body shape; empty interval; `proposal_id` not derived; unknown verdict; (TS) malformed registration request; (TS) rejection request without a valid rejection | 001–012, 020–024, 032 |
 | `unauthorized_signer` | agent not authorized; overseer not authorized | 045 |
 | `binding_mismatch` | ratification not bound (digest or id); policy_id of a statement differs from the policy | 031, 033, 044 |
 | `duplicate_ratification` | — | 060 |
@@ -234,7 +234,8 @@ verify_offline(proposal, rats, policy, at=None):
 | `payload_mismatch` | digest differs; payload octets not deterministic CBOR | 030, 070, 071 |
 | `replay` | proposal id, nonce or transaction id consumed | 080–083 |
 | `store_failure` | decision could not be recorded; store inconsistent with its anchor | 091, 093 |
-| `receipt_invalid` | (Sections 15–18) missing, malformed, untrusted, inclusion proof fails, covers another statement set, stale, registration time outside validity | 120–138 |
+| `receipt_invalid` | (Sections 15–18) missing; malformed; untrusted log or key; inclusion proof fails (including a Receipt for another statement set, proposal, policy or kind); registration time outside validity; stale or future-dated Receipt | 130–136 |
+| `registration_conflict` | (TS only) authorization already registered for the proposal; registered rejection (veto) | 122, 123 |
 
 Implementations that check a statement's header and signature before its body shape, or the reverse, report different subclasses of `invalid_statement` for some faults; this is conforming.
 
@@ -254,9 +255,112 @@ Implementations that check a statement's header and signature before its body sh
 
 **Denial flooding.** Every denial is logged; rate limiting is outside this profile.
 
+## 15. Registration at a Transparency Service
+
+Sections 15–18 make the SCITT Registration Policy the pre-execution gate: a set of statements is registered at a Transparency Service (TS) only if the policy is satisfied, the TS issues a Receipt for the registration, and the Execution Gate executes only with a valid Receipt. They follow RFC 9943 (architecture), RFC 9942 (COSE Receipts) and RFC 9162 (Merkle tree hashing) where feasible; Section 15.4 lists every deviation.
+
+Primary sources consulted on 10 October 2026: RFC 9943 (June 2026); RFC 9942 "COSE Receipts" (June 2026; formerly draft-ietf-cose-merkle-tree-proofs, last revision -18); draft-ietf-scitt-scrapi-11 (26 June 2026; not an RFC); RFC 9162; RFC 9597 (CWT Claims header parameter, label 15); RFC 8392 (claim keys `iss` = 1, `iat` = 6). Statements relied on:
+- RFC 9943 §3 defines the Registration Policy as "the precondition enforced by the TS before registering a Signed Statement"; §6.3: "A TS MUST ensure that a Signed Statement is registered before releasing its Receipt."
+- RFC 9943 §7: "The Registration time is recorded as the timestamp when the TS added the Signed Statement to its VDS." RFC 9943 does not define a trust model for the TS clock.
+- RFC 9943 §6.3: the unprotected header "MUST be set to an empty map before the Signed Statement can be included in a Statement Sequence."
+- RFC 9942: the Receipt's protected header carries `vds` (label 395, value 1 = RFC9162_SHA256); the unprotected header carries `vdp` (label 396) whose key -1 holds inclusion proofs `[tree-size, leaf-index, inclusion-path]`; "the payload is the Merkle Tree root that corresponds to the log at size tree-size", and payloads "SHOULD be detached".
+- RFC 9162 §2.1.1: `MTH({d[0]}) = HASH(0x00 || d[0])`; for n > 1, `MTH(D_n) = HASH(0x01 || MTH(D[0:k]) || MTH(D[k:n]))` with k the largest power of two smaller than n.
+- SCRAPI: a client registers with `POST /entries` (`application/cose`); a synchronous response (201) contains the Receipt.
+
+### 15.1 Registration request
+
+A registration request (CDDL `registration-request`) is a map `{"v": 1, "kind": "authorization" / "rejection", "policy_id": identifier, "proposal": bstr, "ratifications": [+ bstr]}` in deterministic CBOR, where `proposal` and each element of `ratifications` are the exact COSE_Sign1 octets of the statements. A request that does not satisfy the CDDL is refused with class `invalid_statement`; a request whose ratification list is empty MAY instead be reported as `missing_evidence` (ISS-112). This profile does not fix a transport; with SCRAPI it would be the body of `POST /entries` with the provisional content type `application/sar-registration+cbor`.
+
+### 15.2 Registration Policy evaluation at the TS
+
+Let `t_reg` be the TS clock reading when it adds the entry to its log (the registration time).
+
+**SAR-REQ-120** (MUST) For a request of kind `authorization`, the TS MUST register an entry only if the statements satisfy, under the policy identified by `policy_id`, every requirement that can be checked without the payload and without the replay store: Sections 5–9 (SAR-REQ-001–045), SAR-REQ-051–053 and SAR-REQ-060–063, and the temporal rule of SAR-REQ-050 evaluated at `t_reg` (`lo - τ <= t_reg < hi`). If any check fails, the TS MUST NOT add an entry and MUST NOT issue a Receipt, and it SHOULD report the failure with the deny-reason classes of Section 13.1.
+
+**SAR-REQ-121** (MUST) The TS MUST NOT consume replay keys, and registration MUST NOT be treated as execution. The payload binding (SAR-REQ-070, 071) and replay rules (SAR-REQ-080–085) are evaluated only by the gate.
+
+**SAR-REQ-122** (MUST) The TS MUST register at most one entry of kind `authorization` per (`policy_id`, `proposal_id`). A later request for the same pair MUST be refused (class `registration_conflict`); concurrent requests MUST be serialized so that exactly one succeeds.
+
+**SAR-REQ-123** (MUST) If the TS has registered an entry of kind `rejection` for a (`policy_id`, `proposal_id`), it MUST refuse every later `authorization` request for that pair (registered veto; class `registration_conflict`). This closes a gap of the gate-only architecture, in which whoever presents the ratification set can omit a rejection.
+
+**SAR-REQ-124** (MUST) A request of kind `rejection` MUST contain a valid proposal and at least one valid `REJECTED` ratification by an authorized overseer. Each statement is checked as in SAR-REQ-120, including the review window (SAR-REQ-051) and duplicates (SAR-REQ-060); the quorum (SAR-REQ-061), the temporal rule at `t_reg` (SAR-REQ-050) and the common-interval rule (SAR-REQ-053) do not apply: a rejection is recorded whenever it is presented, and the set may also contain valid approvals. A request without a valid `REJECTED` ratification MUST be refused with class `invalid_statement` (ISS-111). A request of kind `authorization` that contains a `REJECTED` ratification MUST be refused (S6, class `rejected`).
+
+Which rules are evaluated where:
+
+| Rule | At registration (TS, instant `t_reg`) | At the gate (instant `t`) |
+|---|---|---|
+| Statement validity, policy, binding, roles, quorum, duplicates, verdicts (S4–S9) | yes | yes (again: the gate does not trust the TS to have evaluated the policy) |
+| Review window (S3), non-empty common interval | yes | yes |
+| S2 temporal rule | at `t_reg` | at `t` (own clock) |
+| Registration time within validity (SAR-REQ-134) | by construction | yes, from the Receipt |
+| Receipt freshness (SAR-REQ-135) | — | yes |
+| Payload binding, exact bytes | — | yes |
+| Replay consumption (S10) | registration uniqueness only (SAR-REQ-122) | yes |
+| Registered veto | yes (SAR-REQ-123) | not visible to an offline gate |
+
+### 15.3 Registration entry
+
+**SAR-REQ-125** (MUST) The TS MUST record each registration as the deterministic CBOR encoding of the map (CDDL `registration-entry`) `{"v": 1, "kind": kind, "log_id": log_id, "policy_id": policy_id, "proposal_id": proposal_id, "set_digest": set_digest, "registered_at": t_reg}`, where `log_id` is the TS's log identifier (a text string) and `set_digest = H(dcbor([H(proposal_bytes), R]))` with `R` the list of `H(ratification_bytes)` for all ratifications of the request, sorted in bytewise order. The entry is the leaf data `d` of the log. A different set of statements, a different proposal, policy, kind, log or registration time therefore yields a different leaf.
+
+### 15.4 Deviations from RFC 9943, RFC 9942 and SCRAPI
+
+1. **A set, not a Signed Statement, is the log entry.** RFC 9943 registers individual Signed Statements and gives each a Receipt. SAR's Registration Policy is a property of a *set* (proposal plus ratifications: quorum, veto, common interval), so SAR registers one TS-constructed entry per set and issues one Receipt for it. Each statement in the set is a COSE Signed Statement, but the leaf is not. A fully RFC 9943-conformant alternative (register each statement and attach a policy-evaluation statement by the TS) is future work (ISS-102).
+2. **Receipts are carried beside the statements, not in their unprotected header.** RFC 9943 forms a Transparent Statement by adding the Receipt to the unprotected header (RFC 9942 label 394). SAR keeps statements with an empty unprotected header (SAR-REQ-006) because the ratification binds to the exact octets of the proposal; the Receipt travels in the Transparent Authorization Record (`receipt` member) and as a separate gate argument (ISS-103).
+3. **Receipt header constraints are stricter than RFC 9942**: the CWT Claims header (label 15, RFC 9597) with `iss` (1) = `log_id` and `iat` (6) = `t_reg` is mandatory, the payload MUST be detached (nil), and exactly one inclusion proof is allowed.
+4. **No HTTP API.** The reference implementation exposes `register()` and the receipt in-process; SCRAPI's asynchronous registration is not modelled.
+5. **Tree size and leaf index are not signed** (as in RFC 9942: the signature covers the root; the proof parameters are in the unprotected header). Consistency between signed checkpoints is provided separately (SAR-REQ-128).
+
+## 16. Append-only Log
+
+**SAR-REQ-126** (MUST) The TS MUST keep its entries in an append-only sequence and MUST compute the Merkle Tree Hash with SHA-256 exactly as RFC 9162 §2.1.1 (leaf `H(0x00 || d)`, interior node `H(0x01 || left || right)`, split at the largest power of two smaller than n). Entries MUST NOT be modified, removed or reordered.
+
+**SAR-REQ-127** (MUST) Inclusion proofs MUST be the audit path of RFC 9162 §2.1.3.1 and MUST be verified by the algorithm of RFC 9162 §2.1.3.2, which in particular fails if `leaf_index >= tree_size`.
+
+**SAR-REQ-128** (SHOULD) The TS SHOULD issue signed checkpoints (log id, tree size, root) and consistency proofs between tree sizes (RFC 9162 §2.1.4; a verifier MUST reject a consistency claim with an older size of 0 or an older size larger than the newer one), so that monitors can detect a TS that shows different logs to different parties (requirement R6). A verifier SHOULD reject a checkpoint whose consistency with an earlier retained checkpoint cannot be proven. The envelope of a signed checkpoint (CDDL `sar-checkpoint-payload` gives only its content) is not specified in version 1, so checkpoints are not interoperable between implementations (ISS-114).
+
+## 17. Receipt
+
+**SAR-REQ-130** (MUST) A Receipt MUST be a COSE_Sign1 (tag 18) whose protected header is exactly `{1: -19, 4: kid, 395: 1, 15: {1: log_id, 6: registered_at}}` with `kid` the UTF-8 encoding of `log_id`; whose unprotected header is exactly `{396: {-1: [proof]}}` with `proof` the deterministic CBOR encoding of `[tree_size, leaf_index, [* bstr .size 32]]`; whose payload is nil (detached); and whose signature is the Ed25519 signature over `dcbor(["Signature1", protected, h'', root])`, where `root` is the Merkle Tree Hash of the log at `tree_size`. The whole Receipt, its protected header and the encoded proof MUST be deterministic CBOR (Section 6). A receipt that is not in this form MUST be rejected (class `receipt_invalid`) (ISS-115).
+
+**SAR-REQ-131** (MUST) A gate or verifier MUST be configured with the set of trusted logs, each a `log_id` and an Ed25519 public key encoded as 64 lowercase hexadecimal characters (as in SAR-REQ-040), outside the Registration Policy (whose version 1 member set is closed, SAR-REQ-042). It MUST reject a Receipt whose `log_id` is not trusted or whose signature does not verify under that log's key.
+
+## 18. Receipt-gated Execution
+
+**SAR-REQ-132** (MUST) A gate that requires Receipts MUST deny (class `receipt_invalid`) any request without a Receipt or with a Receipt that fails SAR-REQ-130–135.
+
+**SAR-REQ-133** (MUST) The gate MUST reconstruct the registration entry from the presented proposal and ratification set, kind `authorization`, its own policy's `policy_id`, and the Receipt's `log_id` and `registered_at` (Section 15.3), compute the leaf hash, verify the inclusion proof to obtain the root and verify the Receipt signature over that root. A Receipt for another set of statements, another proposal, another policy, another log or another kind therefore fails.
+
+**SAR-REQ-134** (MUST) The registration time MUST lie within the statements' validity: `lo - τ <= registered_at < hi`, with `lo` and `hi` as in Section 10. Otherwise the gate MUST deny (`receipt_invalid`).
+
+**SAR-REQ-135** (MUST) The Receipt MUST be fresh under the gate's own clock: `registered_at <= t + τ` and `t < registered_at + max_receipt_age`, where `max_receipt_age` is a deployment parameter (vectors: 300 s). Otherwise the gate MUST deny (`receipt_invalid`).
+
+**SAR-REQ-136** (MUST) An entry of kind `rejection` MUST NOT authorize execution (by SAR-REQ-133 the gate reconstructs kind `authorization`, so a rejection Receipt fails).
+
+**SAR-REQ-137** (MUST) A valid Receipt MUST NOT replace any check of Sections 5–13: the gate MUST still verify the statements and the policy, apply SAR-REQ-050 at its own instant `t`, compare the payload digest and consume the replay keys. In particular a Receipt reused with another payload is denied (`payload_mismatch`), a Receipt presented again is denied (`replay`), and a Receipt that a faulty or compromised TS issued for an invalid set is denied for the statement fault.
+
+**SAR-REQ-138** (MUST) The gate MUST use its own trusted clock for SAR-REQ-050 and SAR-REQ-135. It MUST NOT use `registered_at` as the evaluation instant.
+
+**SAR-REQ-139** (MUST) Offline verification of a Transparent Authorization Record with a Receipt MUST perform SAR-REQ-100 and SAR-REQ-130–134, using no clock. If it succeeds, `registered_at` is an instant, attested by the TS, at which the statements were valid, and offline verification with `at = registered_at` (SAR-REQ-101) succeeds.
+
+### 18.1 Can the TS registration time serve as trusted time? (analysis)
+
+This section was written as a hypothesis to be tested, not as a design decision taken in advance. The vectors `sc-011`–`sc-016`, `sc-022`, `sc-025` and `sc-026` exercise each case (the reference implementation's tests in `test_sar_scitt.py`, class `TrustedTime`, do so as well; implementers do not need them).
+
+*Freshness between ratification, registration and execution.* Three instants matter: the signers' dates (`issued_at`, `reviewed_at`), `t_reg` and the execution instant `t`. SAR-REQ-120 and SAR-REQ-134 make `t_reg` fall in the common interval (within τ of its start); SAR-REQ-050 makes `t` fall in it too, by the gate's clock. Neither instant constrains the other, so without SAR-REQ-135 a Receipt could be presented arbitrarily late within the statements' validity, and arbitrarily long after registration if the statements' validity is long.
+
+*Delayed presentation.* A Receipt presented after the statements expire is denied by SAR-REQ-050 under the gate's clock, not by anything in the Receipt. If the gate used `registered_at` as "now", a Receipt registered during validity would authorize execution at any later time: `verify(at = registered_at)` remains true forever (SAR-REQ-139). The registration time attests *when the policy was satisfied*, not *that it is still satisfied*. Hence SAR-REQ-138.
+
+*Malicious or misconfigured TS clock.* A TS that signs `registered_at` in the future of the gate's clock by more than τ is detected (SAR-REQ-135, first condition). A TS whose clock is behind can backdate registration only to an instant at which the statements were already valid (SAR-REQ-134) and not earlier than `t - max_receipt_age` (SAR-REQ-135); within that window it can make a Receipt look older, which only shortens its usable life, or (by up to τ) newer, which lengthens it by at most τ. A lying TS cannot extend execution beyond `hi`, because the gate checks expiry on its own clock, and it cannot make an invalid set executable, because the gate re-evaluates the policy (SAR-REQ-137). What a malicious TS *can* do is (a) refuse or delay registration (denial of service), (b) register sets that violate the policy, which the gate catches but an auditor who trusts Receipts alone would not, (c) attest a false registration time within the window above, and (d) show different logs to different parties unless monitored (SAR-REQ-128).
+
+*What the gate still needs to know about time.* Expiry (`t < hi`), the start tolerance (`lo - τ <= t`), Receipt freshness and revocation all need the gate's own trusted clock: revocation is a change of the policy in force at `t` (SAR-REQ-043), and only the gate knows `t`. A TS timestamp cannot replace this clock; at most it can bound it from below for a gate that has none (a Receipt with `registered_at` proves that `t >= registered_at - τ_ts` if the TS is trusted), which is not sufficient for expiry.
+
+*Skew between TS and gate.* The same τ is used for the TS–gate skew as for the signer–gate skew. A deployment whose TS and gate clocks differ by more than τ will see valid Receipts denied (TS ahead) or a shortened freshness window (TS behind).
+
+**Conclusion.** The TS registration time is useful evidence: it bounds *when the Registration Policy was satisfied* by an independent party and orders registrations in the log. It does not serve as trusted time for execution: the gate still needs a local trusted (preferably monotonic and externally disciplined) clock for expiry, the start tolerance, Receipt freshness and revocation. The rules SAR-REQ-134, SAR-REQ-135 and SAR-REQ-138 are the minimum that makes a lying TS clock harmless beyond the window stated above.
+
 ## 19. IANA Considerations
 
-This document makes no requests of IANA. The content types `application/sar-proposal+cbor`, `application/sar-ratification+cbor` and (Section 16) `application/sar-registration+cbor` are **unregistered and provisional**; they are used here only so that the two roles cannot be confused (SAR-REQ-004). A standards-track version would register them as media types with the "+cbor" structured syntax suffix (RFC 6838; RFC 8949, Section 9.5) or use CoAP content-format numbers. The Receipt structure of Section 17 uses a private-use header label (Section 17); a standards-track version would use the labels registered by the COSE Receipts specification.
+This document makes no requests of IANA. The content types `application/sar-proposal+cbor`, `application/sar-ratification+cbor` and (Section 15.1) `application/sar-registration+cbor` are **unregistered and provisional**; they are used here only so that the two roles cannot be confused (SAR-REQ-004). A standards-track version would register them as media types with the "+cbor" structured syntax suffix (RFC 6838; RFC 8949, Section 9.5) or use CoAP content-format numbers. The Receipt of Section 17 uses the header labels registered by RFC 9942 (395 `vds`, 396 `vdp`) and RFC 9597 (15 `CWT Claims`); no private labels are used.
 
 ## 20. References
 
@@ -268,4 +372,6 @@ This document makes no requests of IANA. The content types `application/sar-prop
 - RFC 9864 — Fully-Specified Algorithms for JOSE and COSE.
 - RFC 9943 — An Architecture for Trustworthy and Transparent Digital Supply Chains (SCITT).
 - RFC 9162 — Certificate Transparency Version 2.0 (Merkle tree hashing, Section 2.1).
-- COSE Receipts (draft-ietf-cose-merkle-tree-proofs) and SCRAPI (draft-ietf-scitt-scrapi): see Sections 15–18 for the versions consulted and the deviations.
+- RFC 9942 — CBOR Object Signing and Encryption (COSE) Receipts (formerly draft-ietf-cose-merkle-tree-proofs).
+- RFC 9597 — CBOR Web Token (CWT) Claims in COSE Headers; RFC 8392 — CBOR Web Token.
+- draft-ietf-scitt-scrapi-11 — SCITT Reference APIs (work in progress).

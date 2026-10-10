@@ -18,6 +18,7 @@ import tempfile
 import time
 
 import sar_cose as S
+import sar_scitt as X
 
 N = int(sys.argv[1]) if len(sys.argv) > 1 else 2000
 PAYLOAD = {"action_type": "wire_transfer", "amount": 5000, "currency": "EUR", "destination_account": "DE00"}
@@ -50,6 +51,21 @@ def main():
     gate_b = S.Gate(policy, S.Store())
     pbytes = S.dcbor(PAYLOAD)
     rows.append(("Gate.authorize_bytes, in-memory store", *timed(lambda i: gate_b.authorize_bytes(pbytes, props[i], rats[i]), N)))
+    # SCITT: registration at an in-memory Transparency Service (policy evaluation, Merkle append,
+    # Receipt signature), receipt-gated authorization, and offline TAR verification
+    now = props[0]["body"]["issued_at"] + 1
+    ts = X.TransparencyService("log-1", None, policy)
+    reqs = [X.make_request("authorization", "p1", props[i], rats[i]) for i in range(N)]
+    receipts = [None] * N
+
+    def reg(i):
+        receipts[i] = ts.register(reqs[i], now=now).receipt
+    rows.append((f"TS.register (log grows to {N})", *timed(reg, N)))
+    rgate = X.ReceiptGate(policy, S.Store(), {"log-1": ts.public_key})
+    rows.append(("ReceiptGate.authorize_bytes, in-memory", *timed(
+        lambda i: rgate.authorize_bytes(pbytes, props[i], rats[i], receipts[i], now=now + 1), N)))
+    rows.append(("verify_tar_offline", *timed(
+        lambda i: X.verify_tar_offline(props[i], rats[i], receipts[i], policy, {"log-1": ts.public_key}), N)))
     with tempfile.TemporaryDirectory() as d:
         flags = sqlite3.connect(os.path.join(d, "flags.db"), isolation_level=None)
         flags.execute("create table approval(pid text primary key, payload text, approved int, consumed int)")
@@ -70,9 +86,12 @@ def main():
         flags.close()
         gate_f = S.Gate(policy, S.Store(os.path.join(d, "bench.db")))
         rows.append(("Gate.authorize, file-backed store", *timed(lambda i: gate_f.authorize(PAYLOAD, props[i], rats[i]), N)))
+        rgate_f = X.ReceiptGate(policy, S.Store(os.path.join(d, "bench_r.db")), {"log-1": ts.public_key})
+        rows.append(("ReceiptGate.authorize_bytes, file-backed", *timed(
+            lambda i: rgate_f.authorize_bytes(pbytes, props[i], rats[i], receipts[i], now=now + 1), N)))
         rows.append(("Store.verify_chain (N records)", *timed(lambda i: gate_f.store.verify_chain(), 5)))
     print(f"sar_cose micro-benchmark, N={N}, {platform.machine()} {platform.system()} {platform.release()}, "
-          f"Python {platform.python_version()}")
+          f"Python {platform.python_version()}, load average {' '.join(f'{x:.2f}' for x in os.getloadavg())}")
     print(f"{'operation':40s} {'median us':>10s} {'p99 us':>10s}")
     for name, med, p99 in rows:
         print(f"{name:40s} {med:10.1f} {p99:10.1f}")

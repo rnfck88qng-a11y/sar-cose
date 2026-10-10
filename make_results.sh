@@ -2,7 +2,7 @@
 # Runs the default checks and archives each run as results/runs/<name>.{json,log} (tools/archive_run.py):
 # full test run (both implementations), hand-written mutants, external audit mutants, concurrency
 # repeats, stub discrimination, the reproduction of the pre-resolution comparison, the normative
-# test vectors and conformance manifest, and one benchmark. The slow runs (deep run, mutation
+# test vectors, CDDL and conformance manifest, and which hand mutants the vectors detect. The slow runs (deep run, mutation
 # sweeps, repeated benchmarks) are archived by tools/run_slow.sh. Afterwards
 # tools/make_claims.py derives results/paper_claims.json from the archived runs and
 # tools/render_results.py regenerates RESULTS.md from both. Local home paths become "~".
@@ -16,8 +16,10 @@ A audit_mutants -- "$PYTHON" -B tools/audit_mutants.py --jobs 8 --python "$PYTHO
 A concurrency -- tools/concurrency_repeat.sh 50 10 10
 A stub_gaps --expect-fail -- ./run_stub_against_gaps.sh
 A blind_diff -- tools/reproduce_blind_diff.sh
-[ -f spec/run_vectors.py ] && A vectors -- "$PYTHON" -B spec/run_vectors.py
-[ -f spec/check_manifest.py ] && A manifest -- "$PYTHON" -B spec/check_manifest.py
-A bench -- "$PYTHON" -B bench.py 2000
+A vectors_regen -- "$PYTHON" -B spec/gen_vectors.py --check
+A cddl -- "$PYTHON" -B spec/cddl_check.py
+A vectors -- "$PYTHON" -B spec/run_vectors.py
+A manifest -- "$PYTHON" -B spec/check_manifest.py --check
+A vectors_vs_mutants -- tools/vectors_vs_mutants.sh
 rm -rf .hypothesis independent/.hypothesis independent/original_blind/.hypothesis
-"$PYTHON" -B tools/make_claims.py && "$PYTHON" -B tools/render_results.py
+"$PYTHON" -B tools/make_claims.py && "$PYTHON" -B tools/render_results.py && "$PYTHON" -B tools/render_docs.py

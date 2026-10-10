@@ -84,3 +84,83 @@ Format: id · discovered by · question · options · decision · rationale · c
 ### ISS-014 Missing proposal
 - **Question:** is a request without a proposal "invalid_statement" or "missing_evidence"?
 - **Decision:** `missing_evidence` (both implementations report it so). Vector gate-106.
+
+## Found while specifying the Transparency Service (step 3)
+
+### ISS-101 Which rules are evaluated at registration and which at the gate
+- **Discovered by:** writing Section 15.2.
+- **Options:** (a) TS evaluates everything except payload and replay, gate trusts the Receipt; (b) TS evaluates everything except payload and replay, gate re-evaluates the statement and policy rules as well; (c) TS only logs, gate decides.
+- **Decision:** (b) (SAR-REQ-120, SAR-REQ-137; table in Section 15.2). S2 is evaluated at the TS at `t_reg` and at the gate at `t`.
+- **Rationale:** (c) makes the Registration Policy decorative, which is the gap the paper claims to close. (a) makes a compromised TS sufficient to authorize execution. (b) makes a Receipt a necessary but not sufficient condition: execution needs a quorum of overseer keys *and* registration at a trusted log. The cost is a second policy evaluation (about 0.1 ms).
+
+### ISS-102 Registered unit: the statement set, not each Signed Statement
+- **Discovered by:** comparing RFC 9943 (one Receipt per Signed Statement) with SAR's policy, which is a property of a set (quorum, veto, common interval).
+- **Options:** (a) register each statement and have the gate require one Receipt per statement plus a separate policy decision; (b) register one TS-constructed entry per set.
+- **Decision:** (b), recorded as deviation 1 in Section 15.4; (a) is future work.
+- **Rationale:** with (a) the Receipts prove that statements were logged, not that the policy was satisfied by that set; the policy decision would need its own signed artefact, which is (b) with extra steps.
+
+### ISS-103 Where the Receipt travels
+- **Decision:** beside the statements (TAR `receipt`, gate argument), not in the unprotected header (label 394) of a statement; deviation 2. Keeps SAR-REQ-006 and the proposal digest (which covers the exact COSE octets) unchanged. RFC 9943 §6.3 itself requires an empty unprotected header for registration.
+
+### ISS-104 Registration uniqueness
+- **Discovered by:** the requested test "concurrent registrations".
+- **Question:** may a TS register two authorizations for the same proposal?
+- **Decision:** no; at most one `authorization` entry per (`policy_id`, `proposal_id`) (SAR-REQ-122). The gate's replay consumption (S10) remains the authoritative at-most-once mechanism; uniqueness at the TS makes the log unambiguous for auditors.
+
+### ISS-105 Registered veto
+- **Discovered by:** writing SAR-REQ-124 (registration of rejections). In the gate-only architecture the presenter chooses which ratifications to present and can omit a rejection (S6 only applies to rejections that are presented).
+- **Decision:** a TS that has registered a rejection for a proposal refuses every later authorization for it (SAR-REQ-123). An offline gate cannot see this; it is a property of registration.
+- **Limitation:** a rejection registered *after* an authorization does not revoke the authorization Receipt; the gate does not query the log. Stated in Section 18.1 and the paper.
+
+### ISS-106 Trusted logs are configuration, not policy
+- **Decision:** the set of trusted logs (log id and key) is gate configuration (SAR-REQ-131). Adding it to the v1 policy would contradict SAR-REQ-042 (closed member set); a later policy version may carry it.
+
+### ISS-107 Trusted time (hypothesis, then rule)
+- **Discovered by:** the author's instruction to treat "the TS timestamp can serve as trusted time" as a hypothesis.
+- **Analysis:** Section 18.1. Cases: freshness between ratification, registration and execution; delayed presentation; TS clock ahead and behind; what the gate still needs; TS–gate skew.
+- **Decision:** the TS registration time bounds *when the policy was satisfied* but is not trusted time for execution. Rules: SAR-REQ-134 (registration within validity, with τ at the start), SAR-REQ-135 (freshness under the gate's clock: `registered_at <= t + τ`, `t < registered_at + max_receipt_age`), SAR-REQ-138 (the gate never uses `registered_at` as `t`). τ is reused for TS–gate skew; `max_receipt_age` is a new deployment parameter (vectors: 300 s).
+- **Evidence:** vectors sc-011..016, sc-022, sc-025, sc-026; tests `test_sar_scitt.TrustedTime`.
+
+### ISS-108 Tree size and leaf index are not signed
+- **Discovered by:** vector sc-024: for leaf 4, the RFC 9162 audit path of a 7-leaf tree also verifies, against the same root, as a proof in an 8-leaf tree; changing `tree_size` from 7 to 8 in the (unsigned) proof is therefore not detected. Changing it to 5 is (sc-024b).
+- **Decision:** as in RFC 9942, the Receipt signature covers the root; tree size and leaf index are proof parameters (deviation 5). The undetected change is harmless for SAR: the signed root still commits to the reconstructed entry, which is all the gate relies on. A verifier that needs the tree size (for consistency checking) must take it from a signed checkpoint. Consistency between tree sizes is provided by signed checkpoints and consistency proofs (SAR-REQ-128).
+
+### ISS-109 Rejection requests
+- **Decision:** a rejection request needs a valid proposal and at least one valid `REJECTED` ratification; quorum and the S2 rule at `t_reg` do not apply (SAR-REQ-124). An authorization request containing a rejection is refused (S6). A rejection entry can never authorize (SAR-REQ-136).
+
+### ISS-110 Offline verification with a Receipt
+- **Decision:** SAR-REQ-139: S11 plus Receipt structure, trust, inclusion and registration-within-validity, without a clock; it does not check freshness (that needs the gate's clock at execution, which the verifier does not have).
+
+## Raised by the second SCITT implementation (independent/scitt, written blind from this profile)
+
+The second implementation reported ten points (its `DECISIONS.md`, "suspected profile problems"). Each was decided here first; none required a change to either implementation, because both already behaved as decided or the point concerns an unvectored detail.
+
+### ISS-111 Class for a rejection request without a rejection; which rules apply to rejections
+- **Decision:** class `invalid_statement`; SAR-REQ-051 and SAR-REQ-060 apply to rejection requests, SAR-REQ-050, 053 and 061 do not (SAR-REQ-124 rewritten). Both implementations already do this (vector reg-010).
+
+### ISS-112 Class for a malformed registration request
+- **Decision:** `invalid_statement`; an empty ratification list MAY be reported as `missing_evidence` (the second implementation does, the reference reports `invalid_statement`). No vector.
+
+### ISS-113 Clock tolerance at the TS
+- **Decision:** the TS uses the same τ as the gate (Section 10); both implementations use 30 s.
+
+### ISS-114 Signed checkpoints are not interoperable
+- **Decision:** acknowledged; SAR-REQ-128 stays SHOULD and states that the envelope is unspecified in version 1. The reference signs `dcbor(sar-checkpoint-payload)` directly with Ed25519; the second implementation uses a COSE_Sign1 with an invented content type. A later version should adopt the signed-note or COSE checkpoint format of the SCITT ecosystem.
+
+### ISS-115 Must the whole Receipt be deterministic CBOR?
+- **Decision:** yes (added to SAR-REQ-130). Both implementations already require it.
+
+### ISS-116 Encoding of trusted log keys
+- **Decision:** 64 lowercase hexadecimal characters, as policy keys (added to SAR-REQ-131).
+
+### ISS-117 Vector format documentation
+- `max_receipt_age` is a top-level member of `scitt` vectors (not under `inputs`); `deny_subclass` is reserved and always null. `spec/README.md` corrected.
+
+### ISS-118 The profile pointed blind implementers to the reference tests
+- §18.1 cited `test_sar_scitt.py`; now cites the vectors and mentions the tests as not needed.
+
+### ISS-119 Consistency with an older size of 0
+- **Decision:** a verifier MUST reject (SAR-REQ-128). Both implementations return False.
+
+### ISS-120 Order of gate checks with a Receipt
+- The second implementation evaluates the statements first, then the Receipt, then consumes; the reference checks the Receipt first. Both are conforming (evaluation order is not normative, ISS-002); vectors carry one fault each.

@@ -189,7 +189,162 @@ class SarIndep:
         return "UNMAPPED:" + reason
 
 
-ADAPTERS = {"sar_cose": SarCose, "sar_indep": SarIndep}
+class _ScittBase:
+    """Shared runners for the scitt, registration and merkle vector kinds; subclasses provide the
+    module-specific hooks. Core vector kinds are reported n/a: the core path of these
+    implementations is the core implementation they build on (sar_cose or sar_indep)."""
+    kinds = ("scitt", "registration", "merkle")
+
+    def classify(self, reason):
+        r = reason[len("DENY: "):] if reason.startswith("DENY: ") else reason
+        if r.startswith("receipt_"):
+            return "receipt_invalid"
+        if ":" in r and r.split(":", 1)[0] in CLASSES:
+            return r.split(":", 1)[0]
+        return self.core.classify(reason)
+
+    def run_scitt(self, vec):
+        inp, exp = vec["inputs"], vec["expected"]
+        ok, notes = True, []
+        with tempfile.TemporaryDirectory() as d:
+            store = self.core.store(str(pathlib.Path(d) / "store.db"))
+            gate = self.receipt_gate(inp["policy"], store, inp["trusted_logs"], vec["max_receipt_age"])
+            for i, (st, want) in enumerate(zip(inp["steps"], exp["steps"])):
+                prop = self.core.from_cose(bytes.fromhex(st["proposal_cose"]))
+                rats = [self.core.from_cose(bytes.fromhex(h)) for h in st["ratifications_cose"]]
+                rec = bytes.fromhex(st["receipt_cose"]) if st["receipt_cose"] else None
+                before = log_count(store)
+                allowed, reason = self.gate_authorize(gate, bytes.fromhex(st["payload_cbor"]), prop, rats, rec, st["now"])
+                logged = log_count(store) - before
+                decision = "ALLOW" if allowed else "DENY"
+                cls = None if allowed else self.classify(reason)
+                wc = want["deny_class"]
+                if not (decision == want["decision"] and (allowed or cls == wc or (isinstance(wc, list) and cls in wc))
+                        and (want["log_records_added"] is None or logged == want["log_records_added"])):
+                    ok = False
+                    notes.append(f"step {i}: got {decision}/{cls} ({reason}, log+{logged}); want {want['decision']}/{wc}")
+            store.close()
+        if "offline_tar" in exp:
+            st = inp["steps"][0]
+            prop = self.core.from_cose(bytes.fromhex(st["proposal_cose"]))
+            rats = [self.core.from_cose(bytes.fromhex(h)) for h in st["ratifications_cose"]]
+            rec = bytes.fromhex(st["receipt_cose"]) if st["receipt_cose"] else None
+            got = self.m.verify_tar_offline(prop, rats, rec, inp["policy"], inp["trusted_logs"])
+            if got != exp["offline_tar"]:
+                ok = False
+                notes.append(f"offline TAR: got {got}, want {exp['offline_tar']}")
+        return ok, "; ".join(notes)
+
+    def run_registration(self, vec):
+        from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
+        inp, exp = vec["inputs"], vec["expected"]
+        key = Ed25519PrivateKey.from_private_bytes(bytes.fromhex(inp["keys"][inp["ts_key"]]["seed"]))
+        ts = self.ts(inp["log_id"], key, inp["policy"])
+        ok, notes = True, []
+        for i, (st, want) in enumerate(zip(inp["steps"], exp["steps"])):
+            res = self.register(ts, bytes.fromhex(st["request_cbor"]), st["ts_time"])
+            done, reason, receipt = res[0], res[1], res[2]
+            if want["registered"]:
+                got = {"registered": done, "entry_cbor": ts.entries[-1].hex() if done else None,
+                       "leaf_index": len(ts.entries) - 1, "tree_size": len(ts.entries),
+                       "root": self.m.merkle_root(ts.entries).hex(), "receipt_cose": receipt.hex() if receipt else None}
+                bad = [k for k in want if got.get(k) != want[k]]
+                if bad:
+                    ok = False
+                    notes.append(f"step {i}: differs in {bad} ({reason})")
+            else:
+                cls = self.classify(reason) if not done else None
+                if done or cls != want["refusal_class"]:
+                    ok = False
+                    notes.append(f"step {i}: got registered={done} class={cls} ({reason}); want refusal "
+                                 f"{want['refusal_class']}")
+        return ok, "; ".join(notes)
+
+    def run_merkle(self, vec):
+        m = self.m
+        leaves = [bytes.fromhex(x) for x in vec["inputs"]["leaves"]]
+        exp, notes = vec["expected"], []
+        for n, root in exp["roots"].items():
+            if m.merkle_root(leaves[:int(n)]).hex() != root:
+                notes.append(f"root({n})")
+        for c in exp["inclusion"]:
+            i, n, path = c["index"], c["size"], [bytes.fromhex(x) for x in c["path"]]
+            root = bytes.fromhex(exp["roots"][str(n)])
+            if [x.hex() for x in m.inclusion_proof(leaves, i, n)] != c["path"]:
+                notes.append(f"path({i},{n})")
+            if not m.verify_inclusion(leaves[i], i, n, path, root):
+                notes.append(f"verify({i},{n})")
+            if path and m.verify_inclusion(leaves[i], i, n, [path[0][:-1] + bytes([path[0][-1] ^ 1])] + path[1:], root):
+                notes.append(f"tampered path accepted ({i},{n})")
+            if m.verify_inclusion(leaves[i], n, n, path, root):
+                notes.append(f"index = size accepted ({n})")
+        for c in exp["consistency"]:
+            a, b, proof = c["m"], c["n"], [bytes.fromhex(x) for x in c["proof"]]
+            ra, rb = bytes.fromhex(exp["roots"][str(a)]), bytes.fromhex(exp["roots"][str(b)])
+            if [x.hex() for x in m.consistency_proof(leaves, a, b)] != c["proof"]:
+                notes.append(f"consistency proof({a},{b})")
+            if not m.verify_consistency(a, b, ra, rb, proof):
+                notes.append(f"verify consistency({a},{b})")
+            if a < b and m.verify_consistency(a, b, ra, H_(b"x"), proof):
+                notes.append(f"wrong new root accepted ({a},{b})")
+        return not notes, "; ".join(notes[:5])
+
+
+def H_(b):
+    import hashlib
+    return hashlib.sha256(b).digest()
+
+
+CLASSES = {"policy_invalid", "missing_evidence", "invalid_statement", "unauthorized_signer", "binding_mismatch",
+           "duplicate_ratification", "rejected", "quorum_not_met", "time_invalid", "payload_mismatch", "replay",
+           "store_failure", "receipt_invalid", "registration_conflict"}
+
+
+class SarScitt(_ScittBase):
+    name = "sar_scitt"
+    interfaces = {"payload_bytes"}
+
+    def __init__(self):
+        self.m = importlib.import_module("sar_scitt")
+        self.core = SarCose()
+
+    def receipt_gate(self, policy, store, trusted, age):
+        return self.m.ReceiptGate(policy, store, trusted, max_receipt_age=age)
+
+    def gate_authorize(self, gate, payload_bytes, prop, rats, receipt, now):
+        allowed, reason, _ = gate.authorize_bytes(payload_bytes, prop, rats, receipt, now=now)
+        return allowed, reason
+
+    def ts(self, log_id, key, policy):
+        return self.m.TransparencyService(log_id, key, policy)
+
+    def register(self, ts, request, now):
+        return tuple(ts.register(request, now=now))
+
+
+class IndepScitt(_ScittBase):
+    name = "sar_indep_scitt"
+    interfaces = set()
+
+    def __init__(self):
+        sys.path.insert(0, str(ROOT / "independent" / "scitt"))
+        self.m = importlib.import_module("sar_indep_scitt")
+        self.core = SarIndep()
+
+    def receipt_gate(self, policy, store, trusted, age):
+        return self.m.ReceiptGate(policy, store, trusted, max_receipt_age=age)
+
+    def gate_authorize(self, gate, payload_bytes, prop, rats, receipt, now):
+        return gate.authorize(self.core.m.dcbor_decode_strict(payload_bytes), prop, rats, receipt, now)
+
+    def ts(self, log_id, key, policy):
+        return self.m.TransparencyService(log_id, key, policy)
+
+    def register(self, ts, request, now):
+        return tuple(ts.register(request, now))
+
+
+ADAPTERS = {"sar_cose": SarCose, "sar_indep": SarIndep, "sar_scitt": SarScitt, "sar_indep_scitt": IndepScitt}
 
 
 # ------------------------------------------------------------------ runners
@@ -287,7 +442,8 @@ RUNNERS = {"encoding": run_encoding, "decoding": run_decoding, "decision": run_d
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--impl", default=",".join(ADAPTERS))
+    default = [n for n in ADAPTERS if n != "sar_indep_scitt" or (ROOT / "independent" / "scitt" / "sar_indep_scitt.py").exists()]
+    ap.add_argument("--impl", default=",".join(default))
     ap.add_argument("-v", action="store_true")
     ap.add_argument("--out", default=str(HERE / "vector_results.json"))
     a = ap.parse_args()
@@ -298,10 +454,11 @@ def main():
         ad = ADAPTERS[name]()
         res = {}
         for vec in vectors:
-            runner = getattr(ad, "run_" + vec["kind"], None) or RUNNERS.get(vec["kind"])
-            if runner is None or vec["kind"] not in getattr(ad, "kinds", ("encoding", "decoding", "decision")):
+            if vec["kind"] not in getattr(ad, "kinds", ("encoding", "decoding", "decision")):
                 res[vec["id"]] = {"status": "n/a", "note": f"{name} does not implement {vec['kind']} vectors"}
                 continue
+            meth = getattr(ad, "run_" + vec["kind"], None)
+            runner = (lambda a_, v_, m_=meth: m_(v_)) if meth else RUNNERS[vec["kind"]]
             try:
                 ok, note = runner(ad, vec)
             except Exception as e:  # noqa: BLE001

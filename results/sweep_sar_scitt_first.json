@@ -1,0 +1,5045 @@
+{
+ "module": "sar_scitt.py",
+ "suite": [
+  "test_sar_scitt"
+ ],
+ "total": 503,
+ "killed": 415,
+ "survived": 88,
+ "equivalent": 0,
+ "live": 88,
+ "score_percent": 82.5,
+ "module_sha256": "4e56ec20d3255d0398983f52849fb5687f3008bc47d8f07acf238d5860213934",
+ "mutants": [
+  {
+   "id": 0,
+   "kind": "del",
+   "line": 61,
+   "mutation": "delete statement in leaf_hash",
+   "result": "killed",
+   "source_line": "return H(bytes(d)) if MUT == \"merkle_leaf_no_prefix\" else H(b\"\\x00\" + bytes(d))",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 1,
+   "kind": "del",
+   "line": 65,
+   "mutation": "delete statement in node_hash",
+   "result": "killed",
+   "source_line": "return H(b\"\\x01\" + left + right)",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 2,
+   "kind": "del",
+   "line": 70,
+   "mutation": "delete statement in _split",
+   "result": "killed",
+   "source_line": "k = 1",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 3,
+   "kind": "del",
+   "line": 71,
+   "mutation": "delete statement in _split",
+   "result": "killed",
+   "source_line": "while k * 2 < n:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 4,
+   "kind": "del",
+   "line": 73,
+   "mutation": "delete statement in _split",
+   "result": "killed",
+   "source_line": "return k",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 5,
+   "kind": "const",
+   "line": 70,
+   "mutation": "1->0 in _split",
+   "result": "killed(timeout)",
+   "source_line": "k = 1",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 6,
+   "kind": "cmp",
+   "line": 71,
+   "mutation": "Lt->LtE (op 0) in _split",
+   "result": "killed",
+   "source_line": "while k * 2 < n:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 7,
+   "kind": "const",
+   "line": 71,
+   "mutation": "2->0 in _split",
+   "result": "killed(timeout)",
+   "source_line": "while k * 2 < n:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 8,
+   "kind": "const",
+   "line": 72,
+   "mutation": "2->0 in _split",
+   "result": "killed(timeout)",
+   "source_line": "k *= 2",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 9,
+   "kind": "del",
+   "line": 81,
+   "mutation": "delete statement in __init__",
+   "result": "killed",
+   "source_line": "self.leaves = leaves",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 10,
+   "kind": "del",
+   "line": 82,
+   "mutation": "delete statement in __init__",
+   "result": "killed",
+   "source_line": "self.cache = {}",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 11,
+   "kind": "del",
+   "line": 85,
+   "mutation": "delete statement in mth",
+   "result": "killed",
+   "source_line": "n = hi - lo",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 12,
+   "kind": "del",
+   "line": 86,
+   "mutation": "delete statement in mth",
+   "result": "killed",
+   "source_line": "if n == 0:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 13,
+   "kind": "del",
+   "line": 88,
+   "mutation": "delete statement in mth",
+   "result": "killed",
+   "source_line": "if n == 1:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 14,
+   "kind": "del",
+   "line": 90,
+   "mutation": "delete statement in mth",
+   "result": "killed",
+   "source_line": "full = n & (n - 1) == 0",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 15,
+   "kind": "del",
+   "line": 91,
+   "mutation": "delete statement in mth",
+   "result": "survived",
+   "source_line": "if full and (lo, hi) in self.cache:",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 16,
+   "kind": "del",
+   "line": 93,
+   "mutation": "delete statement in mth",
+   "result": "killed",
+   "source_line": "k = _split(n)",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 17,
+   "kind": "del",
+   "line": 94,
+   "mutation": "delete statement in mth",
+   "result": "killed",
+   "source_line": "r = node_hash(self.mth(lo, lo + k), self.mth(lo + k, hi))",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 18,
+   "kind": "del",
+   "line": 95,
+   "mutation": "delete statement in mth",
+   "result": "survived",
+   "source_line": "if full:",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 19,
+   "kind": "del",
+   "line": 97,
+   "mutation": "delete statement in mth",
+   "result": "killed",
+   "source_line": "return r",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 20,
+   "kind": "if",
+   "line": 86,
+   "mutation": "negate if in mth",
+   "result": "killed",
+   "source_line": "if n == 0:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 21,
+   "kind": "cmp",
+   "line": 86,
+   "mutation": "Eq->NotEq (op 0) in mth",
+   "result": "killed",
+   "source_line": "if n == 0:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 22,
+   "kind": "const",
+   "line": 86,
+   "mutation": "0->1 in mth",
+   "result": "killed",
+   "source_line": "if n == 0:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 23,
+   "kind": "if",
+   "line": 88,
+   "mutation": "negate if in mth",
+   "result": "killed",
+   "source_line": "if n == 1:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 24,
+   "kind": "cmp",
+   "line": 88,
+   "mutation": "Eq->NotEq (op 0) in mth",
+   "result": "killed",
+   "source_line": "if n == 1:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 25,
+   "kind": "const",
+   "line": 88,
+   "mutation": "1->0 in mth",
+   "result": "killed",
+   "source_line": "if n == 1:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 26,
+   "kind": "cmp",
+   "line": 90,
+   "mutation": "Eq->NotEq (op 0) in mth",
+   "result": "survived",
+   "source_line": "full = n & (n - 1) == 0",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 27,
+   "kind": "const",
+   "line": 90,
+   "mutation": "1->0 in mth",
+   "result": "survived",
+   "source_line": "full = n & (n - 1) == 0",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 28,
+   "kind": "const",
+   "line": 90,
+   "mutation": "0->1 in mth",
+   "result": "survived",
+   "source_line": "full = n & (n - 1) == 0",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 29,
+   "kind": "if",
+   "line": 91,
+   "mutation": "negate if in mth",
+   "result": "killed",
+   "source_line": "if full and (lo, hi) in self.cache:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 30,
+   "kind": "bool",
+   "line": 91,
+   "mutation": "And swap in mth",
+   "result": "killed",
+   "source_line": "if full and (lo, hi) in self.cache:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 31,
+   "kind": "cmp",
+   "line": 91,
+   "mutation": "In->NotIn (op 0) in mth",
+   "result": "killed",
+   "source_line": "if full and (lo, hi) in self.cache:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 32,
+   "kind": "if",
+   "line": 95,
+   "mutation": "negate if in mth",
+   "result": "survived",
+   "source_line": "if full:",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 33,
+   "kind": "del",
+   "line": 100,
+   "mutation": "delete statement in path",
+   "result": "killed",
+   "source_line": "n = hi - lo",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 34,
+   "kind": "del",
+   "line": 101,
+   "mutation": "delete statement in path",
+   "result": "killed",
+   "source_line": "if n <= 1:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 35,
+   "kind": "del",
+   "line": 103,
+   "mutation": "delete statement in path",
+   "result": "killed",
+   "source_line": "k = _split(n)",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 36,
+   "kind": "del",
+   "line": 104,
+   "mutation": "delete statement in path",
+   "result": "killed",
+   "source_line": "if m < k:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 37,
+   "kind": "del",
+   "line": 106,
+   "mutation": "delete statement in path",
+   "result": "killed",
+   "source_line": "return self.path(m - k, lo + k, hi) + [self.mth(lo, lo + k)]",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 38,
+   "kind": "if",
+   "line": 101,
+   "mutation": "negate if in path",
+   "result": "killed",
+   "source_line": "if n <= 1:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 39,
+   "kind": "cmp",
+   "line": 101,
+   "mutation": "LtE->Lt (op 0) in path",
+   "result": "killed",
+   "source_line": "if n <= 1:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 40,
+   "kind": "const",
+   "line": 101,
+   "mutation": "1->0 in path",
+   "result": "killed",
+   "source_line": "if n <= 1:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 41,
+   "kind": "if",
+   "line": 104,
+   "mutation": "negate if in path",
+   "result": "killed",
+   "source_line": "if m < k:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 42,
+   "kind": "cmp",
+   "line": 104,
+   "mutation": "Lt->LtE (op 0) in path",
+   "result": "killed",
+   "source_line": "if m < k:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 43,
+   "kind": "del",
+   "line": 109,
+   "mutation": "delete statement in subproof",
+   "result": "killed",
+   "source_line": "n = hi - lo",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 44,
+   "kind": "del",
+   "line": 110,
+   "mutation": "delete statement in subproof",
+   "result": "killed",
+   "source_line": "if m == n:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 45,
+   "kind": "del",
+   "line": 112,
+   "mutation": "delete statement in subproof",
+   "result": "killed",
+   "source_line": "k = _split(n)",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 46,
+   "kind": "del",
+   "line": 113,
+   "mutation": "delete statement in subproof",
+   "result": "killed",
+   "source_line": "if m <= k:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 47,
+   "kind": "del",
+   "line": 115,
+   "mutation": "delete statement in subproof",
+   "result": "killed",
+   "source_line": "return self.subproof(m - k, lo + k, hi, False) + [self.mth(lo, lo + k)]",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 48,
+   "kind": "if",
+   "line": 110,
+   "mutation": "negate if in subproof",
+   "result": "killed",
+   "source_line": "if m == n:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 49,
+   "kind": "cmp",
+   "line": 110,
+   "mutation": "Eq->NotEq (op 0) in subproof",
+   "result": "killed",
+   "source_line": "if m == n:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 50,
+   "kind": "if",
+   "line": 113,
+   "mutation": "negate if in subproof",
+   "result": "killed",
+   "source_line": "if m <= k:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 51,
+   "kind": "cmp",
+   "line": 113,
+   "mutation": "LtE->Lt (op 0) in subproof",
+   "result": "killed",
+   "source_line": "if m <= k:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 52,
+   "kind": "const",
+   "line": 115,
+   "mutation": "False->True in subproof",
+   "result": "killed",
+   "source_line": "return self.subproof(m - k, lo + k, hi, False) + [self.mth(lo, lo + k)]",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 53,
+   "kind": "del",
+   "line": 119,
+   "mutation": "delete statement in merkle_root",
+   "result": "killed",
+   "source_line": "return _Tree(list(leaves)).mth(0, len(leaves))",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 54,
+   "kind": "const",
+   "line": 119,
+   "mutation": "0->1 in merkle_root",
+   "result": "killed",
+   "source_line": "return _Tree(list(leaves)).mth(0, len(leaves))",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 55,
+   "kind": "del",
+   "line": 123,
+   "mutation": "delete statement in inclusion_proof",
+   "result": "survived",
+   "source_line": "if not 0 <= index < size <= len(leaves):",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 56,
+   "kind": "del",
+   "line": 125,
+   "mutation": "delete statement in inclusion_proof",
+   "result": "killed",
+   "source_line": "return _Tree(list(leaves)).path(index, 0, size)",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 57,
+   "kind": "if",
+   "line": 123,
+   "mutation": "negate if in inclusion_proof",
+   "result": "killed",
+   "source_line": "if not 0 <= index < size <= len(leaves):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 58,
+   "kind": "not",
+   "line": 123,
+   "mutation": "remove not in inclusion_proof",
+   "result": "killed",
+   "source_line": "if not 0 <= index < size <= len(leaves):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 59,
+   "kind": "cmp",
+   "line": 123,
+   "mutation": "LtE->Lt (op 0) in inclusion_proof",
+   "result": "killed",
+   "source_line": "if not 0 <= index < size <= len(leaves):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 60,
+   "kind": "cmp",
+   "line": 123,
+   "mutation": "Lt->LtE (op 1) in inclusion_proof",
+   "result": "survived",
+   "source_line": "if not 0 <= index < size <= len(leaves):",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 61,
+   "kind": "cmp",
+   "line": 123,
+   "mutation": "LtE->Lt (op 2) in inclusion_proof",
+   "result": "killed",
+   "source_line": "if not 0 <= index < size <= len(leaves):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 62,
+   "kind": "const",
+   "line": 123,
+   "mutation": "0->1 in inclusion_proof",
+   "result": "killed",
+   "source_line": "if not 0 <= index < size <= len(leaves):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 63,
+   "kind": "const",
+   "line": 125,
+   "mutation": "0->1 in inclusion_proof",
+   "result": "killed",
+   "source_line": "return _Tree(list(leaves)).path(index, 0, size)",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 64,
+   "kind": "del",
+   "line": 130,
+   "mutation": "delete statement in verify_inclusion",
+   "result": "killed",
+   "source_line": "if MUT != \"inclusion_skip_index_bound\" and index >= size:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 65,
+   "kind": "del",
+   "line": 132,
+   "mutation": "delete statement in verify_inclusion",
+   "result": "killed",
+   "source_line": "fn, sn, r = index, size - 1, leaf_hash(leaf_data)",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 66,
+   "kind": "del",
+   "line": 133,
+   "mutation": "delete statement in verify_inclusion",
+   "result": "killed",
+   "source_line": "for p in path:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 67,
+   "kind": "del",
+   "line": 148,
+   "mutation": "delete statement in verify_inclusion",
+   "result": "killed",
+   "source_line": "return sn == 0 and r == root",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 68,
+   "kind": "cmp",
+   "line": 130,
+   "mutation": "GtE->Gt (op 0) in verify_inclusion",
+   "result": "killed",
+   "source_line": "if MUT != \"inclusion_skip_index_bound\" and index >= size:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 69,
+   "kind": "ret",
+   "line": 131,
+   "mutation": "return False->True in verify_inclusion",
+   "result": "killed",
+   "source_line": "return False",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 70,
+   "kind": "const",
+   "line": 131,
+   "mutation": "False->True in verify_inclusion",
+   "result": "killed",
+   "source_line": "return False",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 71,
+   "kind": "const",
+   "line": 132,
+   "mutation": "1->0 in verify_inclusion",
+   "result": "killed",
+   "source_line": "fn, sn, r = index, size - 1, leaf_hash(leaf_data)",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 72,
+   "kind": "if",
+   "line": 134,
+   "mutation": "negate if in verify_inclusion",
+   "result": "killed",
+   "source_line": "if sn == 0:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 73,
+   "kind": "cmp",
+   "line": 134,
+   "mutation": "Eq->NotEq (op 0) in verify_inclusion",
+   "result": "killed",
+   "source_line": "if sn == 0:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 74,
+   "kind": "const",
+   "line": 134,
+   "mutation": "0->1 in verify_inclusion",
+   "result": "killed",
+   "source_line": "if sn == 0:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 75,
+   "kind": "ret",
+   "line": 135,
+   "mutation": "return False->True in verify_inclusion",
+   "result": "survived",
+   "source_line": "return False",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 76,
+   "kind": "const",
+   "line": 135,
+   "mutation": "False->True in verify_inclusion",
+   "result": "survived",
+   "source_line": "return False",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 77,
+   "kind": "if",
+   "line": 136,
+   "mutation": "negate if in verify_inclusion",
+   "result": "killed",
+   "source_line": "if fn & 1 or fn == sn:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 78,
+   "kind": "bool",
+   "line": 136,
+   "mutation": "Or swap in verify_inclusion",
+   "result": "killed",
+   "source_line": "if fn & 1 or fn == sn:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 79,
+   "kind": "const",
+   "line": 136,
+   "mutation": "1->0 in verify_inclusion",
+   "result": "killed",
+   "source_line": "if fn & 1 or fn == sn:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 80,
+   "kind": "cmp",
+   "line": 136,
+   "mutation": "Eq->NotEq (op 0) in verify_inclusion",
+   "result": "killed",
+   "source_line": "if fn & 1 or fn == sn:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 81,
+   "kind": "if",
+   "line": 138,
+   "mutation": "negate if in verify_inclusion",
+   "result": "killed",
+   "source_line": "if not fn & 1:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 82,
+   "kind": "not",
+   "line": 138,
+   "mutation": "remove not in verify_inclusion",
+   "result": "killed",
+   "source_line": "if not fn & 1:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 83,
+   "kind": "const",
+   "line": 138,
+   "mutation": "1->0 in verify_inclusion",
+   "result": "survived",
+   "source_line": "if not fn & 1:",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 84,
+   "kind": "bool",
+   "line": 139,
+   "mutation": "And swap in verify_inclusion",
+   "result": "killed(timeout)",
+   "source_line": "while not fn & 1 and fn != 0:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 85,
+   "kind": "not",
+   "line": 139,
+   "mutation": "remove not in verify_inclusion",
+   "result": "killed",
+   "source_line": "while not fn & 1 and fn != 0:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 86,
+   "kind": "const",
+   "line": 139,
+   "mutation": "1->0 in verify_inclusion",
+   "result": "killed",
+   "source_line": "while not fn & 1 and fn != 0:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 87,
+   "kind": "cmp",
+   "line": 139,
+   "mutation": "NotEq->Eq (op 0) in verify_inclusion",
+   "result": "killed",
+   "source_line": "while not fn & 1 and fn != 0:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 88,
+   "kind": "const",
+   "line": 139,
+   "mutation": "0->1 in verify_inclusion",
+   "result": "survived",
+   "source_line": "while not fn & 1 and fn != 0:",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 89,
+   "kind": "const",
+   "line": 140,
+   "mutation": "1->0 in verify_inclusion",
+   "result": "killed(timeout)",
+   "source_line": "fn >>= 1",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 90,
+   "kind": "const",
+   "line": 141,
+   "mutation": "1->0 in verify_inclusion",
+   "result": "killed",
+   "source_line": "sn >>= 1",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 91,
+   "kind": "const",
+   "line": 144,
+   "mutation": "1->0 in verify_inclusion",
+   "result": "killed",
+   "source_line": "fn >>= 1",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 92,
+   "kind": "const",
+   "line": 145,
+   "mutation": "1->0 in verify_inclusion",
+   "result": "killed",
+   "source_line": "sn >>= 1",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 93,
+   "kind": "bool",
+   "line": 148,
+   "mutation": "And swap in verify_inclusion",
+   "result": "killed",
+   "source_line": "return sn == 0 and r == root",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 94,
+   "kind": "cmp",
+   "line": 148,
+   "mutation": "Eq->NotEq (op 0) in verify_inclusion",
+   "result": "killed",
+   "source_line": "return sn == 0 and r == root",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 95,
+   "kind": "const",
+   "line": 148,
+   "mutation": "0->1 in verify_inclusion",
+   "result": "killed",
+   "source_line": "return sn == 0 and r == root",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 96,
+   "kind": "cmp",
+   "line": 148,
+   "mutation": "Eq->NotEq (op 0) in verify_inclusion",
+   "result": "killed",
+   "source_line": "return sn == 0 and r == root",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 97,
+   "kind": "del",
+   "line": 152,
+   "mutation": "delete statement in consistency_proof",
+   "result": "survived",
+   "source_line": "if not 0 < m <= n <= len(leaves):",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 98,
+   "kind": "del",
+   "line": 154,
+   "mutation": "delete statement in consistency_proof",
+   "result": "killed",
+   "source_line": "return _Tree(list(leaves)).subproof(m, 0, n, True)",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 99,
+   "kind": "if",
+   "line": 152,
+   "mutation": "negate if in consistency_proof",
+   "result": "killed",
+   "source_line": "if not 0 < m <= n <= len(leaves):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 100,
+   "kind": "not",
+   "line": 152,
+   "mutation": "remove not in consistency_proof",
+   "result": "killed",
+   "source_line": "if not 0 < m <= n <= len(leaves):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 101,
+   "kind": "cmp",
+   "line": 152,
+   "mutation": "Lt->LtE (op 0) in consistency_proof",
+   "result": "survived",
+   "source_line": "if not 0 < m <= n <= len(leaves):",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 102,
+   "kind": "cmp",
+   "line": 152,
+   "mutation": "LtE->Lt (op 1) in consistency_proof",
+   "result": "killed",
+   "source_line": "if not 0 < m <= n <= len(leaves):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 103,
+   "kind": "cmp",
+   "line": 152,
+   "mutation": "LtE->Lt (op 2) in consistency_proof",
+   "result": "killed",
+   "source_line": "if not 0 < m <= n <= len(leaves):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 104,
+   "kind": "const",
+   "line": 152,
+   "mutation": "0->1 in consistency_proof",
+   "result": "killed",
+   "source_line": "if not 0 < m <= n <= len(leaves):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 105,
+   "kind": "const",
+   "line": 154,
+   "mutation": "0->1 in consistency_proof",
+   "result": "killed",
+   "source_line": "return _Tree(list(leaves)).subproof(m, 0, n, True)",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 106,
+   "kind": "const",
+   "line": 154,
+   "mutation": "True->False in consistency_proof",
+   "result": "killed",
+   "source_line": "return _Tree(list(leaves)).subproof(m, 0, n, True)",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 107,
+   "kind": "del",
+   "line": 159,
+   "mutation": "delete statement in verify_consistency",
+   "result": "survived",
+   "source_line": "if not 0 < m <= n:",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 108,
+   "kind": "del",
+   "line": 161,
+   "mutation": "delete statement in verify_consistency",
+   "result": "killed",
+   "source_line": "if m == n:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 109,
+   "kind": "del",
+   "line": 163,
+   "mutation": "delete statement in verify_consistency",
+   "result": "survived",
+   "source_line": "if not proof:",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 110,
+   "kind": "del",
+   "line": 165,
+   "mutation": "delete statement in verify_consistency",
+   "result": "survived",
+   "source_line": "proof = list(proof)",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 111,
+   "kind": "del",
+   "line": 166,
+   "mutation": "delete statement in verify_consistency",
+   "result": "killed",
+   "source_line": "if m & (m - 1) == 0:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 112,
+   "kind": "del",
+   "line": 168,
+   "mutation": "delete statement in verify_consistency",
+   "result": "killed",
+   "source_line": "fn, sn = m - 1, n - 1",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 113,
+   "kind": "del",
+   "line": 169,
+   "mutation": "delete statement in verify_consistency",
+   "result": "killed",
+   "source_line": "while fn & 1:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 114,
+   "kind": "del",
+   "line": 172,
+   "mutation": "delete statement in verify_consistency",
+   "result": "killed",
+   "source_line": "fr = sr = proof[0]",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 115,
+   "kind": "del",
+   "line": 173,
+   "mutation": "delete statement in verify_consistency",
+   "result": "killed",
+   "source_line": "for c in proof[1:]:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 116,
+   "kind": "del",
+   "line": 188,
+   "mutation": "delete statement in verify_consistency",
+   "result": "killed",
+   "source_line": "return sn == 0 and fr == root_m and sr == root_n",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 117,
+   "kind": "if",
+   "line": 159,
+   "mutation": "negate if in verify_consistency",
+   "result": "killed",
+   "source_line": "if not 0 < m <= n:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 118,
+   "kind": "not",
+   "line": 159,
+   "mutation": "remove not in verify_consistency",
+   "result": "killed",
+   "source_line": "if not 0 < m <= n:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 119,
+   "kind": "cmp",
+   "line": 159,
+   "mutation": "Lt->LtE (op 0) in verify_consistency",
+   "result": "survived",
+   "source_line": "if not 0 < m <= n:",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 120,
+   "kind": "cmp",
+   "line": 159,
+   "mutation": "LtE->Lt (op 1) in verify_consistency",
+   "result": "killed",
+   "source_line": "if not 0 < m <= n:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 121,
+   "kind": "const",
+   "line": 159,
+   "mutation": "0->1 in verify_consistency",
+   "result": "killed",
+   "source_line": "if not 0 < m <= n:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 122,
+   "kind": "ret",
+   "line": 160,
+   "mutation": "return False->True in verify_consistency",
+   "result": "killed",
+   "source_line": "return False",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 123,
+   "kind": "const",
+   "line": 160,
+   "mutation": "False->True in verify_consistency",
+   "result": "killed",
+   "source_line": "return False",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 124,
+   "kind": "if",
+   "line": 161,
+   "mutation": "negate if in verify_consistency",
+   "result": "killed",
+   "source_line": "if m == n:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 125,
+   "kind": "cmp",
+   "line": 161,
+   "mutation": "Eq->NotEq (op 0) in verify_consistency",
+   "result": "killed",
+   "source_line": "if m == n:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 126,
+   "kind": "bool",
+   "line": 162,
+   "mutation": "And swap in verify_consistency",
+   "result": "survived",
+   "source_line": "return not proof and root_m == root_n",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 127,
+   "kind": "not",
+   "line": 162,
+   "mutation": "remove not in verify_consistency",
+   "result": "killed",
+   "source_line": "return not proof and root_m == root_n",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 128,
+   "kind": "cmp",
+   "line": 162,
+   "mutation": "Eq->NotEq (op 0) in verify_consistency",
+   "result": "killed",
+   "source_line": "return not proof and root_m == root_n",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 129,
+   "kind": "if",
+   "line": 163,
+   "mutation": "negate if in verify_consistency",
+   "result": "killed",
+   "source_line": "if not proof:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 130,
+   "kind": "not",
+   "line": 163,
+   "mutation": "remove not in verify_consistency",
+   "result": "killed",
+   "source_line": "if not proof:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 131,
+   "kind": "ret",
+   "line": 164,
+   "mutation": "return False->True in verify_consistency",
+   "result": "survived",
+   "source_line": "return False",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 132,
+   "kind": "const",
+   "line": 164,
+   "mutation": "False->True in verify_consistency",
+   "result": "survived",
+   "source_line": "return False",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 133,
+   "kind": "if",
+   "line": 166,
+   "mutation": "negate if in verify_consistency",
+   "result": "killed",
+   "source_line": "if m & (m - 1) == 0:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 134,
+   "kind": "cmp",
+   "line": 166,
+   "mutation": "Eq->NotEq (op 0) in verify_consistency",
+   "result": "killed",
+   "source_line": "if m & (m - 1) == 0:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 135,
+   "kind": "const",
+   "line": 166,
+   "mutation": "1->0 in verify_consistency",
+   "result": "killed",
+   "source_line": "if m & (m - 1) == 0:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 136,
+   "kind": "const",
+   "line": 166,
+   "mutation": "0->1 in verify_consistency",
+   "result": "killed",
+   "source_line": "if m & (m - 1) == 0:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 137,
+   "kind": "const",
+   "line": 168,
+   "mutation": "1->0 in verify_consistency",
+   "result": "killed",
+   "source_line": "fn, sn = m - 1, n - 1",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 138,
+   "kind": "const",
+   "line": 168,
+   "mutation": "1->0 in verify_consistency",
+   "result": "killed",
+   "source_line": "fn, sn = m - 1, n - 1",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 139,
+   "kind": "const",
+   "line": 169,
+   "mutation": "1->0 in verify_consistency",
+   "result": "killed",
+   "source_line": "while fn & 1:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 140,
+   "kind": "const",
+   "line": 170,
+   "mutation": "1->0 in verify_consistency",
+   "result": "killed(timeout)",
+   "source_line": "fn >>= 1",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 141,
+   "kind": "const",
+   "line": 171,
+   "mutation": "1->0 in verify_consistency",
+   "result": "killed",
+   "source_line": "sn >>= 1",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 142,
+   "kind": "const",
+   "line": 172,
+   "mutation": "0->1 in verify_consistency",
+   "result": "killed",
+   "source_line": "fr = sr = proof[0]",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 143,
+   "kind": "const",
+   "line": 173,
+   "mutation": "1->0 in verify_consistency",
+   "result": "killed",
+   "source_line": "for c in proof[1:]:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 144,
+   "kind": "if",
+   "line": 174,
+   "mutation": "negate if in verify_consistency",
+   "result": "killed",
+   "source_line": "if sn == 0:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 145,
+   "kind": "cmp",
+   "line": 174,
+   "mutation": "Eq->NotEq (op 0) in verify_consistency",
+   "result": "killed",
+   "source_line": "if sn == 0:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 146,
+   "kind": "const",
+   "line": 174,
+   "mutation": "0->1 in verify_consistency",
+   "result": "killed",
+   "source_line": "if sn == 0:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 147,
+   "kind": "ret",
+   "line": 175,
+   "mutation": "return False->True in verify_consistency",
+   "result": "survived",
+   "source_line": "return False",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 148,
+   "kind": "const",
+   "line": 175,
+   "mutation": "False->True in verify_consistency",
+   "result": "survived",
+   "source_line": "return False",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 149,
+   "kind": "if",
+   "line": 176,
+   "mutation": "negate if in verify_consistency",
+   "result": "killed",
+   "source_line": "if fn & 1 or fn == sn:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 150,
+   "kind": "bool",
+   "line": 176,
+   "mutation": "Or swap in verify_consistency",
+   "result": "killed",
+   "source_line": "if fn & 1 or fn == sn:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 151,
+   "kind": "const",
+   "line": 176,
+   "mutation": "1->0 in verify_consistency",
+   "result": "killed",
+   "source_line": "if fn & 1 or fn == sn:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 152,
+   "kind": "cmp",
+   "line": 176,
+   "mutation": "Eq->NotEq (op 0) in verify_consistency",
+   "result": "killed",
+   "source_line": "if fn & 1 or fn == sn:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 153,
+   "kind": "if",
+   "line": 178,
+   "mutation": "negate if in verify_consistency",
+   "result": "killed",
+   "source_line": "if not fn & 1:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 154,
+   "kind": "not",
+   "line": 178,
+   "mutation": "remove not in verify_consistency",
+   "result": "killed",
+   "source_line": "if not fn & 1:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 155,
+   "kind": "const",
+   "line": 178,
+   "mutation": "1->0 in verify_consistency",
+   "result": "survived",
+   "source_line": "if not fn & 1:",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 156,
+   "kind": "bool",
+   "line": 179,
+   "mutation": "And swap in verify_consistency",
+   "result": "killed(timeout)",
+   "source_line": "while not fn & 1 and fn != 0:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 157,
+   "kind": "not",
+   "line": 179,
+   "mutation": "remove not in verify_consistency",
+   "result": "killed",
+   "source_line": "while not fn & 1 and fn != 0:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 158,
+   "kind": "const",
+   "line": 179,
+   "mutation": "1->0 in verify_consistency",
+   "result": "killed",
+   "source_line": "while not fn & 1 and fn != 0:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 159,
+   "kind": "cmp",
+   "line": 179,
+   "mutation": "NotEq->Eq (op 0) in verify_consistency",
+   "result": "killed",
+   "source_line": "while not fn & 1 and fn != 0:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 160,
+   "kind": "const",
+   "line": 179,
+   "mutation": "0->1 in verify_consistency",
+   "result": "survived",
+   "source_line": "while not fn & 1 and fn != 0:",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 161,
+   "kind": "const",
+   "line": 180,
+   "mutation": "1->0 in verify_consistency",
+   "result": "killed(timeout)",
+   "source_line": "fn >>= 1",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 162,
+   "kind": "const",
+   "line": 181,
+   "mutation": "1->0 in verify_consistency",
+   "result": "killed",
+   "source_line": "sn >>= 1",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 163,
+   "kind": "const",
+   "line": 184,
+   "mutation": "1->0 in verify_consistency",
+   "result": "killed",
+   "source_line": "fn >>= 1",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 164,
+   "kind": "const",
+   "line": 185,
+   "mutation": "1->0 in verify_consistency",
+   "result": "killed",
+   "source_line": "sn >>= 1",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 165,
+   "kind": "bool",
+   "line": 188,
+   "mutation": "And swap in verify_consistency",
+   "result": "killed",
+   "source_line": "return sn == 0 and fr == root_m and sr == root_n",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 166,
+   "kind": "cmp",
+   "line": 188,
+   "mutation": "Eq->NotEq (op 0) in verify_consistency",
+   "result": "killed",
+   "source_line": "return sn == 0 and fr == root_m and sr == root_n",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 167,
+   "kind": "const",
+   "line": 188,
+   "mutation": "0->1 in verify_consistency",
+   "result": "killed",
+   "source_line": "return sn == 0 and fr == root_m and sr == root_n",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 168,
+   "kind": "cmp",
+   "line": 188,
+   "mutation": "Eq->NotEq (op 0) in verify_consistency",
+   "result": "killed",
+   "source_line": "return sn == 0 and fr == root_m and sr == root_n",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 169,
+   "kind": "cmp",
+   "line": 188,
+   "mutation": "Eq->NotEq (op 0) in verify_consistency",
+   "result": "killed",
+   "source_line": "return sn == 0 and fr == root_m and sr == root_n",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 170,
+   "kind": "del",
+   "line": 195,
+   "mutation": "delete statement in set_digest",
+   "result": "killed",
+   "source_line": "rats = [] if MUT == \"set_digest_proposal_only\" else sorted(H(bytes(r)) for r in ratification_bytes)",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 171,
+   "kind": "del",
+   "line": 196,
+   "mutation": "delete statement in set_digest",
+   "result": "killed",
+   "source_line": "return H(S.dcbor([H(bytes(proposal_bytes)), rats]))",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 172,
+   "kind": "del",
+   "line": 200,
+   "mutation": "delete statement in registration_entry",
+   "result": "killed",
+   "source_line": "return S.dcbor({\"v\": 1, \"kind\": kind, \"log_id\": log_id, \"policy_id\": policy_id, \"proposal_id\": proposal_id,",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 173,
+   "kind": "const",
+   "line": 200,
+   "mutation": "1->0 in registration_entry",
+   "result": "survived",
+   "source_line": "return S.dcbor({\"v\": 1, \"kind\": kind, \"log_id\": log_id, \"policy_id\": policy_id, \"proposal_id\": proposal_id,",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 174,
+   "kind": "del",
+   "line": 205,
+   "mutation": "delete statement in _pub_hex",
+   "result": "killed",
+   "source_line": "return key.public_key().public_bytes(serialization.Encoding.Raw, serialization.PublicFormat.Raw).hex()",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 175,
+   "kind": "del",
+   "line": 209,
+   "mutation": "delete statement in make_receipt",
+   "result": "killed",
+   "source_line": "protected = S.dcbor({HDR_ALG: S.ALG_ED25519, HDR_KID: log_id.encode(), HDR_VDS: VDS_RFC9162_SHA256,",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 176,
+   "kind": "del",
+   "line": 211,
+   "mutation": "delete statement in make_receipt",
+   "result": "killed",
+   "source_line": "proof = S.dcbor([size, index, list(path)])",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 177,
+   "kind": "del",
+   "line": 212,
+   "mutation": "delete statement in make_receipt",
+   "result": "killed",
+   "source_line": "sig = key.sign(S.dcbor([\"Signature1\", protected, b\"\", root]))",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 178,
+   "kind": "del",
+   "line": 213,
+   "mutation": "delete statement in make_receipt",
+   "result": "killed",
+   "source_line": "return S.dcbor(cbor2.CBORTag(S.COSE_SIGN1_TAG, [protected, {HDR_VDP: {VDP_INCLUSION: [proof]}}, None, sig]))",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 179,
+   "kind": "del",
+   "line": 218,
+   "mutation": "delete statement in parse_receipt",
+   "result": "killed",
+   "source_line": "try:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 180,
+   "kind": "del",
+   "line": 222,
+   "mutation": "delete statement in parse_receipt",
+   "result": "survived",
+   "source_line": "if not (isinstance(obj, cbor2.CBORTag) and obj.tag == S.COSE_SIGN1_TAG and isinstance(obj.value, (list, tuple))",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 181,
+   "kind": "del",
+   "line": 225,
+   "mutation": "delete statement in parse_receipt",
+   "result": "killed",
+   "source_line": "protected, unprotected, payload, sig = obj.value",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 182,
+   "kind": "del",
+   "line": 226,
+   "mutation": "delete statement in parse_receipt",
+   "result": "survived",
+   "source_line": "if not (isinstance(protected, bytes) and isinstance(sig, bytes)):",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 183,
+   "kind": "del",
+   "line": 228,
+   "mutation": "delete statement in parse_receipt",
+   "result": "killed",
+   "source_line": "hdr = S.strict_loads(protected)",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 184,
+   "kind": "del",
+   "line": 229,
+   "mutation": "delete statement in parse_receipt",
+   "result": "killed",
+   "source_line": "check = MUT != \"skip_receipt_header_check\"",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 185,
+   "kind": "del",
+   "line": 230,
+   "mutation": "delete statement in parse_receipt",
+   "result": "killed",
+   "source_line": "if check:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 186,
+   "kind": "del",
+   "line": 239,
+   "mutation": "delete statement in parse_receipt",
+   "result": "killed",
+   "source_line": "cwt = hdr[HDR_CWT]",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 187,
+   "kind": "del",
+   "line": 240,
+   "mutation": "delete statement in parse_receipt",
+   "result": "survived",
+   "source_line": "if not (isinstance(cwt, Mapping) and set(cwt) == {CWT_ISS, CWT_IAT} and S._ident(cwt[CWT_ISS])",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 188,
+   "kind": "del",
+   "line": 243,
+   "mutation": "delete statement in parse_receipt",
+   "result": "killed",
+   "source_line": "log_id, reg = cwt[CWT_ISS], cwt[CWT_IAT]",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 189,
+   "kind": "del",
+   "line": 244,
+   "mutation": "delete statement in parse_receipt",
+   "result": "killed",
+   "source_line": "if check and hdr[HDR_KID] != log_id.encode():",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 190,
+   "kind": "del",
+   "line": 246,
+   "mutation": "delete statement in parse_receipt",
+   "result": "survived",
+   "source_line": "if not (isinstance(unprotected, Mapping) and set(unprotected) == {HDR_VDP} and isinstance(unprotected[HDR_VDP], Mapping)",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 191,
+   "kind": "del",
+   "line": 249,
+   "mutation": "delete statement in parse_receipt",
+   "result": "killed",
+   "source_line": "proofs = unprotected[HDR_VDP][VDP_INCLUSION]",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 192,
+   "kind": "del",
+   "line": 250,
+   "mutation": "delete statement in parse_receipt",
+   "result": "survived",
+   "source_line": "if not (isinstance(proofs, (list, tuple)) and len(proofs) == 1 and isinstance(proofs[0], bytes)):",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 193,
+   "kind": "del",
+   "line": 252,
+   "mutation": "delete statement in parse_receipt",
+   "result": "killed",
+   "source_line": "p = S.strict_loads(proofs[0])",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 194,
+   "kind": "del",
+   "line": 253,
+   "mutation": "delete statement in parse_receipt",
+   "result": "survived",
+   "source_line": "if not (isinstance(p, (list, tuple)) and len(p) == 3 and S._uint(p[0]) and S._uint(p[1])",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 195,
+   "kind": "del",
+   "line": 256,
+   "mutation": "delete statement in parse_receipt",
+   "result": "killed",
+   "source_line": "return {\"protected\": protected, \"sig\": sig, \"log_id\": log_id, \"registered_at\": reg, \"tree_size\": p[0],",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 196,
+   "kind": "if",
+   "line": 222,
+   "mutation": "negate if in parse_receipt",
+   "result": "killed",
+   "source_line": "if not (isinstance(obj, cbor2.CBORTag) and obj.tag == S.COSE_SIGN1_TAG and isinstance(obj.value, (list, tuple))",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 197,
+   "kind": "not",
+   "line": 222,
+   "mutation": "remove not in parse_receipt",
+   "result": "killed",
+   "source_line": "if not (isinstance(obj, cbor2.CBORTag) and obj.tag == S.COSE_SIGN1_TAG and isinstance(obj.value, (list, tuple))",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 198,
+   "kind": "bool",
+   "line": 222,
+   "mutation": "And swap in parse_receipt",
+   "result": "survived",
+   "source_line": "if not (isinstance(obj, cbor2.CBORTag) and obj.tag == S.COSE_SIGN1_TAG and isinstance(obj.value, (list, tuple))",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 199,
+   "kind": "cmp",
+   "line": 222,
+   "mutation": "Eq->NotEq (op 0) in parse_receipt",
+   "result": "killed",
+   "source_line": "if not (isinstance(obj, cbor2.CBORTag) and obj.tag == S.COSE_SIGN1_TAG and isinstance(obj.value, (list, tuple))",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 200,
+   "kind": "cmp",
+   "line": 223,
+   "mutation": "Eq->NotEq (op 0) in parse_receipt",
+   "result": "killed",
+   "source_line": "and len(obj.value) == 4):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 201,
+   "kind": "const",
+   "line": 223,
+   "mutation": "4->0 in parse_receipt",
+   "result": "killed",
+   "source_line": "and len(obj.value) == 4):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 202,
+   "kind": "if",
+   "line": 226,
+   "mutation": "negate if in parse_receipt",
+   "result": "killed",
+   "source_line": "if not (isinstance(protected, bytes) and isinstance(sig, bytes)):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 203,
+   "kind": "not",
+   "line": 226,
+   "mutation": "remove not in parse_receipt",
+   "result": "killed",
+   "source_line": "if not (isinstance(protected, bytes) and isinstance(sig, bytes)):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 204,
+   "kind": "bool",
+   "line": 226,
+   "mutation": "And swap in parse_receipt",
+   "result": "survived",
+   "source_line": "if not (isinstance(protected, bytes) and isinstance(sig, bytes)):",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 205,
+   "kind": "if",
+   "line": 230,
+   "mutation": "negate if in parse_receipt",
+   "result": "killed",
+   "source_line": "if check:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 206,
+   "kind": "if",
+   "line": 231,
+   "mutation": "negate if in parse_receipt",
+   "result": "killed",
+   "source_line": "if not (isinstance(hdr, Mapping) and set(hdr) == {HDR_ALG, HDR_KID, HDR_VDS, HDR_CWT}):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 207,
+   "kind": "not",
+   "line": 231,
+   "mutation": "remove not in parse_receipt",
+   "result": "killed",
+   "source_line": "if not (isinstance(hdr, Mapping) and set(hdr) == {HDR_ALG, HDR_KID, HDR_VDS, HDR_CWT}):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 208,
+   "kind": "bool",
+   "line": 231,
+   "mutation": "And swap in parse_receipt",
+   "result": "killed",
+   "source_line": "if not (isinstance(hdr, Mapping) and set(hdr) == {HDR_ALG, HDR_KID, HDR_VDS, HDR_CWT}):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 209,
+   "kind": "cmp",
+   "line": 231,
+   "mutation": "Eq->NotEq (op 0) in parse_receipt",
+   "result": "killed",
+   "source_line": "if not (isinstance(hdr, Mapping) and set(hdr) == {HDR_ALG, HDR_KID, HDR_VDS, HDR_CWT}):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 210,
+   "kind": "if",
+   "line": 233,
+   "mutation": "negate if in parse_receipt",
+   "result": "killed",
+   "source_line": "if hdr[HDR_ALG] != S.ALG_ED25519 or hdr[HDR_VDS] != VDS_RFC9162_SHA256:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 211,
+   "kind": "bool",
+   "line": 233,
+   "mutation": "Or swap in parse_receipt",
+   "result": "killed",
+   "source_line": "if hdr[HDR_ALG] != S.ALG_ED25519 or hdr[HDR_VDS] != VDS_RFC9162_SHA256:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 212,
+   "kind": "cmp",
+   "line": 233,
+   "mutation": "NotEq->Eq (op 0) in parse_receipt",
+   "result": "killed",
+   "source_line": "if hdr[HDR_ALG] != S.ALG_ED25519 or hdr[HDR_VDS] != VDS_RFC9162_SHA256:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 213,
+   "kind": "cmp",
+   "line": 233,
+   "mutation": "NotEq->Eq (op 0) in parse_receipt",
+   "result": "killed",
+   "source_line": "if hdr[HDR_ALG] != S.ALG_ED25519 or hdr[HDR_VDS] != VDS_RFC9162_SHA256:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 214,
+   "kind": "if",
+   "line": 235,
+   "mutation": "negate if in parse_receipt",
+   "result": "killed",
+   "source_line": "if payload is not None:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 215,
+   "kind": "cmp",
+   "line": 235,
+   "mutation": "IsNot->Is (op 0) in parse_receipt",
+   "result": "killed",
+   "source_line": "if payload is not None:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 216,
+   "kind": "if",
+   "line": 237,
+   "mutation": "negate if in parse_receipt",
+   "result": "killed",
+   "source_line": "if len(sig) != 64:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 217,
+   "kind": "cmp",
+   "line": 237,
+   "mutation": "NotEq->Eq (op 0) in parse_receipt",
+   "result": "killed",
+   "source_line": "if len(sig) != 64:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 218,
+   "kind": "const",
+   "line": 237,
+   "mutation": "64->0 in parse_receipt",
+   "result": "killed",
+   "source_line": "if len(sig) != 64:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 219,
+   "kind": "if",
+   "line": 240,
+   "mutation": "negate if in parse_receipt",
+   "result": "killed",
+   "source_line": "if not (isinstance(cwt, Mapping) and set(cwt) == {CWT_ISS, CWT_IAT} and S._ident(cwt[CWT_ISS])",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 220,
+   "kind": "not",
+   "line": 240,
+   "mutation": "remove not in parse_receipt",
+   "result": "killed",
+   "source_line": "if not (isinstance(cwt, Mapping) and set(cwt) == {CWT_ISS, CWT_IAT} and S._ident(cwt[CWT_ISS])",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 221,
+   "kind": "bool",
+   "line": 240,
+   "mutation": "And swap in parse_receipt",
+   "result": "survived",
+   "source_line": "if not (isinstance(cwt, Mapping) and set(cwt) == {CWT_ISS, CWT_IAT} and S._ident(cwt[CWT_ISS])",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 222,
+   "kind": "cmp",
+   "line": 240,
+   "mutation": "Eq->NotEq (op 0) in parse_receipt",
+   "result": "killed",
+   "source_line": "if not (isinstance(cwt, Mapping) and set(cwt) == {CWT_ISS, CWT_IAT} and S._ident(cwt[CWT_ISS])",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 223,
+   "kind": "if",
+   "line": 244,
+   "mutation": "negate if in parse_receipt",
+   "result": "killed",
+   "source_line": "if check and hdr[HDR_KID] != log_id.encode():",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 224,
+   "kind": "bool",
+   "line": 244,
+   "mutation": "And swap in parse_receipt",
+   "result": "killed",
+   "source_line": "if check and hdr[HDR_KID] != log_id.encode():",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 225,
+   "kind": "cmp",
+   "line": 244,
+   "mutation": "NotEq->Eq (op 0) in parse_receipt",
+   "result": "killed",
+   "source_line": "if check and hdr[HDR_KID] != log_id.encode():",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 226,
+   "kind": "if",
+   "line": 246,
+   "mutation": "negate if in parse_receipt",
+   "result": "killed",
+   "source_line": "if not (isinstance(unprotected, Mapping) and set(unprotected) == {HDR_VDP} and isinstance(unprotected[HDR_VDP], Mapping)",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 227,
+   "kind": "not",
+   "line": 246,
+   "mutation": "remove not in parse_receipt",
+   "result": "killed",
+   "source_line": "if not (isinstance(unprotected, Mapping) and set(unprotected) == {HDR_VDP} and isinstance(unprotected[HDR_VDP], Mapping)",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 228,
+   "kind": "bool",
+   "line": 246,
+   "mutation": "And swap in parse_receipt",
+   "result": "survived",
+   "source_line": "if not (isinstance(unprotected, Mapping) and set(unprotected) == {HDR_VDP} and isinstance(unprotected[HDR_VDP], Mapping)",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 229,
+   "kind": "cmp",
+   "line": 246,
+   "mutation": "Eq->NotEq (op 0) in parse_receipt",
+   "result": "killed",
+   "source_line": "if not (isinstance(unprotected, Mapping) and set(unprotected) == {HDR_VDP} and isinstance(unprotected[HDR_VDP], Mapping)",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 230,
+   "kind": "cmp",
+   "line": 247,
+   "mutation": "Eq->NotEq (op 0) in parse_receipt",
+   "result": "killed",
+   "source_line": "and set(unprotected[HDR_VDP]) == {VDP_INCLUSION}):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 231,
+   "kind": "if",
+   "line": 250,
+   "mutation": "negate if in parse_receipt",
+   "result": "killed",
+   "source_line": "if not (isinstance(proofs, (list, tuple)) and len(proofs) == 1 and isinstance(proofs[0], bytes)):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 232,
+   "kind": "not",
+   "line": 250,
+   "mutation": "remove not in parse_receipt",
+   "result": "killed",
+   "source_line": "if not (isinstance(proofs, (list, tuple)) and len(proofs) == 1 and isinstance(proofs[0], bytes)):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 233,
+   "kind": "bool",
+   "line": 250,
+   "mutation": "And swap in parse_receipt",
+   "result": "survived",
+   "source_line": "if not (isinstance(proofs, (list, tuple)) and len(proofs) == 1 and isinstance(proofs[0], bytes)):",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 234,
+   "kind": "cmp",
+   "line": 250,
+   "mutation": "Eq->NotEq (op 0) in parse_receipt",
+   "result": "killed",
+   "source_line": "if not (isinstance(proofs, (list, tuple)) and len(proofs) == 1 and isinstance(proofs[0], bytes)):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 235,
+   "kind": "const",
+   "line": 250,
+   "mutation": "1->0 in parse_receipt",
+   "result": "killed",
+   "source_line": "if not (isinstance(proofs, (list, tuple)) and len(proofs) == 1 and isinstance(proofs[0], bytes)):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 236,
+   "kind": "const",
+   "line": 250,
+   "mutation": "0->1 in parse_receipt",
+   "result": "killed",
+   "source_line": "if not (isinstance(proofs, (list, tuple)) and len(proofs) == 1 and isinstance(proofs[0], bytes)):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 237,
+   "kind": "const",
+   "line": 252,
+   "mutation": "0->1 in parse_receipt",
+   "result": "killed",
+   "source_line": "p = S.strict_loads(proofs[0])",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 238,
+   "kind": "if",
+   "line": 253,
+   "mutation": "negate if in parse_receipt",
+   "result": "killed",
+   "source_line": "if not (isinstance(p, (list, tuple)) and len(p) == 3 and S._uint(p[0]) and S._uint(p[1])",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 239,
+   "kind": "not",
+   "line": 253,
+   "mutation": "remove not in parse_receipt",
+   "result": "killed",
+   "source_line": "if not (isinstance(p, (list, tuple)) and len(p) == 3 and S._uint(p[0]) and S._uint(p[1])",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 240,
+   "kind": "bool",
+   "line": 253,
+   "mutation": "And swap in parse_receipt",
+   "result": "survived",
+   "source_line": "if not (isinstance(p, (list, tuple)) and len(p) == 3 and S._uint(p[0]) and S._uint(p[1])",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 241,
+   "kind": "cmp",
+   "line": 253,
+   "mutation": "Eq->NotEq (op 0) in parse_receipt",
+   "result": "killed",
+   "source_line": "if not (isinstance(p, (list, tuple)) and len(p) == 3 and S._uint(p[0]) and S._uint(p[1])",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 242,
+   "kind": "const",
+   "line": 253,
+   "mutation": "3->0 in parse_receipt",
+   "result": "killed",
+   "source_line": "if not (isinstance(p, (list, tuple)) and len(p) == 3 and S._uint(p[0]) and S._uint(p[1])",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 243,
+   "kind": "const",
+   "line": 253,
+   "mutation": "0->1 in parse_receipt",
+   "result": "survived",
+   "source_line": "if not (isinstance(p, (list, tuple)) and len(p) == 3 and S._uint(p[0]) and S._uint(p[1])",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 244,
+   "kind": "const",
+   "line": 253,
+   "mutation": "1->0 in parse_receipt",
+   "result": "survived",
+   "source_line": "if not (isinstance(p, (list, tuple)) and len(p) == 3 and S._uint(p[0]) and S._uint(p[1])",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 245,
+   "kind": "const",
+   "line": 254,
+   "mutation": "2->0 in parse_receipt",
+   "result": "killed",
+   "source_line": "and isinstance(p[2], (list, tuple)) and all(isinstance(x, bytes) and len(x) == 32 for x in p[2])):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 246,
+   "kind": "bool",
+   "line": 254,
+   "mutation": "And swap in parse_receipt",
+   "result": "survived",
+   "source_line": "and isinstance(p[2], (list, tuple)) and all(isinstance(x, bytes) and len(x) == 32 for x in p[2])):",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 247,
+   "kind": "cmp",
+   "line": 254,
+   "mutation": "Eq->NotEq (op 0) in parse_receipt",
+   "result": "killed",
+   "source_line": "and isinstance(p[2], (list, tuple)) and all(isinstance(x, bytes) and len(x) == 32 for x in p[2])):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 248,
+   "kind": "const",
+   "line": 254,
+   "mutation": "32->0 in parse_receipt",
+   "result": "killed",
+   "source_line": "and isinstance(p[2], (list, tuple)) and all(isinstance(x, bytes) and len(x) == 32 for x in p[2])):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 249,
+   "kind": "const",
+   "line": 254,
+   "mutation": "2->0 in parse_receipt",
+   "result": "killed",
+   "source_line": "and isinstance(p[2], (list, tuple)) and all(isinstance(x, bytes) and len(x) == 32 for x in p[2])):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 250,
+   "kind": "const",
+   "line": 256,
+   "mutation": "0->1 in parse_receipt",
+   "result": "killed",
+   "source_line": "return {\"protected\": protected, \"sig\": sig, \"log_id\": log_id, \"registered_at\": reg, \"tree_size\": p[0],",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 251,
+   "kind": "const",
+   "line": 257,
+   "mutation": "1->0 in parse_receipt",
+   "result": "killed",
+   "source_line": "\"leaf_index\": p[1], \"path\": list(p[2])}",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 252,
+   "kind": "const",
+   "line": 257,
+   "mutation": "2->0 in parse_receipt",
+   "result": "killed",
+   "source_line": "\"leaf_index\": p[1], \"path\": list(p[2])}",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 253,
+   "kind": "del",
+   "line": 261,
+   "mutation": "delete statement in _cose_bytes",
+   "result": "killed",
+   "source_line": "return S.to_cose(stmt)",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 254,
+   "kind": "del",
+   "line": 265,
+   "mutation": "delete statement in receipt_entry_for",
+   "result": "killed",
+   "source_line": "pb = proposal[\"body\"]",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 255,
+   "kind": "del",
+   "line": 266,
+   "mutation": "delete statement in receipt_entry_for",
+   "result": "killed",
+   "source_line": "return registration_entry(kind, log_id, policy_id, pb[\"proposal_id\"],",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 256,
+   "kind": "del",
+   "line": 274,
+   "mutation": "delete statement in verify_receipt",
+   "result": "killed",
+   "source_line": "if receipt is None:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 257,
+   "kind": "del",
+   "line": 276,
+   "mutation": "delete statement in verify_receipt",
+   "result": "killed",
+   "source_line": "try:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 258,
+   "kind": "del",
+   "line": 280,
+   "mutation": "delete statement in verify_receipt",
+   "result": "killed",
+   "source_line": "pub = trusted_logs.get(info[\"log_id\"]) if isinstance(trusted_logs, Mapping) else None",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 259,
+   "kind": "del",
+   "line": 281,
+   "mutation": "delete statement in verify_receipt",
+   "result": "killed",
+   "source_line": "if pub is None:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 260,
+   "kind": "del",
+   "line": 285,
+   "mutation": "delete statement in verify_receipt",
+   "result": "killed",
+   "source_line": "kinds = KINDS if MUT == \"entry_kind_any\" else (\"authorization\",)",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 261,
+   "kind": "del",
+   "line": 286,
+   "mutation": "delete statement in verify_receipt",
+   "result": "killed",
+   "source_line": "failure = \"receipt_inclusion_failed\"",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 262,
+   "kind": "del",
+   "line": 287,
+   "mutation": "delete statement in verify_receipt",
+   "result": "killed",
+   "source_line": "for kind in kinds:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 263,
+   "kind": "del",
+   "line": 300,
+   "mutation": "delete statement in verify_receipt",
+   "result": "killed",
+   "source_line": "return failure, None",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 264,
+   "kind": "if",
+   "line": 274,
+   "mutation": "negate if in verify_receipt",
+   "result": "killed",
+   "source_line": "if receipt is None:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 265,
+   "kind": "cmp",
+   "line": 274,
+   "mutation": "Is->IsNot (op 0) in verify_receipt",
+   "result": "killed",
+   "source_line": "if receipt is None:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 266,
+   "kind": "if",
+   "line": 281,
+   "mutation": "negate if in verify_receipt",
+   "result": "killed",
+   "source_line": "if pub is None:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 267,
+   "kind": "cmp",
+   "line": 281,
+   "mutation": "Is->IsNot (op 0) in verify_receipt",
+   "result": "killed",
+   "source_line": "if pub is None:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 268,
+   "kind": "if",
+   "line": 290,
+   "mutation": "negate if in verify_receipt",
+   "result": "killed",
+   "source_line": "if root is None:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 269,
+   "kind": "cmp",
+   "line": 290,
+   "mutation": "Is->IsNot (op 0) in verify_receipt",
+   "result": "killed",
+   "source_line": "if root is None:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 270,
+   "kind": "del",
+   "line": 308,
+   "mutation": "delete statement in _root_from_proof",
+   "result": "killed",
+   "source_line": "size, index, path = info[\"tree_size\"], info[\"leaf_index\"], info[\"path\"]",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 271,
+   "kind": "del",
+   "line": 309,
+   "mutation": "delete statement in _root_from_proof",
+   "result": "killed",
+   "source_line": "strict = MUT != \"skip_inclusion\"",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 272,
+   "kind": "del",
+   "line": 310,
+   "mutation": "delete statement in _root_from_proof",
+   "result": "killed",
+   "source_line": "if strict and MUT != \"inclusion_skip_index_bound\" and index >= size:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 273,
+   "kind": "del",
+   "line": 312,
+   "mutation": "delete statement in _root_from_proof",
+   "result": "killed",
+   "source_line": "fn, sn, r = index, size - 1, leaf_hash(leaf)",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 274,
+   "kind": "del",
+   "line": 313,
+   "mutation": "delete statement in _root_from_proof",
+   "result": "killed",
+   "source_line": "for p in path:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 275,
+   "kind": "del",
+   "line": 328,
+   "mutation": "delete statement in _root_from_proof",
+   "result": "killed",
+   "source_line": "if strict and MUT != \"inclusion_skip_final_size\" and sn != 0:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 276,
+   "kind": "del",
+   "line": 330,
+   "mutation": "delete statement in _root_from_proof",
+   "result": "killed",
+   "source_line": "return r",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 277,
+   "kind": "cmp",
+   "line": 310,
+   "mutation": "GtE->Gt (op 0) in _root_from_proof",
+   "result": "killed",
+   "source_line": "if strict and MUT != \"inclusion_skip_index_bound\" and index >= size:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 278,
+   "kind": "const",
+   "line": 312,
+   "mutation": "1->0 in _root_from_proof",
+   "result": "killed",
+   "source_line": "fn, sn, r = index, size - 1, leaf_hash(leaf)",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 279,
+   "kind": "if",
+   "line": 314,
+   "mutation": "negate if in _root_from_proof",
+   "result": "killed",
+   "source_line": "if sn == 0:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 280,
+   "kind": "cmp",
+   "line": 314,
+   "mutation": "Eq->NotEq (op 0) in _root_from_proof",
+   "result": "killed",
+   "source_line": "if sn == 0:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 281,
+   "kind": "const",
+   "line": 314,
+   "mutation": "0->1 in _root_from_proof",
+   "result": "killed",
+   "source_line": "if sn == 0:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 282,
+   "kind": "if",
+   "line": 315,
+   "mutation": "negate if in _root_from_proof",
+   "result": "survived",
+   "source_line": "if strict:",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 283,
+   "kind": "if",
+   "line": 318,
+   "mutation": "negate if in _root_from_proof",
+   "result": "killed",
+   "source_line": "if fn & 1 or fn == sn:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 284,
+   "kind": "bool",
+   "line": 318,
+   "mutation": "Or swap in _root_from_proof",
+   "result": "killed",
+   "source_line": "if fn & 1 or fn == sn:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 285,
+   "kind": "const",
+   "line": 318,
+   "mutation": "1->0 in _root_from_proof",
+   "result": "killed",
+   "source_line": "if fn & 1 or fn == sn:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 286,
+   "kind": "cmp",
+   "line": 318,
+   "mutation": "Eq->NotEq (op 0) in _root_from_proof",
+   "result": "killed",
+   "source_line": "if fn & 1 or fn == sn:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 287,
+   "kind": "if",
+   "line": 320,
+   "mutation": "negate if in _root_from_proof",
+   "result": "survived",
+   "source_line": "if not fn & 1:",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 288,
+   "kind": "not",
+   "line": 320,
+   "mutation": "remove not in _root_from_proof",
+   "result": "survived",
+   "source_line": "if not fn & 1:",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 289,
+   "kind": "const",
+   "line": 320,
+   "mutation": "1->0 in _root_from_proof",
+   "result": "survived",
+   "source_line": "if not fn & 1:",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 290,
+   "kind": "bool",
+   "line": 321,
+   "mutation": "And swap in _root_from_proof",
+   "result": "killed(timeout)",
+   "source_line": "while not fn & 1 and fn != 0:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 291,
+   "kind": "not",
+   "line": 321,
+   "mutation": "remove not in _root_from_proof",
+   "result": "survived",
+   "source_line": "while not fn & 1 and fn != 0:",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 292,
+   "kind": "const",
+   "line": 321,
+   "mutation": "1->0 in _root_from_proof",
+   "result": "survived",
+   "source_line": "while not fn & 1 and fn != 0:",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 293,
+   "kind": "cmp",
+   "line": 321,
+   "mutation": "NotEq->Eq (op 0) in _root_from_proof",
+   "result": "survived",
+   "source_line": "while not fn & 1 and fn != 0:",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 294,
+   "kind": "const",
+   "line": 321,
+   "mutation": "0->1 in _root_from_proof",
+   "result": "survived",
+   "source_line": "while not fn & 1 and fn != 0:",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 295,
+   "kind": "const",
+   "line": 322,
+   "mutation": "1->0 in _root_from_proof",
+   "result": "killed(timeout)",
+   "source_line": "fn >>= 1",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 296,
+   "kind": "const",
+   "line": 323,
+   "mutation": "1->0 in _root_from_proof",
+   "result": "survived",
+   "source_line": "sn >>= 1",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 297,
+   "kind": "const",
+   "line": 326,
+   "mutation": "1->0 in _root_from_proof",
+   "result": "killed",
+   "source_line": "fn >>= 1",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 298,
+   "kind": "const",
+   "line": 327,
+   "mutation": "1->0 in _root_from_proof",
+   "result": "killed",
+   "source_line": "sn >>= 1",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 299,
+   "kind": "cmp",
+   "line": 328,
+   "mutation": "NotEq->Eq (op 0) in _root_from_proof",
+   "result": "killed",
+   "source_line": "if strict and MUT != \"inclusion_skip_final_size\" and sn != 0:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 300,
+   "kind": "const",
+   "line": 328,
+   "mutation": "0->1 in _root_from_proof",
+   "result": "killed",
+   "source_line": "if strict and MUT != \"inclusion_skip_final_size\" and sn != 0:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 301,
+   "kind": "del",
+   "line": 336,
+   "mutation": "delete statement in _validity",
+   "result": "killed",
+   "source_line": "try:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 302,
+   "kind": "if",
+   "line": 338,
+   "mutation": "negate if in _validity",
+   "result": "killed",
+   "source_line": "if not S.proposal_shape_ok(pb) or not all(S.ratification_shape_ok(r[\"body\"]) for r in ratifications):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 303,
+   "kind": "bool",
+   "line": 338,
+   "mutation": "Or swap in _validity",
+   "result": "survived",
+   "source_line": "if not S.proposal_shape_ok(pb) or not all(S.ratification_shape_ok(r[\"body\"]) for r in ratifications):",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 304,
+   "kind": "not",
+   "line": 338,
+   "mutation": "remove not in _validity",
+   "result": "killed",
+   "source_line": "if not S.proposal_shape_ok(pb) or not all(S.ratification_shape_ok(r[\"body\"]) for r in ratifications):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 305,
+   "kind": "not",
+   "line": 338,
+   "mutation": "remove not in _validity",
+   "result": "killed",
+   "source_line": "if not S.proposal_shape_ok(pb) or not all(S.ratification_shape_ok(r[\"body\"]) for r in ratifications):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 306,
+   "kind": "del",
+   "line": 349,
+   "mutation": "delete statement in check_registration_time",
+   "result": "killed",
+   "source_line": "v = _validity(proposal, ratifications)",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 307,
+   "kind": "del",
+   "line": 350,
+   "mutation": "delete statement in check_registration_time",
+   "result": "survived",
+   "source_line": "if v is None or MUT == \"skip_registration_window\":",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 308,
+   "kind": "del",
+   "line": 352,
+   "mutation": "delete statement in check_registration_time",
+   "result": "killed",
+   "source_line": "lo, hi = v",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 309,
+   "kind": "del",
+   "line": 353,
+   "mutation": "delete statement in check_registration_time",
+   "result": "killed",
+   "source_line": "return None if S.accepts_at(lo, hi, info[\"registered_at\"]) else \"receipt_registration_outside_validity\"",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 310,
+   "kind": "cmp",
+   "line": 350,
+   "mutation": "Is->IsNot (op 0) in check_registration_time",
+   "result": "killed",
+   "source_line": "if v is None or MUT == \"skip_registration_window\":",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 311,
+   "kind": "del",
+   "line": 360,
+   "mutation": "delete statement in __init__",
+   "result": "killed",
+   "source_line": "self.ok, self.reason, self.receipt, self.entry, self.index = ok, reason, receipt, entry, index",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 312,
+   "kind": "del",
+   "line": 363,
+   "mutation": "delete statement in __iter__",
+   "result": "survived",
+   "source_line": "return iter((self.ok, self.reason, self.receipt))",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 313,
+   "kind": "del",
+   "line": 371,
+   "mutation": "delete statement in __init__",
+   "result": "killed",
+   "source_line": "self.log_id = log_id",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 314,
+   "kind": "del",
+   "line": 372,
+   "mutation": "delete statement in __init__",
+   "result": "killed",
+   "source_line": "self._key = signing_key or Ed25519PrivateKey.generate()",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 315,
+   "kind": "del",
+   "line": 373,
+   "mutation": "delete statement in __init__",
+   "result": "killed",
+   "source_line": "self.public_key = _pub_hex(self._key)",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 316,
+   "kind": "del",
+   "line": 374,
+   "mutation": "delete statement in __init__",
+   "result": "killed",
+   "source_line": "self._policy = policy",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 317,
+   "kind": "del",
+   "line": 375,
+   "mutation": "delete statement in __init__",
+   "result": "killed",
+   "source_line": "self.entries = []",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 318,
+   "kind": "del",
+   "line": 376,
+   "mutation": "delete statement in __init__",
+   "result": "killed",
+   "source_line": "self._tree = _Tree(self.entries)",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 319,
+   "kind": "del",
+   "line": 377,
+   "mutation": "delete statement in __init__",
+   "result": "killed",
+   "source_line": "self._authorized, self._rejected = set(), set()",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 320,
+   "kind": "del",
+   "line": 378,
+   "mutation": "delete statement in __init__",
+   "result": "killed",
+   "source_line": "self._lock = threading.Lock()",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 321,
+   "kind": "bool",
+   "line": 372,
+   "mutation": "Or swap in __init__",
+   "result": "killed",
+   "source_line": "self._key = signing_key or Ed25519PrivateKey.generate()",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 322,
+   "kind": "del",
+   "line": 382,
+   "mutation": "delete statement in policy",
+   "result": "killed",
+   "source_line": "return self._policy() if callable(self._policy) else self._policy",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 323,
+   "kind": "del",
+   "line": 388,
+   "mutation": "delete statement in _evaluate",
+   "result": "survived",
+   "source_line": "if not S.policy_valid(policy):",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 324,
+   "kind": "del",
+   "line": 390,
+   "mutation": "delete statement in _evaluate",
+   "result": "killed",
+   "source_line": "pb = proposal[\"body\"]",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 325,
+   "kind": "del",
+   "line": 391,
+   "mutation": "delete statement in _evaluate",
+   "result": "survived",
+   "source_line": "if not S.proposal_shape_ok(pb) or pb[\"proposal_id\"] != S.expected_proposal_id(pb):",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 326,
+   "kind": "del",
+   "line": 393,
+   "mutation": "delete statement in _evaluate",
+   "result": "survived",
+   "source_line": "if pb[\"policy_id\"] != policy[\"policy_id\"]:",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 327,
+   "kind": "del",
+   "line": 395,
+   "mutation": "delete statement in _evaluate",
+   "result": "killed",
+   "source_line": "apub = policy[\"authorized_agents\"].get(pb[\"agent_id\"])",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 328,
+   "kind": "del",
+   "line": 396,
+   "mutation": "delete statement in _evaluate",
+   "result": "survived",
+   "source_line": "if apub is None:",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 329,
+   "kind": "del",
+   "line": 398,
+   "mutation": "delete statement in _evaluate",
+   "result": "survived",
+   "source_line": "if not S.verify_statement(proposal, apub, S.CT_PROPOSAL, pb[\"agent_id\"]):",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 330,
+   "kind": "del",
+   "line": 400,
+   "mutation": "delete statement in _evaluate",
+   "result": "killed",
+   "source_line": "pdig = S.statement_digest(proposal)",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 331,
+   "kind": "del",
+   "line": 401,
+   "mutation": "delete statement in _evaluate",
+   "result": "killed",
+   "source_line": "seen, approvals, rejections = set(), 0, 0",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 332,
+   "kind": "del",
+   "line": 402,
+   "mutation": "delete statement in _evaluate",
+   "result": "killed",
+   "source_line": "lo, hi = pb[\"issued_at\"], pb[\"expires_at\"]",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 333,
+   "kind": "del",
+   "line": 403,
+   "mutation": "delete statement in _evaluate",
+   "result": "killed",
+   "source_line": "for r in ratifications:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 334,
+   "kind": "del",
+   "line": 428,
+   "mutation": "delete statement in _evaluate",
+   "result": "killed",
+   "source_line": "if kind == \"rejection\":",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 335,
+   "kind": "del",
+   "line": 432,
+   "mutation": "delete statement in _evaluate",
+   "result": "killed",
+   "source_line": "if rejections and MUT != \"ts_allow_rejected\":",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 336,
+   "kind": "del",
+   "line": 434,
+   "mutation": "delete statement in _evaluate",
+   "result": "killed",
+   "source_line": "if approvals < policy[\"quorum\"]:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 337,
+   "kind": "del",
+   "line": 436,
+   "mutation": "delete statement in _evaluate",
+   "result": "killed",
+   "source_line": "if MUT != \"ts_skip_time\" and not (lo < hi and S.accepts_at(lo, hi, t)):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 338,
+   "kind": "del",
+   "line": 438,
+   "mutation": "delete statement in _evaluate",
+   "result": "survived",
+   "source_line": "return None",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 339,
+   "kind": "if",
+   "line": 388,
+   "mutation": "negate if in _evaluate",
+   "result": "killed",
+   "source_line": "if not S.policy_valid(policy):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 340,
+   "kind": "not",
+   "line": 388,
+   "mutation": "remove not in _evaluate",
+   "result": "killed",
+   "source_line": "if not S.policy_valid(policy):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 341,
+   "kind": "if",
+   "line": 391,
+   "mutation": "negate if in _evaluate",
+   "result": "killed",
+   "source_line": "if not S.proposal_shape_ok(pb) or pb[\"proposal_id\"] != S.expected_proposal_id(pb):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 342,
+   "kind": "bool",
+   "line": 391,
+   "mutation": "Or swap in _evaluate",
+   "result": "survived",
+   "source_line": "if not S.proposal_shape_ok(pb) or pb[\"proposal_id\"] != S.expected_proposal_id(pb):",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 343,
+   "kind": "not",
+   "line": 391,
+   "mutation": "remove not in _evaluate",
+   "result": "killed",
+   "source_line": "if not S.proposal_shape_ok(pb) or pb[\"proposal_id\"] != S.expected_proposal_id(pb):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 344,
+   "kind": "cmp",
+   "line": 391,
+   "mutation": "NotEq->Eq (op 0) in _evaluate",
+   "result": "killed",
+   "source_line": "if not S.proposal_shape_ok(pb) or pb[\"proposal_id\"] != S.expected_proposal_id(pb):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 345,
+   "kind": "if",
+   "line": 393,
+   "mutation": "negate if in _evaluate",
+   "result": "killed",
+   "source_line": "if pb[\"policy_id\"] != policy[\"policy_id\"]:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 346,
+   "kind": "cmp",
+   "line": 393,
+   "mutation": "NotEq->Eq (op 0) in _evaluate",
+   "result": "killed",
+   "source_line": "if pb[\"policy_id\"] != policy[\"policy_id\"]:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 347,
+   "kind": "if",
+   "line": 396,
+   "mutation": "negate if in _evaluate",
+   "result": "killed",
+   "source_line": "if apub is None:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 348,
+   "kind": "cmp",
+   "line": 396,
+   "mutation": "Is->IsNot (op 0) in _evaluate",
+   "result": "killed",
+   "source_line": "if apub is None:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 349,
+   "kind": "if",
+   "line": 398,
+   "mutation": "negate if in _evaluate",
+   "result": "killed",
+   "source_line": "if not S.verify_statement(proposal, apub, S.CT_PROPOSAL, pb[\"agent_id\"]):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 350,
+   "kind": "not",
+   "line": 398,
+   "mutation": "remove not in _evaluate",
+   "result": "killed",
+   "source_line": "if not S.verify_statement(proposal, apub, S.CT_PROPOSAL, pb[\"agent_id\"]):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 351,
+   "kind": "const",
+   "line": 401,
+   "mutation": "0->1 in _evaluate",
+   "result": "killed",
+   "source_line": "seen, approvals, rejections = set(), 0, 0",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 352,
+   "kind": "const",
+   "line": 401,
+   "mutation": "0->1 in _evaluate",
+   "result": "killed",
+   "source_line": "seen, approvals, rejections = set(), 0, 0",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 353,
+   "kind": "if",
+   "line": 405,
+   "mutation": "negate if in _evaluate",
+   "result": "killed",
+   "source_line": "if not S.ratification_shape_ok(rb):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 354,
+   "kind": "not",
+   "line": 405,
+   "mutation": "remove not in _evaluate",
+   "result": "killed",
+   "source_line": "if not S.ratification_shape_ok(rb):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 355,
+   "kind": "if",
+   "line": 408,
+   "mutation": "negate if in _evaluate",
+   "result": "killed",
+   "source_line": "if opub is None:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 356,
+   "kind": "cmp",
+   "line": 408,
+   "mutation": "Is->IsNot (op 0) in _evaluate",
+   "result": "killed",
+   "source_line": "if opub is None:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 357,
+   "kind": "if",
+   "line": 410,
+   "mutation": "negate if in _evaluate",
+   "result": "killed",
+   "source_line": "if not S.verify_statement(r, opub, S.CT_RATIFICATION, rb[\"overseer_id\"]):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 358,
+   "kind": "not",
+   "line": 410,
+   "mutation": "remove not in _evaluate",
+   "result": "killed",
+   "source_line": "if not S.verify_statement(r, opub, S.CT_RATIFICATION, rb[\"overseer_id\"]):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 359,
+   "kind": "if",
+   "line": 412,
+   "mutation": "negate if in _evaluate",
+   "result": "killed",
+   "source_line": "if rb[\"proposal_digest\"] != pdig or rb[\"proposal_id\"] != pb[\"proposal_id\"]:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 360,
+   "kind": "bool",
+   "line": 412,
+   "mutation": "Or swap in _evaluate",
+   "result": "survived",
+   "source_line": "if rb[\"proposal_digest\"] != pdig or rb[\"proposal_id\"] != pb[\"proposal_id\"]:",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 361,
+   "kind": "cmp",
+   "line": 412,
+   "mutation": "NotEq->Eq (op 0) in _evaluate",
+   "result": "killed",
+   "source_line": "if rb[\"proposal_digest\"] != pdig or rb[\"proposal_id\"] != pb[\"proposal_id\"]:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 362,
+   "kind": "cmp",
+   "line": 412,
+   "mutation": "NotEq->Eq (op 0) in _evaluate",
+   "result": "killed",
+   "source_line": "if rb[\"proposal_digest\"] != pdig or rb[\"proposal_id\"] != pb[\"proposal_id\"]:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 363,
+   "kind": "if",
+   "line": 414,
+   "mutation": "negate if in _evaluate",
+   "result": "killed",
+   "source_line": "if rb[\"policy_id\"] != policy[\"policy_id\"]:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 364,
+   "kind": "cmp",
+   "line": 414,
+   "mutation": "NotEq->Eq (op 0) in _evaluate",
+   "result": "killed",
+   "source_line": "if rb[\"policy_id\"] != policy[\"policy_id\"]:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 365,
+   "kind": "if",
+   "line": 416,
+   "mutation": "negate if in _evaluate",
+   "result": "killed",
+   "source_line": "if rb[\"overseer_id\"] in seen:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 366,
+   "kind": "cmp",
+   "line": 416,
+   "mutation": "In->NotIn (op 0) in _evaluate",
+   "result": "killed",
+   "source_line": "if rb[\"overseer_id\"] in seen:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 367,
+   "kind": "if",
+   "line": 419,
+   "mutation": "negate if in _evaluate",
+   "result": "killed",
+   "source_line": "if not pb[\"issued_at\"] <= rb[\"reviewed_at\"] < pb[\"expires_at\"]:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 368,
+   "kind": "not",
+   "line": 419,
+   "mutation": "remove not in _evaluate",
+   "result": "killed",
+   "source_line": "if not pb[\"issued_at\"] <= rb[\"reviewed_at\"] < pb[\"expires_at\"]:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 369,
+   "kind": "cmp",
+   "line": 419,
+   "mutation": "LtE->Lt (op 0) in _evaluate",
+   "result": "killed",
+   "source_line": "if not pb[\"issued_at\"] <= rb[\"reviewed_at\"] < pb[\"expires_at\"]:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 370,
+   "kind": "cmp",
+   "line": 419,
+   "mutation": "Lt->LtE (op 1) in _evaluate",
+   "result": "survived",
+   "source_line": "if not pb[\"issued_at\"] <= rb[\"reviewed_at\"] < pb[\"expires_at\"]:",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 371,
+   "kind": "if",
+   "line": 421,
+   "mutation": "negate if in _evaluate",
+   "result": "killed",
+   "source_line": "if rb[\"verdict\"] not in S.VERDICTS:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 372,
+   "kind": "cmp",
+   "line": 421,
+   "mutation": "NotIn->In (op 0) in _evaluate",
+   "result": "killed",
+   "source_line": "if rb[\"verdict\"] not in S.VERDICTS:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 373,
+   "kind": "if",
+   "line": 423,
+   "mutation": "negate if in _evaluate",
+   "result": "killed",
+   "source_line": "if rb[\"verdict\"] == \"REJECTED\":",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 374,
+   "kind": "cmp",
+   "line": 423,
+   "mutation": "Eq->NotEq (op 0) in _evaluate",
+   "result": "killed",
+   "source_line": "if rb[\"verdict\"] == \"REJECTED\":",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 375,
+   "kind": "const",
+   "line": 424,
+   "mutation": "1->0 in _evaluate",
+   "result": "killed",
+   "source_line": "rejections += 1",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 376,
+   "kind": "const",
+   "line": 426,
+   "mutation": "1->0 in _evaluate",
+   "result": "killed",
+   "source_line": "approvals += 1",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 377,
+   "kind": "if",
+   "line": 428,
+   "mutation": "negate if in _evaluate",
+   "result": "killed",
+   "source_line": "if kind == \"rejection\":",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 378,
+   "kind": "cmp",
+   "line": 428,
+   "mutation": "Eq->NotEq (op 0) in _evaluate",
+   "result": "killed",
+   "source_line": "if kind == \"rejection\":",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 379,
+   "kind": "cmp",
+   "line": 429,
+   "mutation": "Eq->NotEq (op 0) in _evaluate",
+   "result": "killed",
+   "source_line": "if rejections == 0 and MUT != \"ts_rejection_without_reject\":",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 380,
+   "kind": "const",
+   "line": 429,
+   "mutation": "0->1 in _evaluate",
+   "result": "killed",
+   "source_line": "if rejections == 0 and MUT != \"ts_rejection_without_reject\":",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 381,
+   "kind": "if",
+   "line": 434,
+   "mutation": "negate if in _evaluate",
+   "result": "killed",
+   "source_line": "if approvals < policy[\"quorum\"]:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 382,
+   "kind": "cmp",
+   "line": 434,
+   "mutation": "Lt->LtE (op 0) in _evaluate",
+   "result": "killed",
+   "source_line": "if approvals < policy[\"quorum\"]:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 383,
+   "kind": "not",
+   "line": 436,
+   "mutation": "remove not in _evaluate",
+   "result": "killed",
+   "source_line": "if MUT != \"ts_skip_time\" and not (lo < hi and S.accepts_at(lo, hi, t)):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 384,
+   "kind": "bool",
+   "line": 436,
+   "mutation": "And swap in _evaluate",
+   "result": "killed",
+   "source_line": "if MUT != \"ts_skip_time\" and not (lo < hi and S.accepts_at(lo, hi, t)):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 385,
+   "kind": "cmp",
+   "line": 436,
+   "mutation": "Lt->LtE (op 0) in _evaluate",
+   "result": "survived",
+   "source_line": "if MUT != \"ts_skip_time\" and not (lo < hi and S.accepts_at(lo, hi, t)):",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 386,
+   "kind": "del",
+   "line": 443,
+   "mutation": "delete statement in register",
+   "result": "killed",
+   "source_line": "t = int(time.time()) if now is None else now",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 387,
+   "kind": "del",
+   "line": 444,
+   "mutation": "delete statement in register",
+   "result": "killed",
+   "source_line": "lock = threading.Lock() if MUT == \"ts_unlocked\" else self._lock",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 388,
+   "kind": "del",
+   "line": 445,
+   "mutation": "delete statement in register",
+   "result": "killed",
+   "source_line": "with lock:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 389,
+   "kind": "cmp",
+   "line": 443,
+   "mutation": "Is->IsNot (op 0) in register",
+   "result": "killed",
+   "source_line": "t = int(time.time()) if now is None else now",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 390,
+   "kind": "if",
+   "line": 448,
+   "mutation": "negate if in register",
+   "result": "killed",
+   "source_line": "if not (isinstance(req, Mapping) and set(req) == REQUEST_KEYS and type(req[\"v\"]) is int and req[\"v\"] == 1",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 391,
+   "kind": "not",
+   "line": 448,
+   "mutation": "remove not in register",
+   "result": "killed",
+   "source_line": "if not (isinstance(req, Mapping) and set(req) == REQUEST_KEYS and type(req[\"v\"]) is int and req[\"v\"] == 1",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 392,
+   "kind": "bool",
+   "line": 448,
+   "mutation": "And swap in register",
+   "result": "killed",
+   "source_line": "if not (isinstance(req, Mapping) and set(req) == REQUEST_KEYS and type(req[\"v\"]) is int and req[\"v\"] == 1",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 393,
+   "kind": "cmp",
+   "line": 448,
+   "mutation": "Eq->NotEq (op 0) in register",
+   "result": "killed",
+   "source_line": "if not (isinstance(req, Mapping) and set(req) == REQUEST_KEYS and type(req[\"v\"]) is int and req[\"v\"] == 1",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 394,
+   "kind": "cmp",
+   "line": 448,
+   "mutation": "Is->IsNot (op 0) in register",
+   "result": "killed",
+   "source_line": "if not (isinstance(req, Mapping) and set(req) == REQUEST_KEYS and type(req[\"v\"]) is int and req[\"v\"] == 1",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 395,
+   "kind": "cmp",
+   "line": 448,
+   "mutation": "Eq->NotEq (op 0) in register",
+   "result": "killed",
+   "source_line": "if not (isinstance(req, Mapping) and set(req) == REQUEST_KEYS and type(req[\"v\"]) is int and req[\"v\"] == 1",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 396,
+   "kind": "const",
+   "line": 448,
+   "mutation": "1->0 in register",
+   "result": "killed",
+   "source_line": "if not (isinstance(req, Mapping) and set(req) == REQUEST_KEYS and type(req[\"v\"]) is int and req[\"v\"] == 1",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 397,
+   "kind": "cmp",
+   "line": 449,
+   "mutation": "In->NotIn (op 0) in register",
+   "result": "killed",
+   "source_line": "and req[\"kind\"] in KINDS and isinstance(req[\"proposal\"], bytes)",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 398,
+   "kind": "const",
+   "line": 452,
+   "mutation": "False->True in register",
+   "result": "killed",
+   "source_line": "return Registration(False, \"invalid_statement:malformed registration request\")",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 399,
+   "kind": "const",
+   "line": 456,
+   "mutation": "False->True in register",
+   "result": "killed",
+   "source_line": "return Registration(False, \"invalid_statement:statement not parseable\")",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 400,
+   "kind": "if",
+   "line": 458,
+   "mutation": "negate if in register",
+   "result": "killed",
+   "source_line": "if not S.policy_valid(policy):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 401,
+   "kind": "not",
+   "line": 458,
+   "mutation": "remove not in register",
+   "result": "killed",
+   "source_line": "if not S.policy_valid(policy):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 402,
+   "kind": "const",
+   "line": 459,
+   "mutation": "False->True in register",
+   "result": "survived",
+   "source_line": "return Registration(False, \"policy_invalid\")",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 403,
+   "kind": "if",
+   "line": 460,
+   "mutation": "negate if in register",
+   "result": "killed",
+   "source_line": "if req[\"policy_id\"] != policy[\"policy_id\"]:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 404,
+   "kind": "cmp",
+   "line": 460,
+   "mutation": "NotEq->Eq (op 0) in register",
+   "result": "killed",
+   "source_line": "if req[\"policy_id\"] != policy[\"policy_id\"]:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 405,
+   "kind": "const",
+   "line": 461,
+   "mutation": "False->True in register",
+   "result": "survived",
+   "source_line": "return Registration(False, \"binding_mismatch:request names another policy\")",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 406,
+   "kind": "if",
+   "line": 471,
+   "mutation": "negate if in register",
+   "result": "killed",
+   "source_line": "if kind == \"authorization\":",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 407,
+   "kind": "cmp",
+   "line": 471,
+   "mutation": "Eq->NotEq (op 0) in register",
+   "result": "killed",
+   "source_line": "if kind == \"authorization\":",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 408,
+   "kind": "cmp",
+   "line": 472,
+   "mutation": "In->NotIn (op 0) in register",
+   "result": "killed",
+   "source_line": "if key in self._authorized and MUT != \"ts_skip_uniqueness\":",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 409,
+   "kind": "const",
+   "line": 473,
+   "mutation": "False->True in register",
+   "result": "killed",
+   "source_line": "return Registration(False, \"registration_conflict:already registered\")",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 410,
+   "kind": "cmp",
+   "line": 474,
+   "mutation": "In->NotIn (op 0) in register",
+   "result": "killed",
+   "source_line": "if key in self._rejected and MUT != \"ts_skip_veto\":",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 411,
+   "kind": "const",
+   "line": 475,
+   "mutation": "False->True in register",
+   "result": "killed",
+   "source_line": "return Registration(False, \"registration_conflict:a rejection is registered\")",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 412,
+   "kind": "cmp",
+   "line": 481,
+   "mutation": "Eq->NotEq (op 0) in register",
+   "result": "killed",
+   "source_line": "(self._authorized if kind == \"authorization\" else self._rejected).add(key)",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 413,
+   "kind": "const",
+   "line": 482,
+   "mutation": "1->0 in register",
+   "result": "killed",
+   "source_line": "index = len(self.entries) - 1",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 414,
+   "kind": "const",
+   "line": 483,
+   "mutation": "True->False in register",
+   "result": "killed",
+   "source_line": "return Registration(True, \"registered\", self.get_receipt(index), entry, index)",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 415,
+   "kind": "del",
+   "line": 487,
+   "mutation": "delete statement in root",
+   "result": "survived",
+   "source_line": "size = len(self.entries) if size is None else size",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 416,
+   "kind": "del",
+   "line": 488,
+   "mutation": "delete statement in root",
+   "result": "killed",
+   "source_line": "return self._tree.mth(0, size)",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 417,
+   "kind": "cmp",
+   "line": 487,
+   "mutation": "Is->IsNot (op 0) in root",
+   "result": "survived",
+   "source_line": "size = len(self.entries) if size is None else size",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 418,
+   "kind": "const",
+   "line": 488,
+   "mutation": "0->1 in root",
+   "result": "killed",
+   "source_line": "return self._tree.mth(0, size)",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 419,
+   "kind": "del",
+   "line": 492,
+   "mutation": "delete statement in get_receipt",
+   "result": "killed",
+   "source_line": "size = len(self.entries) if size is None else size",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 420,
+   "kind": "del",
+   "line": 493,
+   "mutation": "delete statement in get_receipt",
+   "result": "killed",
+   "source_line": "reg = S.strict_loads(self.entries[index])[\"registered_at\"]",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 421,
+   "kind": "del",
+   "line": 494,
+   "mutation": "delete statement in get_receipt",
+   "result": "killed",
+   "source_line": "return make_receipt(self._key, self.log_id, reg, size, index, self._tree.path(index, 0, size),",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 422,
+   "kind": "cmp",
+   "line": 492,
+   "mutation": "Is->IsNot (op 0) in get_receipt",
+   "result": "killed",
+   "source_line": "size = len(self.entries) if size is None else size",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 423,
+   "kind": "const",
+   "line": 494,
+   "mutation": "0->1 in get_receipt",
+   "result": "killed",
+   "source_line": "return make_receipt(self._key, self.log_id, reg, size, index, self._tree.path(index, 0, size),",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 424,
+   "kind": "const",
+   "line": 495,
+   "mutation": "0->1 in get_receipt",
+   "result": "killed",
+   "source_line": "self._tree.mth(0, size))",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 425,
+   "kind": "del",
+   "line": 498,
+   "mutation": "delete statement in checkpoint",
+   "result": "killed",
+   "source_line": "size = len(self.entries) if size is None else size",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 426,
+   "kind": "del",
+   "line": 499,
+   "mutation": "delete statement in checkpoint",
+   "result": "killed",
+   "source_line": "root = self.root(size)",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 427,
+   "kind": "del",
+   "line": 500,
+   "mutation": "delete statement in checkpoint",
+   "result": "killed",
+   "source_line": "return {\"log_id\": self.log_id, \"size\": size, \"root\": root.hex(),",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 428,
+   "kind": "cmp",
+   "line": 498,
+   "mutation": "Is->IsNot (op 0) in checkpoint",
+   "result": "killed",
+   "source_line": "size = len(self.entries) if size is None else size",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 429,
+   "kind": "del",
+   "line": 504,
+   "mutation": "delete statement in consistency",
+   "result": "killed",
+   "source_line": "n = len(self.entries) if n is None else n",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 430,
+   "kind": "del",
+   "line": 505,
+   "mutation": "delete statement in consistency",
+   "result": "killed",
+   "source_line": "return self._tree.subproof(m, 0, n, True)",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 431,
+   "kind": "cmp",
+   "line": 504,
+   "mutation": "Is->IsNot (op 0) in consistency",
+   "result": "killed",
+   "source_line": "n = len(self.entries) if n is None else n",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 432,
+   "kind": "const",
+   "line": 505,
+   "mutation": "0->1 in consistency",
+   "result": "killed",
+   "source_line": "return self._tree.subproof(m, 0, n, True)",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 433,
+   "kind": "const",
+   "line": 505,
+   "mutation": "True->False in consistency",
+   "result": "killed",
+   "source_line": "return self._tree.subproof(m, 0, n, True)",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 434,
+   "kind": "del",
+   "line": 509,
+   "mutation": "delete statement in verify_checkpoint",
+   "result": "killed",
+   "source_line": "try:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 435,
+   "kind": "ret",
+   "line": 512,
+   "mutation": "return True->False in verify_checkpoint",
+   "result": "killed",
+   "source_line": "return True",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 436,
+   "kind": "const",
+   "line": 512,
+   "mutation": "True->False in verify_checkpoint",
+   "result": "killed",
+   "source_line": "return True",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 437,
+   "kind": "ret",
+   "line": 514,
+   "mutation": "return False->True in verify_checkpoint",
+   "result": "killed",
+   "source_line": "return False",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 438,
+   "kind": "const",
+   "line": 514,
+   "mutation": "False->True in verify_checkpoint",
+   "result": "killed",
+   "source_line": "return False",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 439,
+   "kind": "del",
+   "line": 518,
+   "mutation": "delete statement in make_request",
+   "result": "killed",
+   "source_line": "return S.dcbor({\"v\": 1, \"kind\": kind, \"policy_id\": policy_id, \"proposal\": S.to_cose(proposal),",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 440,
+   "kind": "const",
+   "line": 518,
+   "mutation": "1->0 in make_request",
+   "result": "killed",
+   "source_line": "return S.dcbor({\"v\": 1, \"kind\": kind, \"policy_id\": policy_id, \"proposal\": S.to_cose(proposal),",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 441,
+   "kind": "del",
+   "line": 531,
+   "mutation": "delete statement in __init__",
+   "result": "killed",
+   "source_line": "self._gate = S.Gate(policy, store)",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 442,
+   "kind": "del",
+   "line": 532,
+   "mutation": "delete statement in __init__",
+   "result": "killed",
+   "source_line": "self.trusted_logs = dict(trusted_logs)",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 443,
+   "kind": "del",
+   "line": 533,
+   "mutation": "delete statement in __init__",
+   "result": "killed",
+   "source_line": "self.max_receipt_age = max_receipt_age",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 444,
+   "kind": "del",
+   "line": 537,
+   "mutation": "delete statement in policy",
+   "result": "killed",
+   "source_line": "return self._gate.policy",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 445,
+   "kind": "del",
+   "line": 541,
+   "mutation": "delete statement in policy",
+   "result": "survived",
+   "source_line": "self._gate.policy = p",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 446,
+   "kind": "del",
+   "line": 545,
+   "mutation": "delete statement in store",
+   "result": "survived",
+   "source_line": "return self._gate.store",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 447,
+   "kind": "del",
+   "line": 549,
+   "mutation": "delete statement in check_receipt",
+   "result": "survived",
+   "source_line": "if receipt is None and MUT == \"skip_receipt_required\":",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 448,
+   "kind": "del",
+   "line": 551,
+   "mutation": "delete statement in check_receipt",
+   "result": "killed",
+   "source_line": "failure, info = verify_receipt(receipt, proposal, ratifications, self.policy[\"policy_id\"], self.trusted_logs)",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 449,
+   "kind": "del",
+   "line": 552,
+   "mutation": "delete statement in check_receipt",
+   "result": "killed",
+   "source_line": "if failure:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 450,
+   "kind": "del",
+   "line": 554,
+   "mutation": "delete statement in check_receipt",
+   "result": "killed",
+   "source_line": "failure = check_registration_time(info, proposal, ratifications)",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 451,
+   "kind": "del",
+   "line": 555,
+   "mutation": "delete statement in check_receipt",
+   "result": "killed",
+   "source_line": "if failure:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 452,
+   "kind": "del",
+   "line": 557,
+   "mutation": "delete statement in check_receipt",
+   "result": "killed",
+   "source_line": "reg = info[\"registered_at\"]",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 453,
+   "kind": "del",
+   "line": 558,
+   "mutation": "delete statement in check_receipt",
+   "result": "killed",
+   "source_line": "if MUT != \"skip_receipt_future\" and reg > now + S.MAX_CLOCK_SKEW:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 454,
+   "kind": "del",
+   "line": 560,
+   "mutation": "delete statement in check_receipt",
+   "result": "killed",
+   "source_line": "if MUT != \"skip_receipt_age\" and not now < reg + self.max_receipt_age:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 455,
+   "kind": "del",
+   "line": 562,
+   "mutation": "delete statement in check_receipt",
+   "result": "survived",
+   "source_line": "return None",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 456,
+   "kind": "cmp",
+   "line": 549,
+   "mutation": "Is->IsNot (op 0) in check_receipt",
+   "result": "survived",
+   "source_line": "if receipt is None and MUT == \"skip_receipt_required\":",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 457,
+   "kind": "if",
+   "line": 552,
+   "mutation": "negate if in check_receipt",
+   "result": "killed",
+   "source_line": "if failure:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 458,
+   "kind": "if",
+   "line": 555,
+   "mutation": "negate if in check_receipt",
+   "result": "killed",
+   "source_line": "if failure:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 459,
+   "kind": "cmp",
+   "line": 558,
+   "mutation": "Gt->GtE (op 0) in check_receipt",
+   "result": "killed",
+   "source_line": "if MUT != \"skip_receipt_future\" and reg > now + S.MAX_CLOCK_SKEW:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 460,
+   "kind": "not",
+   "line": 560,
+   "mutation": "remove not in check_receipt",
+   "result": "killed",
+   "source_line": "if MUT != \"skip_receipt_age\" and not now < reg + self.max_receipt_age:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 461,
+   "kind": "cmp",
+   "line": 560,
+   "mutation": "Lt->LtE (op 0) in check_receipt",
+   "result": "killed",
+   "source_line": "if MUT != \"skip_receipt_age\" and not now < reg + self.max_receipt_age:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 462,
+   "kind": "del",
+   "line": 565,
+   "mutation": "delete statement in _pid",
+   "result": "survived",
+   "source_line": "try:",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 463,
+   "kind": "del",
+   "line": 571,
+   "mutation": "delete statement in _instant",
+   "result": "survived",
+   "source_line": "if MUT == \"receipt_time_as_now\" and receipt is not None:",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 464,
+   "kind": "del",
+   "line": 576,
+   "mutation": "delete statement in _instant",
+   "result": "killed",
+   "source_line": "return now",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 465,
+   "kind": "cmp",
+   "line": 571,
+   "mutation": "IsNot->Is (op 0) in _instant",
+   "result": "survived",
+   "source_line": "if MUT == \"receipt_time_as_now\" and receipt is not None:",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 466,
+   "kind": "del",
+   "line": 580,
+   "mutation": "delete statement in authorize_bytes",
+   "result": "survived",
+   "source_line": "if now is None:",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 467,
+   "kind": "del",
+   "line": 582,
+   "mutation": "delete statement in authorize_bytes",
+   "result": "killed",
+   "source_line": "try:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 468,
+   "kind": "del",
+   "line": 586,
+   "mutation": "delete statement in authorize_bytes",
+   "result": "killed",
+   "source_line": "if failure:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 469,
+   "kind": "del",
+   "line": 591,
+   "mutation": "delete statement in authorize_bytes",
+   "result": "killed",
+   "source_line": "return self._gate.authorize_bytes(payload_bytes, proposal, ratifications,",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 470,
+   "kind": "if",
+   "line": 580,
+   "mutation": "negate if in authorize_bytes",
+   "result": "killed",
+   "source_line": "if now is None:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 471,
+   "kind": "cmp",
+   "line": 580,
+   "mutation": "Is->IsNot (op 0) in authorize_bytes",
+   "result": "killed",
+   "source_line": "if now is None:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 472,
+   "kind": "if",
+   "line": 586,
+   "mutation": "negate if in authorize_bytes",
+   "result": "killed",
+   "source_line": "if failure:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 473,
+   "kind": "const",
+   "line": 590,
+   "mutation": "False->True in authorize_bytes",
+   "result": "survived",
+   "source_line": "return False, \"deny_unlogged\", None",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 474,
+   "kind": "del",
+   "line": 595,
+   "mutation": "delete statement in authorize",
+   "result": "survived",
+   "source_line": "if now is None:",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 475,
+   "kind": "del",
+   "line": 597,
+   "mutation": "delete statement in authorize",
+   "result": "killed",
+   "source_line": "try:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 476,
+   "kind": "del",
+   "line": 601,
+   "mutation": "delete statement in authorize",
+   "result": "survived",
+   "source_line": "if failure:",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 477,
+   "kind": "del",
+   "line": 606,
+   "mutation": "delete statement in authorize",
+   "result": "killed",
+   "source_line": "return self._gate.authorize(runtime_payload, proposal, ratifications,",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 478,
+   "kind": "if",
+   "line": 595,
+   "mutation": "negate if in authorize",
+   "result": "killed",
+   "source_line": "if now is None:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 479,
+   "kind": "cmp",
+   "line": 595,
+   "mutation": "Is->IsNot (op 0) in authorize",
+   "result": "killed",
+   "source_line": "if now is None:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 480,
+   "kind": "if",
+   "line": 601,
+   "mutation": "negate if in authorize",
+   "result": "killed",
+   "source_line": "if failure:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 481,
+   "kind": "const",
+   "line": 605,
+   "mutation": "False->True in authorize",
+   "result": "survived",
+   "source_line": "return False, \"deny_unlogged\"",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 482,
+   "kind": "del",
+   "line": 613,
+   "mutation": "delete statement in make_tar",
+   "result": "killed",
+   "source_line": "return S.dcbor({\"proposal\": S.to_cose(proposal), \"ratifications\": [S.to_cose(r) for r in ratifications],",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 483,
+   "kind": "del",
+   "line": 618,
+   "mutation": "delete statement in parse_tar",
+   "result": "killed",
+   "source_line": "obj = S.strict_loads(bytes(data))",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 484,
+   "kind": "del",
+   "line": 619,
+   "mutation": "delete statement in parse_tar",
+   "result": "survived",
+   "source_line": "if not (isinstance(obj, Mapping) and set(obj) <= {\"proposal\", \"ratifications\", \"policy_ref\", \"receipt\"}",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 485,
+   "kind": "del",
+   "line": 622,
+   "mutation": "delete statement in parse_tar",
+   "result": "killed",
+   "source_line": "return (S.from_cose(obj[\"proposal\"]), [S.from_cose(x) for x in obj[\"ratifications\"]], obj[\"policy_ref\"],",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 486,
+   "kind": "if",
+   "line": 619,
+   "mutation": "negate if in parse_tar",
+   "result": "killed",
+   "source_line": "if not (isinstance(obj, Mapping) and set(obj) <= {\"proposal\", \"ratifications\", \"policy_ref\", \"receipt\"}",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 487,
+   "kind": "not",
+   "line": 619,
+   "mutation": "remove not in parse_tar",
+   "result": "killed",
+   "source_line": "if not (isinstance(obj, Mapping) and set(obj) <= {\"proposal\", \"ratifications\", \"policy_ref\", \"receipt\"}",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 488,
+   "kind": "bool",
+   "line": 619,
+   "mutation": "And swap in parse_tar",
+   "result": "survived",
+   "source_line": "if not (isinstance(obj, Mapping) and set(obj) <= {\"proposal\", \"ratifications\", \"policy_ref\", \"receipt\"}",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 489,
+   "kind": "cmp",
+   "line": 619,
+   "mutation": "LtE->Lt (op 0) in parse_tar",
+   "result": "killed",
+   "source_line": "if not (isinstance(obj, Mapping) and set(obj) <= {\"proposal\", \"ratifications\", \"policy_ref\", \"receipt\"}",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 490,
+   "kind": "cmp",
+   "line": 620,
+   "mutation": "LtE->Lt (op 0) in parse_tar",
+   "result": "survived",
+   "source_line": "and {\"proposal\", \"ratifications\", \"policy_ref\"} <= set(obj)):",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 491,
+   "kind": "del",
+   "line": 629,
+   "mutation": "delete statement in verify_tar_offline",
+   "result": "killed",
+   "source_line": "try:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 492,
+   "kind": "if",
+   "line": 630,
+   "mutation": "negate if in verify_tar_offline",
+   "result": "killed",
+   "source_line": "if not S.verify_record_offline(proposal, ratifications, policy, at=at):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 493,
+   "kind": "not",
+   "line": 630,
+   "mutation": "remove not in verify_tar_offline",
+   "result": "killed",
+   "source_line": "if not S.verify_record_offline(proposal, ratifications, policy, at=at):",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 494,
+   "kind": "ret",
+   "line": 631,
+   "mutation": "return False->True in verify_tar_offline",
+   "result": "survived",
+   "source_line": "return False",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 495,
+   "kind": "const",
+   "line": 631,
+   "mutation": "False->True in verify_tar_offline",
+   "result": "survived",
+   "source_line": "return False",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 496,
+   "kind": "if",
+   "line": 635,
+   "mutation": "negate if in verify_tar_offline",
+   "result": "killed",
+   "source_line": "if failure:",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 497,
+   "kind": "ret",
+   "line": 636,
+   "mutation": "return False->True in verify_tar_offline",
+   "result": "killed",
+   "source_line": "return False",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 498,
+   "kind": "const",
+   "line": 636,
+   "mutation": "False->True in verify_tar_offline",
+   "result": "killed",
+   "source_line": "return False",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 499,
+   "kind": "cmp",
+   "line": 637,
+   "mutation": "Is->IsNot (op 0) in verify_tar_offline",
+   "result": "killed",
+   "source_line": "return check_registration_time(info, proposal, ratifications) is None",
+   "classification": "killed",
+   "argument": null
+  },
+  {
+   "id": 500,
+   "kind": "ret",
+   "line": 639,
+   "mutation": "return False->True in verify_tar_offline",
+   "result": "survived",
+   "source_line": "return False",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 501,
+   "kind": "const",
+   "line": 639,
+   "mutation": "False->True in verify_tar_offline",
+   "result": "survived",
+   "source_line": "return False",
+   "classification": "live",
+   "argument": null
+  },
+  {
+   "id": 502,
+   "kind": "del",
+   "line": 643,
+   "mutation": "delete statement in receipt_registered_at",
+   "result": "survived",
+   "source_line": "return parse_receipt(receipt)[\"registered_at\"]",
+   "classification": "live",
+   "argument": null
+  }
+ ]
+}

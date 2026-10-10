@@ -284,6 +284,13 @@ def artifacts(vec):
     for si, step in enumerate(inp.get("steps", [])):
         if "policy" in step:
             yield f"step{si}.policy", "registration-policy", step["policy"]
+        if step.get("receipt_cose"):
+            try:
+                yield f"step{si}.receipt", "sar-receipt", cbor2.loads(bytes.fromhex(step["receipt_cose"]))
+            except Exception:  # noqa: BLE001
+                yield f"step{si}.receipt", "sar-receipt", None
+        if step.get("request_cbor"):
+            yield f"step{si}.request", "registration-request", cbor2.loads(bytes.fromhex(step["request_cbor"]))
         for label, h in [("proposal", step.get("proposal_cose"))] + \
                 [(f"ratification:{j}", x) for j, x in enumerate(step.get("ratifications_cose") or [])]:
             if h is None:
@@ -303,6 +310,13 @@ def artifacts(vec):
                 yield f"step{si}.{label}.body", rule, body
 
 
+def expected_artifacts(vec):
+    for si, out in enumerate(vec.get("expected", {}).get("steps", [])):
+        if isinstance(out, dict) and out.get("entry_cbor"):
+            yield f"expected{si}.entry", "registration-entry", cbor2.loads(bytes.fromhex(out["entry_cbor"]))
+            yield f"expected{si}.receipt", "sar-receipt", cbor2.loads(bytes.fromhex(out["receipt_cose"]))
+
+
 def main():
     rules = parse()
     print(f"{CDDL.name}: parsed {len(rules)} rules; all references resolve")
@@ -314,7 +328,7 @@ def main():
         vec = json.loads(path.read_text())
         expect_invalid = set(vec.get("cddl_invalid", []))
         seen_invalid = set()
-        for label, rule, value in artifacts(vec):
+        for label, rule, value in list(artifacts(vec)) + list(expected_artifacts(vec)):
             checked += 1
             okv = value is not None and v.check(value, rule)
             short = label.split(".", 1)[1] if label.startswith("step") else label

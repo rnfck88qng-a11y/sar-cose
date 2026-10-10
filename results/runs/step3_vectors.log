@@ -1,0 +1,4 @@
+sar_cose: 190 vectors: pass 143, fail 0, n/a 47
+sar_indep: 190 vectors: pass 140, fail 0, n/a 50
+sar_scitt: 190 vectors: pass 47, fail 0, n/a 143
+sar_indep_scitt: 190 vectors: pass 47, fail 0, n/a 143

@@ -18,7 +18,7 @@ import sys
 import tempfile
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-SUITE = "test_sar_conformance test_sar_gaps test_sar_cose_specific test_sar_properties test_sar_hardening test_sar_cross".split()
+SUITE = "test_sar_conformance test_sar_gaps test_sar_cose_specific test_sar_properties test_sar_hardening test_sar_cross test_sar_scitt".split()
 
 MUTANTS = {'N01_future_skew_3600': [('MAX_CLOCK_SKEW = 30 ', 'MAX_CLOCK_SKEW = 3600 ')],
  'N02_nonce_casefold': [('keys.append(f\'nonce|{pol["policy_id"]}|{dcbor(nonce).hex()}\')',

@@ -1,0 +1,24 @@
+killed skip_receipt_required
+killed skip_receipt_header_check
+killed skip_trusted_log
+killed skip_receipt_sig
+killed skip_inclusion
+killed inclusion_skip_index_bound
+killed inclusion_skip_final_size
+killed set_digest_proposal_only
+killed entry_kind_any
+killed skip_registration_window
+killed skip_receipt_future
+killed skip_receipt_age
+killed receipt_time_as_now
+killed merkle_leaf_no_prefix
+killed consistency_skip_roots
+killed ts_skip_policy
+killed ts_skip_time
+killed ts_skip_uniqueness
+killed ts_skip_veto
+killed ts_allow_rejected
+killed ts_unlocked
+killed ts_rejection_without_reject
+killed offline_skip_receipt
+scitt mutants killed: 23/23
