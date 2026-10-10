@@ -1,0 +1,2 @@
+sar_cose: 143 vectors: pass 143, fail 0, n/a 0
+sar_indep: 143 vectors: pass 140, fail 0, n/a 3

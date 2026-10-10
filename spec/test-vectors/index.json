@@ -1,0 +1,1626 @@
+{
+ "profile": "SAR profile version 1",
+ "t0": 1760000000,
+ "tau": 30,
+ "vectors": [
+  {
+   "description": "RFC 8949 Appendix A: 00",
+   "id": "enc-001",
+   "kind": "encoding",
+   "requirements": [
+    "SAR-REQ-010"
+   ]
+  },
+  {
+   "description": "RFC 8949 Appendix A: 01",
+   "id": "enc-002",
+   "kind": "encoding",
+   "requirements": [
+    "SAR-REQ-010"
+   ]
+  },
+  {
+   "description": "RFC 8949 Appendix A: 0a",
+   "id": "enc-003",
+   "kind": "encoding",
+   "requirements": [
+    "SAR-REQ-010"
+   ]
+  },
+  {
+   "description": "RFC 8949 Appendix A: 17",
+   "id": "enc-004",
+   "kind": "encoding",
+   "requirements": [
+    "SAR-REQ-010"
+   ]
+  },
+  {
+   "description": "RFC 8949 Appendix A: 1818",
+   "id": "enc-005",
+   "kind": "encoding",
+   "requirements": [
+    "SAR-REQ-010"
+   ]
+  },
+  {
+   "description": "RFC 8949 Appendix A: 1819",
+   "id": "enc-006",
+   "kind": "encoding",
+   "requirements": [
+    "SAR-REQ-010"
+   ]
+  },
+  {
+   "description": "RFC 8949 Appendix A: 1864",
+   "id": "enc-007",
+   "kind": "encoding",
+   "requirements": [
+    "SAR-REQ-010"
+   ]
+  },
+  {
+   "description": "RFC 8949 Appendix A: 1903e8",
+   "id": "enc-008",
+   "kind": "encoding",
+   "requirements": [
+    "SAR-REQ-010"
+   ]
+  },
+  {
+   "description": "RFC 8949 Appendix A: 1a000f4240",
+   "id": "enc-009",
+   "kind": "encoding",
+   "requirements": [
+    "SAR-REQ-010"
+   ]
+  },
+  {
+   "description": "RFC 8949 Appendix A: 1b000000e8d4a51000",
+   "id": "enc-010",
+   "kind": "encoding",
+   "requirements": [
+    "SAR-REQ-010"
+   ]
+  },
+  {
+   "description": "RFC 8949 Appendix A: 1bffffffffffffffff",
+   "id": "enc-011",
+   "kind": "encoding",
+   "requirements": [
+    "SAR-REQ-010"
+   ]
+  },
+  {
+   "description": "RFC 8949 Appendix A: 20",
+   "id": "enc-012",
+   "kind": "encoding",
+   "requirements": [
+    "SAR-REQ-010"
+   ]
+  },
+  {
+   "description": "RFC 8949 Appendix A: 29",
+   "id": "enc-013",
+   "kind": "encoding",
+   "requirements": [
+    "SAR-REQ-010"
+   ]
+  },
+  {
+   "description": "RFC 8949 Appendix A: 3863",
+   "id": "enc-014",
+   "kind": "encoding",
+   "requirements": [
+    "SAR-REQ-010"
+   ]
+  },
+  {
+   "description": "RFC 8949 Appendix A: 3903e7",
+   "id": "enc-015",
+   "kind": "encoding",
+   "requirements": [
+    "SAR-REQ-010"
+   ]
+  },
+  {
+   "description": "RFC 8949 Appendix A: 40",
+   "id": "enc-016",
+   "kind": "encoding",
+   "requirements": [
+    "SAR-REQ-010"
+   ]
+  },
+  {
+   "description": "RFC 8949 Appendix A: 4401020304",
+   "id": "enc-017",
+   "kind": "encoding",
+   "requirements": [
+    "SAR-REQ-010"
+   ]
+  },
+  {
+   "description": "RFC 8949 Appendix A: 60",
+   "id": "enc-018",
+   "kind": "encoding",
+   "requirements": [
+    "SAR-REQ-010"
+   ]
+  },
+  {
+   "description": "RFC 8949 Appendix A: 6161",
+   "id": "enc-019",
+   "kind": "encoding",
+   "requirements": [
+    "SAR-REQ-010"
+   ]
+  },
+  {
+   "description": "RFC 8949 Appendix A: 6449455446",
+   "id": "enc-020",
+   "kind": "encoding",
+   "requirements": [
+    "SAR-REQ-010"
+   ]
+  },
+  {
+   "description": "RFC 8949 Appendix A: 62225c",
+   "id": "enc-021",
+   "kind": "encoding",
+   "requirements": [
+    "SAR-REQ-010"
+   ]
+  },
+  {
+   "description": "RFC 8949 Appendix A: 62c3bc",
+   "id": "enc-022",
+   "kind": "encoding",
+   "requirements": [
+    "SAR-REQ-010"
+   ]
+  },
+  {
+   "description": "RFC 8949 Appendix A: 63e6b0b4",
+   "id": "enc-023",
+   "kind": "encoding",
+   "requirements": [
+    "SAR-REQ-010"
+   ]
+  },
+  {
+   "description": "RFC 8949 Appendix A: 80",
+   "id": "enc-024",
+   "kind": "encoding",
+   "requirements": [
+    "SAR-REQ-010"
+   ]
+  },
+  {
+   "description": "RFC 8949 Appendix A: 83010203",
+   "id": "enc-025",
+   "kind": "encoding",
+   "requirements": [
+    "SAR-REQ-010"
+   ]
+  },
+  {
+   "description": "RFC 8949 Appendix A: 8301820203820405",
+   "id": "enc-026",
+   "kind": "encoding",
+   "requirements": [
+    "SAR-REQ-010"
+   ]
+  },
+  {
+   "description": "RFC 8949 Appendix A: 98190102030405060708090a0b0c0d0e0f101112131415161718181819",
+   "id": "enc-027",
+   "kind": "encoding",
+   "requirements": [
+    "SAR-REQ-010"
+   ]
+  },
+  {
+   "description": "RFC 8949 Appendix A: a0",
+   "id": "enc-028",
+   "kind": "encoding",
+   "requirements": [
+    "SAR-REQ-010"
+   ]
+  },
+  {
+   "description": "RFC 8949 Appendix A: a201020304",
+   "id": "enc-029",
+   "kind": "encoding",
+   "requirements": [
+    "SAR-REQ-010"
+   ]
+  },
+  {
+   "description": "RFC 8949 Appendix A: a26161016162820203",
+   "id": "enc-030",
+   "kind": "encoding",
+   "requirements": [
+    "SAR-REQ-010"
+   ]
+  },
+  {
+   "description": "RFC 8949 Appendix A: 826161a161626163",
+   "id": "enc-031",
+   "kind": "encoding",
+   "requirements": [
+    "SAR-REQ-010"
+   ]
+  },
+  {
+   "description": "RFC 8949 Appendix A: f4",
+   "id": "enc-032",
+   "kind": "encoding",
+   "requirements": [
+    "SAR-REQ-010"
+   ]
+  },
+  {
+   "description": "RFC 8949 Appendix A: f5",
+   "id": "enc-033",
+   "kind": "encoding",
+   "requirements": [
+    "SAR-REQ-010"
+   ]
+  },
+  {
+   "description": "RFC 8949 Appendix A: f6",
+   "id": "enc-034",
+   "kind": "encoding",
+   "requirements": [
+    "SAR-REQ-010"
+   ]
+  },
+  {
+   "description": "RFC 8949 Appendix A: c11a514b67b0",
+   "id": "enc-035",
+   "kind": "encoding",
+   "requirements": [
+    "SAR-REQ-010"
+   ]
+  },
+  {
+   "description": "Map keys sorted bytewise by their encodings (1000 = 0x1903e8 before \"a\" = 0x6161), not length-first",
+   "id": "enc-100",
+   "kind": "encoding",
+   "requirements": [
+    "SAR-REQ-010"
+   ]
+  },
+  {
+   "description": "Mixed integer and text keys in bytewise order",
+   "id": "enc-101",
+   "kind": "encoding",
+   "requirements": [
+    "SAR-REQ-010"
+   ]
+  },
+  {
+   "description": "integer 23 with a one-byte argument (not preferred)",
+   "id": "dec-001",
+   "kind": "decoding",
+   "requirements": [
+    "SAR-REQ-011"
+   ]
+  },
+  {
+   "description": "integer 1 with a two-byte argument",
+   "id": "dec-002",
+   "kind": "decoding",
+   "requirements": [
+    "SAR-REQ-011"
+   ]
+  },
+  {
+   "description": "text \"a\" with a one-byte length argument",
+   "id": "dec-003",
+   "kind": "decoding",
+   "requirements": [
+    "SAR-REQ-011"
+   ]
+  },
+  {
+   "description": "indefinite-length byte string",
+   "id": "dec-004",
+   "kind": "decoding",
+   "requirements": [
+    "SAR-REQ-011"
+   ]
+  },
+  {
+   "description": "indefinite-length array",
+   "id": "dec-005",
+   "kind": "decoding",
+   "requirements": [
+    "SAR-REQ-011"
+   ]
+  },
+  {
+   "description": "indefinite-length map",
+   "id": "dec-006",
+   "kind": "decoding",
+   "requirements": [
+    "SAR-REQ-011"
+   ]
+  },
+  {
+   "description": "map keys not in bytewise order {\"b\":1,\"a\":1}",
+   "id": "dec-007",
+   "kind": "decoding",
+   "requirements": [
+    "SAR-REQ-011"
+   ]
+  },
+  {
+   "description": "duplicate map key {\"a\":1,\"a\":2}",
+   "id": "dec-008",
+   "kind": "decoding",
+   "requirements": [
+    "SAR-REQ-011"
+   ]
+  },
+  {
+   "description": "trailing byte after a complete item",
+   "id": "dec-009",
+   "kind": "decoding",
+   "requirements": [
+    "SAR-REQ-011"
+   ]
+  },
+  {
+   "description": "half-precision float 1.0",
+   "id": "dec-010",
+   "kind": "decoding",
+   "requirements": [
+    "SAR-REQ-012"
+   ]
+  },
+  {
+   "description": "double-precision float 1.1",
+   "id": "dec-011",
+   "kind": "decoding",
+   "requirements": [
+    "SAR-REQ-012"
+   ]
+  },
+  {
+   "description": "single-precision float 100000.0",
+   "id": "dec-012",
+   "kind": "decoding",
+   "requirements": [
+    "SAR-REQ-012"
+   ]
+  },
+  {
+   "description": "Valid proposal and one approval, quorum 1: ALLOW",
+   "id": "gate-001",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-001",
+    "SAR-REQ-002",
+    "SAR-REQ-003",
+    "SAR-REQ-004",
+    "SAR-REQ-005",
+    "SAR-REQ-006",
+    "SAR-REQ-007",
+    "SAR-REQ-008",
+    "SAR-REQ-020",
+    "SAR-REQ-022",
+    "SAR-REQ-030",
+    "SAR-REQ-031",
+    "SAR-REQ-032",
+    "SAR-REQ-033",
+    "SAR-REQ-040",
+    "SAR-REQ-044",
+    "SAR-REQ-045",
+    "SAR-REQ-050",
+    "SAR-REQ-061",
+    "SAR-REQ-070",
+    "SAR-REQ-080",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-101",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Valid proposal and two approvals, quorum 2: ALLOW",
+   "id": "gate-002",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-001",
+    "SAR-REQ-002",
+    "SAR-REQ-003",
+    "SAR-REQ-004",
+    "SAR-REQ-005",
+    "SAR-REQ-006",
+    "SAR-REQ-007",
+    "SAR-REQ-008",
+    "SAR-REQ-020",
+    "SAR-REQ-022",
+    "SAR-REQ-030",
+    "SAR-REQ-031",
+    "SAR-REQ-032",
+    "SAR-REQ-033",
+    "SAR-REQ-040",
+    "SAR-REQ-044",
+    "SAR-REQ-045",
+    "SAR-REQ-050",
+    "SAR-REQ-061",
+    "SAR-REQ-070",
+    "SAR-REQ-080",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-101",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Nonce as a byte string: ALLOW",
+   "id": "gate-003",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-020",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Nonce of 256 code points (512 octets): ALLOW (length counted in code points)",
+   "id": "gate-004",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-020",
+    "SAR-REQ-023",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Agent identifier of 256 code points: ALLOW",
+   "id": "gate-005",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-023",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Policy with an agent identifier of 257 code points: policy invalid",
+   "id": "gate-006",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-023",
+    "SAR-REQ-040",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Proposal as an untagged COSE_Sign1 array: DENY invalid_statement",
+   "id": "gate-010",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-001",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Proposal with CBOR tag 17 instead of 18: DENY invalid_statement",
+   "id": "gate-011",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-001",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Proposal COSE array with three elements: DENY invalid_statement",
+   "id": "gate-012",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-001",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Proposal with a non-empty unprotected header {4: kid}: DENY invalid_statement",
+   "id": "gate-013",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-006",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Proposal protected header with an extra label 5: DENY invalid_statement",
+   "id": "gate-014",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-002",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Proposal protected header without kid: DENY invalid_statement",
+   "id": "gate-015",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-002",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Proposal signed correctly but with alg -8 (polymorphic EdDSA): DENY invalid_statement",
+   "id": "gate-016",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-003",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Proposal body signed with the ratification content type: DENY invalid_statement",
+   "id": "gate-017",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-004",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Proposal kid differs from agent_id: DENY invalid_statement",
+   "id": "gate-018",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-005",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Proposal payload nil (detached): DENY invalid_statement",
+   "id": "gate-019",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-007",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Proposal signature with one bit flipped: DENY invalid_statement",
+   "id": "gate-020",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-008",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Proposal signature truncated to 63 bytes: DENY invalid_statement",
+   "id": "gate-021",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-008",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Protected header with alg -19 in a non-preferred two-byte encoding (signed): DENY invalid_statement",
+   "id": "gate-022",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-002",
+    "SAR-REQ-011",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Proposal body with map keys out of order, validly signed: DENY invalid_statement",
+   "id": "gate-023",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-007",
+    "SAR-REQ-011",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Proposal body with expires_at as a float, validly signed: DENY invalid_statement",
+   "id": "gate-024",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-012",
+    "SAR-REQ-020",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "ov-2's ratification signature with one bit flipped, next to a valid approval meeting quorum 1: DENY invalid_statement",
+   "id": "gate-025",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-008",
+    "SAR-REQ-052",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Proposal with an extra member action_type (proposal_id recomputed, validly signed): DENY invalid_statement",
+   "id": "gate-030",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-020",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Proposal without nonce: DENY invalid_statement",
+   "id": "gate-031",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-020",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Proposal with v = 2: DENY invalid_statement",
+   "id": "gate-032",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-020",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Proposal with a 31-byte payload_digest (implies payload_mismatch): DENY invalid_statement",
+   "id": "gate-033",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-020",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Proposal with an empty nonce: DENY invalid_statement",
+   "id": "gate-034",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-020",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Proposal with issued_at = -1: DENY invalid_statement",
+   "id": "gate-035",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-020",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Proposal with issued_at == expires_at (ttl 0): DENY invalid_statement",
+   "id": "gate-036",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-021",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Proposal with an arbitrary proposal_id (validly signed): DENY invalid_statement",
+   "id": "gate-041",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-032",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Proposal with a nonce of 257 code points: DENY invalid_statement",
+   "id": "gate-042",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-020",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Ratification with reviewed_at == valid_until (ttl 0) by ov-2, next to a valid approval by ov-1 that meets quorum 1: DENY invalid_statement",
+   "id": "gate-037",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-021",
+    "SAR-REQ-052",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Ratification with an extra member reviewer_context by ov-2, next to a valid approval by ov-1 that meets quorum 1: DENY invalid_statement",
+   "id": "gate-038",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-022",
+    "SAR-REQ-052",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Ratification with verdict \"approved\" (lower case) by ov-2, next to a valid approval by ov-1 that meets quorum 1: DENY invalid_statement",
+   "id": "gate-039",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-024",
+    "SAR-REQ-052",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Ratification with verdict 1 (integer) by ov-2, next to a valid approval by ov-1 that meets quorum 1: DENY invalid_statement",
+   "id": "gate-040",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-022",
+    "SAR-REQ-024",
+    "SAR-REQ-052",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "ov-2's approval of another proposal presented with this one (next to ov-1's valid approval): DENY binding_mismatch",
+   "id": "gate-050",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-031",
+    "SAR-REQ-033",
+    "SAR-REQ-052",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Ratification with the right proposal_digest but another proposal_id: DENY binding_mismatch",
+   "id": "gate-051",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-033",
+    "SAR-REQ-052",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Ratification with the right proposal_id but the digest of another proposal: DENY binding_mismatch",
+   "id": "gate-052",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-031",
+    "SAR-REQ-052",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Proposal bound to policy p2 presented under p1: DENY binding_mismatch",
+   "id": "gate-053",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-044",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "ov-2's ratification bound to policy p2: DENY binding_mismatch",
+   "id": "gate-054",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-044",
+    "SAR-REQ-052",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Proposal policy_id \"P1\" under policy \"p1\" (no case folding): DENY binding_mismatch",
+   "id": "gate-055",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-034",
+    "SAR-REQ-044",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Runtime payload differs (amount 5001): DENY payload_mismatch",
+   "id": "gate-056",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-030",
+    "SAR-REQ-070",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Proposal digest equal to the payload digest in the first 31 bytes only: DENY payload_mismatch",
+   "id": "gate-057",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-030",
+    "SAR-REQ-034",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Payload octets with map keys out of order (decode to the approved value): DENY payload_mismatch",
+   "id": "gate-058",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-011",
+    "SAR-REQ-071",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Payload octets with a trailing byte: DENY payload_mismatch",
+   "id": "gate-059",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-011",
+    "SAR-REQ-071",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Payload containing a float, proposal digest over those octets: DENY payload_mismatch",
+   "id": "gate-059b",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-012",
+    "SAR-REQ-071",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Policy with quorum 0: every request DENY policy_invalid",
+   "id": "gate-060",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-040",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Policy with quorum 3 with two overseers: every request DENY policy_invalid",
+   "id": "gate-061",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-040",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Policy with overseer key in upper-case hex: every request DENY policy_invalid",
+   "id": "gate-062",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-040",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Policy with unknown member policy_version (future member, MUST-reject in v1): every request DENY policy_invalid",
+   "id": "gate-063",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-042",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Policy with unknown member permitted_action_types: every request DENY policy_invalid",
+   "id": "gate-064",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-042",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Policy with one key registered for two overseers: every request DENY policy_invalid",
+   "id": "gate-065",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-041",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Policy with identifier both agent and overseer: every request DENY policy_invalid",
+   "id": "gate-066",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-041",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Policy with agent key also registered for an overseer: every request DENY policy_invalid",
+   "id": "gate-067",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-041",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Policy with no authorized agents: every request DENY policy_invalid",
+   "id": "gate-068",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-040",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Proposal by an agent not in the policy: DENY unauthorized_signer",
+   "id": "gate-070",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-045",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Ratification by an overseer not in the policy: DENY unauthorized_signer",
+   "id": "gate-071",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-045",
+    "SAR-REQ-052",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Proposal for agent-1 signed with another key: DENY invalid_statement",
+   "id": "gate-072",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-008",
+    "SAR-REQ-045",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Revocation: ov-2 removed from the policy after ratifying: DENY unauthorized_signer; offline verification under the earlier policy succeeds",
+   "id": "gate-073",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-043",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Revocation by key replacement: ov-1's key replaced after ratifying: DENY invalid_statement; offline under the earlier policy succeeds",
+   "id": "gate-074",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-043",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Evaluation at t = lo - tau: ALLOW",
+   "id": "gate-080",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-050",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-101",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Evaluation at t = lo - tau - 1: DENY time_invalid",
+   "id": "gate-081",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-050",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-101",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Evaluation at t = hi - 1: ALLOW",
+   "id": "gate-082",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-050",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-101",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Evaluation at t = hi (proposal expiry is exact): DENY time_invalid",
+   "id": "gate-083",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-050",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-101",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Ratification expiring at T0+30, evaluated at T0+29: ALLOW",
+   "id": "gate-084",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-050",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-101",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Ratification expiring at T0+30, evaluated at T0+30: DENY time_invalid",
+   "id": "gate-085",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-050",
+    "SAR-REQ-052",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-101",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Ratification issued one second before the proposal: DENY time_invalid",
+   "id": "gate-086",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-051",
+    "SAR-REQ-052",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Ratification issued at the proposal's expires_at: DENY time_invalid",
+   "id": "gate-087",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-051",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Quorum 1 met by ov-1, but ov-2's approval in the set has expired: DENY time_invalid (S4)",
+   "id": "gate-088",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-052",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Two approvals never jointly valid ([T0,T0+5) and [T0+30,T0+90)), evaluated at T0+4 within the tolerance of the second: DENY time_invalid",
+   "id": "gate-089",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-053",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Touching but disjoint intervals [T0,T0+10) and [T0+10,T0+70): DENY time_invalid",
+   "id": "gate-090",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-053",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Proposal and ratification dated T0+100, evaluated at T0+69 (31 s early): DENY time_invalid",
+   "id": "gate-091",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-050",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-101",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Proposal and ratification dated T0+100, evaluated at T0+70 (30 s early): ALLOW",
+   "id": "gate-092",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-050",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-101",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Quorum 2 with one approval: DENY quorum_not_met",
+   "id": "gate-100",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-061",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "The same approval presented twice, quorum 1: DENY duplicate_ratification",
+   "id": "gate-101",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-060",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Two different approvals by ov-1, quorum 2: DENY duplicate_ratification",
+   "id": "gate-102",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-060",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Quorum 1 met by ov-1 but ov-2 rejected: DENY rejected",
+   "id": "gate-103",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-062",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Only a rejection: DENY rejected",
+   "id": "gate-104",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-062",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Empty ratification set: DENY missing_evidence",
+   "id": "gate-105",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-063",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "No proposal: DENY missing_evidence",
+   "id": "gate-106",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-063",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Same authorization presented twice at the same instant: ALLOW then DENY replay",
+   "id": "seq-110",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-080",
+    "SAR-REQ-084",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Replay 1 s and 39 s later: ALLOW, DENY replay, DENY replay",
+   "id": "seq-111",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-080",
+    "SAR-REQ-083",
+    "SAR-REQ-084",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "A new proposal reusing a consumed nonce: ALLOW then DENY replay",
+   "id": "seq-112",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-080",
+    "SAR-REQ-081",
+    "SAR-REQ-084",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Nonces \"N-8\" and \"n-8\" are different: ALLOW, ALLOW",
+   "id": "seq-113",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-034",
+    "SAR-REQ-080",
+    "SAR-REQ-081",
+    "SAR-REQ-084",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Nonce text \"n9\" and bytes h'6e39' are different: ALLOW, ALLOW",
+   "id": "seq-114",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-080",
+    "SAR-REQ-081",
+    "SAR-REQ-084",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Integer transaction_id 5 reused by a new proposal: ALLOW then DENY replay",
+   "id": "seq-115",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-080",
+    "SAR-REQ-082",
+    "SAR-REQ-084",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "transaction_id 6 and \"6\" are different: ALLOW, ALLOW",
+   "id": "seq-116",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-080",
+    "SAR-REQ-082",
+    "SAR-REQ-084",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "A nested transaction_id is not consumed: ALLOW, ALLOW",
+   "id": "seq-117",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-080",
+    "SAR-REQ-082",
+    "SAR-REQ-084",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Denied for missing quorum, then presented with a full quorum: DENY quorum_not_met, ALLOW",
+   "id": "seq-118",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-061",
+    "SAR-REQ-080",
+    "SAR-REQ-084",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Replay after a restart of the gate on a persistent store: ALLOW, DENY replay",
+   "id": "seq-119",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-080",
+    "SAR-REQ-084",
+    "SAR-REQ-085",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Nonce consumed by agent-1 reused by agent-2: ALLOW then DENY replay (nonce scope is the policy)",
+   "id": "seq-120",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-080",
+    "SAR-REQ-081",
+    "SAR-REQ-084",
+    "SAR-REQ-090",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Valid request but the decision log fails: DENY store_failure (never ALLOW)",
+   "id": "gate-130",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-090",
+    "SAR-REQ-091",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "Invalid request (bad ratification signature) and the log fails: DENY store_failure",
+   "id": "gate-131",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-090",
+    "SAR-REQ-091",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  },
+  {
+   "description": "A request that could not be recorded consumed nothing: DENY store_failure, then ALLOW",
+   "id": "seq-132",
+   "kind": "decision",
+   "requirements": [
+    "SAR-REQ-084",
+    "SAR-REQ-090",
+    "SAR-REQ-091",
+    "SAR-REQ-095",
+    "SAR-REQ-100",
+    "SAR-REQ-102"
+   ]
+  }
+ ]
+}

@@ -1,4 +1,7 @@
-# Authorization semantics (normative for sar-cose v1.2)
+# Authorization semantics (rules S1–S13)
+
+> **From v1.3 the normative specification is [`spec/sar-profile.md`](spec/sar-profile.md)** (BCP 14 requirements `SAR-REQ-nnn`, CDDL in `spec/sar-profile.cddl`, test vectors in `spec/test-vectors/`, decision log in `spec/ISSUES.md`). This file keeps the rules S1–S13 as they were resolved in v1.2, with their history. Correspondence: S1, S2 → SAR-REQ-050; S3 → 051; S4 → 052; S5 → 060; S6 → 062; S7 → 024; S8 → 040–042; S9 → 020–023, 032–034; S10 → 080–085; S11 → 100, 101; S12 → 090, 091; S13 → 053, 102. Where this file and the profile differ, the profile wins.
+
 
 The SARWP paper (§4.5–4.12) leaves several decisions open. A second implementation (`independent/`) was written by a separate instance of the same AI assistant from the paper's Sections 3–4 (v1.1) plus a fixed wire-format specification (`independent/BRIEF.md`), without access to `sar_cose`. It made different choices from `sar_cose` in places. Comparing the two on identical inputs gave **128 disagreements in 6,000 decisions** in the reproducible reconstruction (`tools/reproduce_blind_diff.sh`: `sar_cose` at commit e2e39dd against the reconstructed blind version in `independent/original_blind/`; 118 were reported from the original, unpreserved run). Every one traced to one of the gaps below.
 

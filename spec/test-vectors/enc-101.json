@@ -1,0 +1,49 @@
+{
+ "description": "Mixed integer and text keys in bytewise order",
+ "expected": {
+  "cbor": "a40a032004616102616201"
+ },
+ "id": "enc-101",
+ "inputs": {
+  "value": {
+   "map": [
+    [
+     {
+      "text": "b"
+     },
+     {
+      "int": "1"
+     }
+    ],
+    [
+     {
+      "text": "a"
+     },
+     {
+      "int": "2"
+     }
+    ],
+    [
+     {
+      "int": "10"
+     },
+     {
+      "int": "3"
+     }
+    ],
+    [
+     {
+      "int": "-1"
+     },
+     {
+      "int": "4"
+     }
+    ]
+   ]
+  }
+ },
+ "kind": "encoding",
+ "requirements": [
+  "SAR-REQ-010"
+ ]
+}

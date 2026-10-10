@@ -1,0 +1,14 @@
+{
+ "description": "trailing byte after a complete item",
+ "expected": {
+  "result": "reject"
+ },
+ "id": "dec-009",
+ "inputs": {
+  "cbor": "0000"
+ },
+ "kind": "decoding",
+ "requirements": [
+  "SAR-REQ-011"
+ ]
+}

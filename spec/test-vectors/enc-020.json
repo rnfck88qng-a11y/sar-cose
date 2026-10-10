@@ -1,0 +1,16 @@
+{
+ "description": "RFC 8949 Appendix A: 6449455446",
+ "expected": {
+  "cbor": "6449455446"
+ },
+ "id": "enc-020",
+ "inputs": {
+  "value": {
+   "text": "IETF"
+  }
+ },
+ "kind": "encoding",
+ "requirements": [
+  "SAR-REQ-010"
+ ]
+}

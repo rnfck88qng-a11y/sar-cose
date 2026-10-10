@@ -1,0 +1,14 @@
+{
+ "description": "map keys not in bytewise order {\"b\":1,\"a\":1}",
+ "expected": {
+  "result": "reject"
+ },
+ "id": "dec-007",
+ "inputs": {
+  "cbor": "a2616201616101"
+ },
+ "kind": "decoding",
+ "requirements": [
+  "SAR-REQ-011"
+ ]
+}

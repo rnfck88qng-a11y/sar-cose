@@ -1,0 +1,33 @@
+{
+ "description": "Map keys sorted bytewise by their encodings (1000 = 0x1903e8 before \"a\" = 0x6161), not length-first",
+ "expected": {
+  "cbor": "a21903e802616101"
+ },
+ "id": "enc-100",
+ "inputs": {
+  "value": {
+   "map": [
+    [
+     {
+      "text": "a"
+     },
+     {
+      "int": "1"
+     }
+    ],
+    [
+     {
+      "int": "1000"
+     },
+     {
+      "int": "2"
+     }
+    ]
+   ]
+  }
+ },
+ "kind": "encoding",
+ "requirements": [
+  "SAR-REQ-010"
+ ]
+}

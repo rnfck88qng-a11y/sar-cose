@@ -1,0 +1,14 @@
+{
+ "description": "half-precision float 1.0",
+ "expected": {
+  "result": "reject"
+ },
+ "id": "dec-010",
+ "inputs": {
+  "cbor": "f93c00"
+ },
+ "kind": "decoding",
+ "requirements": [
+  "SAR-REQ-012"
+ ]
+}

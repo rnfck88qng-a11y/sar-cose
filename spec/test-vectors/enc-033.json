@@ -1,0 +1,16 @@
+{
+ "description": "RFC 8949 Appendix A: f5",
+ "expected": {
+  "cbor": "f5"
+ },
+ "id": "enc-033",
+ "inputs": {
+  "value": {
+   "bool": true
+  }
+ },
+ "kind": "encoding",
+ "requirements": [
+  "SAR-REQ-010"
+ ]
+}

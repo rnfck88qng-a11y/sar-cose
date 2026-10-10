@@ -1,0 +1,16 @@
+{
+ "description": "RFC 8949 Appendix A: 63e6b0b4",
+ "expected": {
+  "cbor": "63e6b0b4"
+ },
+ "id": "enc-023",
+ "inputs": {
+  "value": {
+   "text": "水"
+  }
+ },
+ "kind": "encoding",
+ "requirements": [
+  "SAR-REQ-010"
+ ]
+}

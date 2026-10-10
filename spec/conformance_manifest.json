@@ -1,0 +1,1476 @@
+{
+ "requirements": [
+  {
+   "cddl_rule": "sar-statement",
+   "level": "MUST",
+   "requirement": "SAR-REQ-001",
+   "section": "5",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "gate-001",
+    "gate-002",
+    "gate-010",
+    "gate-011",
+    "gate-012"
+   ],
+   "tests": [
+    "test_sar_hardening.EncodingEdges.test_cose_wrong_tag_or_untagged_rejected",
+    "test_sar_hardening.EncodingEdges.test_cose_array_must_have_four_elements",
+    "test_sar_cose_specific.CoseStructureTests.test_statements_are_tagged_cose_sign1_with_ed25519_alg_minus19"
+   ],
+   "text": "A statement MUST be a COSE_Sign1 structure (RFC 9052, Section 4.2) carrying CBOR tag 18, that is a tagged array of exactly four elements `[protected, unprotecte"
+  },
+  {
+   "cddl_rule": "sar-protected-header",
+   "level": "MUST",
+   "requirement": "SAR-REQ-002",
+   "section": "5",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "gate-001",
+    "gate-002",
+    "gate-014",
+    "gate-015",
+    "gate-022"
+   ],
+   "tests": [
+    "test_sar_hardening.EncodingEdges.test_protected_header_with_extra_parameter_rejected",
+    "test_sar_cose_specific.CoseStructureTests.test_non_deterministic_protected_header_rejected",
+    "test_sar_cose_specific.CoseStructureTests.test_protected_header_tampering_rejected"
+   ],
+   "text": "`protected` MUST be a byte string containing the deterministic CBOR encoding of a map with exactly the three labels 1 (alg), 3 (content type) and 4 (kid). A rec"
+  },
+  {
+   "cddl_rule": "sar-protected-header",
+   "level": "MUST",
+   "requirement": "SAR-REQ-003",
+   "section": "5",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "gate-001",
+    "gate-002",
+    "gate-016"
+   ],
+   "tests": [
+    "test_sar_cose_specific.CoseStructureTests.test_deprecated_polymorphic_alg_rejected"
+   ],
+   "text": "The algorithm (label 1) MUST be -19 (Ed25519, fully specified; RFC 9864). A gate and an offline verifier MUST reject any other value, including the deprecated p"
+  },
+  {
+   "cddl_rule": "sar-content-type",
+   "level": "MUST",
+   "requirement": "SAR-REQ-004",
+   "section": "5",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "gate-001",
+    "gate-002",
+    "gate-017"
+   ],
+   "tests": [
+    "test_sar_cose_specific.CoseStructureTests.test_content_type_confusion_rejected"
+   ],
+   "text": "The content type (label 3) MUST be the text string `application/sar-proposal+cbor` for a proposal and `application/sar-ratification+cbor` for a ratification. A "
+  },
+  {
+   "cddl_rule": "sar-protected-header",
+   "level": "MUST",
+   "requirement": "SAR-REQ-005",
+   "section": "5",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "gate-001",
+    "gate-002",
+    "gate-018"
+   ],
+   "tests": [
+    "test_sar_cose_specific.CoseStructureTests.test_kid_must_match_signer_identity"
+   ],
+   "text": "The kid (label 4) MUST be a byte string equal to the UTF-8 encoding of the signer identifier in the body (`agent_id` for a proposal, `overseer_id` for a ratific"
+  },
+  {
+   "cddl_rule": "empty-map",
+   "level": "MUST",
+   "requirement": "SAR-REQ-006",
+   "section": "5",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "gate-001",
+    "gate-002",
+    "gate-013"
+   ],
+   "tests": [
+    "test_sar_cose_specific.CoseStructureTests.test_unprotected_header_parameters_rejected"
+   ],
+   "text": "`unprotected` MUST be an empty map. A receiver MUST reject a statement with any unprotected header parameter."
+  },
+  {
+   "cddl_rule": "sar-statement",
+   "level": "MUST",
+   "requirement": "SAR-REQ-007",
+   "section": "5",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "gate-001",
+    "gate-002",
+    "gate-019",
+    "gate-023"
+   ],
+   "tests": [
+    "test_sar_hardening.EncodingEdges.test_cose_payload_must_be_a_map",
+    "test_sar_hardening.EncodingEdges.test_cose_fields_must_be_byte_strings"
+   ],
+   "text": "`payload` MUST be an embedded byte string (no detached payload) containing the deterministic CBOR encoding of a map, the statement body. A receiver MUST reject "
+  },
+  {
+   "cddl_rule": "sar-statement",
+   "level": "MUST",
+   "requirement": "SAR-REQ-008",
+   "section": "5",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "gate-001",
+    "gate-002",
+    "gate-020",
+    "gate-021",
+    "gate-025",
+    "gate-072"
+   ],
+   "tests": [
+    "test_sar_conformance.SarTests.test_03_invalid_signature_denied",
+    "test_sar_properties.BitFlipTests.test_every_single_bit_flip_in_signed_statements_is_rejected",
+    "test_sar_hardening.SemanticsRules.test_s9_signature_encoding_is_canonical"
+   ],
+   "text": "`signature` MUST be the 64-byte Ed25519 signature (RFC 8032) by the signer's key over the COSE Sig_structure `dcbor([\"Signature1\", protected, h'', payload])` (R"
+  },
+  {
+   "cddl_rule": "",
+   "level": "MUST",
+   "requirement": "SAR-REQ-010",
+   "section": "6",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "enc-001",
+    "enc-002",
+    "enc-003",
+    "enc-004",
+    "enc-005",
+    "enc-006",
+    "enc-007",
+    "enc-008",
+    "enc-009",
+    "enc-010",
+    "enc-011",
+    "enc-012",
+    "enc-013",
+    "enc-014",
+    "enc-015",
+    "enc-016",
+    "enc-017",
+    "enc-018",
+    "enc-019",
+    "enc-020",
+    "enc-021",
+    "enc-022",
+    "enc-023",
+    "enc-024",
+    "enc-025",
+    "enc-026",
+    "enc-027",
+    "enc-028",
+    "enc-029",
+    "enc-030",
+    "enc-031",
+    "enc-032",
+    "enc-033",
+    "enc-034",
+    "enc-035",
+    "enc-100",
+    "enc-101"
+   ],
+   "tests": [
+    "test_sar_cose_specific.DeterministicCBORVectors.test_appendix_a_vectors",
+    "test_sar_cose_specific.DeterministicCBORVectors.test_core_deterministic_key_order",
+    "test_sar_properties.CborPropertyTests.test_roundtrip_and_canonical_form"
+   ],
+   "text": "An encoder MUST produce the core deterministic encoding of RFC 8949, Section 4.2.1: preferred (shortest) argument encoding, definite lengths only, map keys sort"
+  },
+  {
+   "cddl_rule": "",
+   "level": "MUST",
+   "requirement": "SAR-REQ-011",
+   "section": "6",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass (some vectors n/a)",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "dec-001",
+    "dec-002",
+    "dec-003",
+    "dec-004",
+    "dec-005",
+    "dec-006",
+    "dec-007",
+    "dec-008",
+    "dec-009",
+    "gate-022",
+    "gate-023",
+    "gate-058",
+    "gate-059"
+   ],
+   "tests": [
+    "test_sar_cose_specific.CoseStructureTests.test_non_deterministic_payloads_rejected",
+    "test_sar_properties.CborPropertyTests.test_parser_fails_safely_on_garbage",
+    "test_sar_hardening.ExactBytes.test_modified_or_non_canonical_bytes_are_denied"
+   ],
+   "text": "A decoder MUST reject, wherever this profile requires deterministic CBOR (protected headers, statement bodies, COSE_Sign1 structures, and payloads presented as "
+  },
+  {
+   "cddl_rule": "",
+   "level": "MUST",
+   "requirement": "SAR-REQ-012",
+   "section": "6",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass (some vectors n/a)",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "dec-010",
+    "dec-011",
+    "dec-012",
+    "gate-024",
+    "gate-059b"
+   ],
+   "tests": [
+    "test_sar_cose_specific.DeterministicCBORVectors.test_floats_rejected",
+    "test_sar_hardening.EncodingEdges.test_unencodable_runtime_payload_is_denied_not_raised"
+   ],
+   "text": "Floating-point values (major type 7, additional information 25, 26, 27) MUST NOT appear in statements or payloads. An encoder MUST refuse to encode them and a d"
+  },
+  {
+   "cddl_rule": "proposal-body",
+   "level": "MUST",
+   "requirement": "SAR-REQ-020",
+   "section": "7",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "gate-001",
+    "gate-002",
+    "gate-003",
+    "gate-004",
+    "gate-024",
+    "gate-030",
+    "gate-031",
+    "gate-032",
+    "gate-033",
+    "gate-034",
+    "gate-035",
+    "gate-042"
+   ],
+   "tests": [
+    "test_sar_hardening.SemanticsRules.test_s9_extra_or_wrong_typed_body_fields_denied_even_if_validly_signed",
+    "test_sar_hardening.MutationSweepGaps.test_identifier_and_nonce_length_limits_are_inclusive"
+   ],
+   "text": "A proposal body MUST have exactly the members `v`, `agent_id`, `payload_digest`, `issued_at`, `expires_at`, `nonce`, `policy_id` and `proposal_id`, with: `v` th"
+  },
+  {
+   "cddl_rule": "proposal-body",
+   "level": "MUST",
+   "requirement": "SAR-REQ-021",
+   "section": "7",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "gate-036",
+    "gate-037"
+   ],
+   "tests": [
+    "test_sar_hardening.SemanticsRules.test_s9_empty_validity_interval_denied"
+   ],
+   "text": "A statement's nominal validity interval MUST be non-empty: `issued_at < expires_at` for a proposal and `reviewed_at < valid_until` for a ratification. A stateme"
+  },
+  {
+   "cddl_rule": "ratification-body",
+   "level": "MUST",
+   "requirement": "SAR-REQ-022",
+   "section": "7",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "gate-001",
+    "gate-002",
+    "gate-038",
+    "gate-040"
+   ],
+   "tests": [
+    "test_sar_hardening.SemanticsRules.test_s9_ratification_shape"
+   ],
+   "text": "A ratification body MUST have exactly the members `v`, `proposal_digest`, `proposal_id`, `overseer_id`, `verdict`, `reviewed_at`, `valid_until` and `policy_id`,"
+  },
+  {
+   "cddl_rule": "identifier",
+   "level": "MUST",
+   "requirement": "SAR-REQ-023",
+   "section": "7",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "gate-004",
+    "gate-005",
+    "gate-006"
+   ],
+   "tests": [
+    "test_sar_hardening.MutationSweepGaps.test_identifier_and_nonce_length_limits_are_inclusive",
+    "test_sar_hardening.MutationSweepGaps.test_single_character_identities_are_valid"
+   ],
+   "text": "An identifier (`agent_id`, `overseer_id`, `policy_id`, and the identifiers in a policy) MUST be a text string of 1 to 256 Unicode code points. Identifiers MUST "
+  },
+  {
+   "cddl_rule": "verdict",
+   "level": "MUST",
+   "requirement": "SAR-REQ-024",
+   "section": "7",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "gate-039",
+    "gate-040"
+   ],
+   "tests": [
+    "test_sar_conformance.SarTests.test_04_rejected_proposal_denied",
+    "test_sar_properties.DifferentialTests.test_gate_matches_spec_model_single_fault_injection"
+   ],
+   "text": "`verdict` MUST be exactly one of the text strings `APPROVED` and `REJECTED`. Any other value, including a different case, MUST cause denial (rule S7)."
+  },
+  {
+   "cddl_rule": "digest",
+   "level": "MUST",
+   "requirement": "SAR-REQ-030",
+   "section": "8",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "gate-001",
+    "gate-002",
+    "gate-056",
+    "gate-057"
+   ],
+   "tests": [
+    "test_sar_cose_specific.CoseStructureTests.test_payload_digest_is_sha256_of_deterministic_cbor",
+    "test_sar_hardening.AuditSurvivors.test_payload_digest_is_compared_in_full"
+   ],
+   "text": "`payload_digest` MUST be `H(dcbor(P))`. The gate MUST compute the digest of the runtime payload itself and MUST deny unless it equals `payload_digest` in all 32"
+  },
+  {
+   "cddl_rule": "ratification-body",
+   "level": "MUST",
+   "requirement": "SAR-REQ-031",
+   "section": "8",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "gate-001",
+    "gate-002",
+    "gate-050",
+    "gate-052"
+   ],
+   "tests": [
+    "test_sar_gaps.SarGapTests.test_c13_ratification_cannot_be_moved_to_another_proposal",
+    "test_sar_hardening.MutationSweepGaps.test_binding_requires_both_digest_and_proposal_id"
+   ],
+   "text": "A ratification's `proposal_digest` MUST be `H(proposal_bytes)`, where `proposal_bytes` is the exact COSE_Sign1 encoding of the proposal (tag 18 included). A rat"
+  },
+  {
+   "cddl_rule": "proposal-id",
+   "level": "MUST",
+   "requirement": "SAR-REQ-032",
+   "section": "8",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "gate-001",
+    "gate-002",
+    "gate-041"
+   ],
+   "tests": [
+    "test_sar_hardening.SemanticsRules.test_s9_attacker_chosen_proposal_id_denied",
+    "test_sar_cross.CrossImplementation.test_artifacts_are_byte_identical"
+   ],
+   "text": "`proposal_id` MUST be the first 32 lowercase hexadecimal characters (128 bits) of `H(dcbor(B'))`, where `B'` is the proposal body without the `proposal_id` memb"
+  },
+  {
+   "cddl_rule": "ratification-body",
+   "level": "MUST",
+   "requirement": "SAR-REQ-033",
+   "section": "8",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "gate-001",
+    "gate-002",
+    "gate-050",
+    "gate-051"
+   ],
+   "tests": [
+    "test_sar_hardening.MutationSweepGaps.test_binding_requires_both_digest_and_proposal_id"
+   ],
+   "text": "A ratification's `proposal_id` MUST equal the proposal's `proposal_id`; a ratification whose digest matches but whose `proposal_id` differs, or the reverse, MUS"
+  },
+  {
+   "cddl_rule": "",
+   "level": "MUST",
+   "requirement": "SAR-REQ-034",
+   "section": "8",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "gate-055",
+    "gate-057",
+    "seq-113"
+   ],
+   "tests": [
+    "test_sar_hardening.AuditSurvivors.test_nonce_comparison_is_exact",
+    "test_sar_hardening.AuditSurvivors.test_policy_binding_is_exact",
+    "test_sar_hardening.AuditSurvivors.test_payload_digest_is_compared_in_full"
+   ],
+   "text": "Digests MUST be compared over all octets, and identifiers, nonces and policy identifiers MUST be compared exactly (Section 7). In particular a gate MUST NOT cas"
+  },
+  {
+   "cddl_rule": "registration-policy",
+   "level": "MUST",
+   "requirement": "SAR-REQ-040",
+   "section": "9",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "gate-001",
+    "gate-002",
+    "gate-006",
+    "gate-060",
+    "gate-061",
+    "gate-062",
+    "gate-068"
+   ],
+   "tests": [
+    "test_sar_conformance.SarTests.test_08_invalid_policy_configuration_denied",
+    "test_sar_hardening.PolicyValidation.test_malformed_policies_deny",
+    "test_sar_hardening.MutationSweepGaps.test_quorum_zero_with_valid_overseers_is_invalid"
+   ],
+   "text": "A version 1 policy MUST be a map with exactly the members `policy_id`, `quorum`, `authorized_agents` and `authorized_overseers`, where `policy_id` is an identif"
+  },
+  {
+   "cddl_rule": "registration-policy",
+   "level": "MUST",
+   "requirement": "SAR-REQ-041",
+   "section": "9",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "gate-065",
+    "gate-066",
+    "gate-067"
+   ],
+   "tests": [
+    "test_sar_hardening.SemanticsRules.test_s8_one_key_under_two_overseer_ids_invalidates_policy",
+    "test_sar_hardening.SemanticsRules.test_s8_agent_cannot_also_be_overseer",
+    "test_sar_hardening.SemanticsRules.test_s8_self_ratification_by_agent_key_denied"
+   ],
+   "text": "Roles MUST be separated: no public key may be registered for two overseers; no identifier may appear both as an agent and as an overseer; and no public key may "
+  },
+  {
+   "cddl_rule": "registration-policy",
+   "level": "MUST",
+   "requirement": "SAR-REQ-042",
+   "section": "9",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "gate-063",
+    "gate-064"
+   ],
+   "tests": [
+    "test_sar_hardening.SemanticsRules.test_s8_policy_shape"
+   ],
+   "text": "A gate or verifier implementing version 1 of this profile MUST treat a policy containing any member other than the four of SAR-REQ-040, including the future mem"
+  },
+  {
+   "cddl_rule": "",
+   "level": "MUST",
+   "requirement": "SAR-REQ-043",
+   "section": "9",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "gate-073",
+    "gate-074"
+   ],
+   "tests": [
+    "test_sar_hardening.Revocation.test_overseer_removed_after_ratification_is_denied",
+    "test_sar_hardening.Revocation.test_agent_removed_after_ratification_is_denied",
+    "test_sar_hardening.Revocation.test_overseer_key_rotated_after_ratification_is_denied"
+   ],
+   "text": "The gate MUST evaluate the policy in force at the evaluation instant, on every request. Removing an agent or overseer, or replacing its key, MUST cause denial o"
+  },
+  {
+   "cddl_rule": "",
+   "level": "MUST",
+   "requirement": "SAR-REQ-044",
+   "section": "9",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "gate-001",
+    "gate-002",
+    "gate-053",
+    "gate-054",
+    "gate-055"
+   ],
+   "tests": [
+    "test_sar_gaps.SarGapTests.test_c12_policy_id_mismatch_denied",
+    "test_sar_hardening.GateEdges.test_ratification_bound_to_other_policy_denied_even_if_proposal_matches",
+    "test_sar_hardening.MutationSweepGaps.test_proposal_policy_checked_even_if_ratification_names_the_gate_policy"
+   ],
+   "text": "The `policy_id` of the proposal and of every ratification MUST equal the policy's `policy_id`; otherwise the request MUST be denied."
+  },
+  {
+   "cddl_rule": "principal-map",
+   "level": "MUST",
+   "requirement": "SAR-REQ-045",
+   "section": "9",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "gate-001",
+    "gate-002",
+    "gate-070",
+    "gate-071",
+    "gate-072"
+   ],
+   "tests": [
+    "test_sar_hardening.GateEdges.test_unauthorized_agent_denied",
+    "test_sar_hardening.GateEdges.test_agent_key_substitution_denied",
+    "test_sar_hardening.OfflineEdges.test_unauthorized_overseer"
+   ],
+   "text": "The proposal's `agent_id` MUST be a key of `authorized_agents`, and every ratification's `overseer_id` MUST be a key of `authorized_overseers`; each statement's"
+  },
+  {
+   "cddl_rule": "time",
+   "level": "MUST",
+   "requirement": "SAR-REQ-050",
+   "section": "10",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "gate-001",
+    "gate-002",
+    "gate-080",
+    "gate-081",
+    "gate-082",
+    "gate-083",
+    "gate-084",
+    "gate-085",
+    "gate-091",
+    "gate-092"
+   ],
+   "tests": [
+    "test_sar_properties.BoundaryTests.test_proposal_expiry_boundary",
+    "test_sar_properties.BoundaryTests.test_ratification_expiry_boundary",
+    "test_sar_properties.BoundaryTests.test_clock_skew_boundary",
+    "test_sar_conformance.SarTests.test_07a_expired_proposal_denied_even_if_ratification_valid",
+    "test_sar_conformance.SarTests.test_07b_expired_ratification_denied_even_if_proposal_valid"
+   ],
+   "text": "A gate evaluating at instant `t` MUST accept the temporal conditions of a request if and only if `lo < hi` and `lo - \u03c4 <= t < hi` (S1, S2). The tolerance applie"
+  },
+  {
+   "cddl_rule": "",
+   "level": "MUST",
+   "requirement": "SAR-REQ-051",
+   "section": "10",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "gate-086",
+    "gate-087"
+   ],
+   "tests": [
+    "test_sar_properties.BoundaryTests.test_review_not_before_proposal_boundary",
+    "test_sar_properties.BoundaryTests.test_review_before_proposal_expiry_boundary",
+    "test_sar_gaps.SarGapTests.test_c07c_ratification_before_proposal_denied"
+   ],
+   "text": "Every ratification MUST have been issued within its proposal's validity: `issued_at <= reviewed_at < expires_at` (S3). Otherwise the request MUST be denied, ind"
+  },
+  {
+   "cddl_rule": "",
+   "level": "MUST",
+   "requirement": "SAR-REQ-052",
+   "section": "10",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "gate-025",
+    "gate-037",
+    "gate-038",
+    "gate-039",
+    "gate-040",
+    "gate-050",
+    "gate-051",
+    "gate-052",
+    "gate-054",
+    "gate-071",
+    "gate-085",
+    "gate-086",
+    "gate-088"
+   ],
+   "tests": [
+    "test_sar_hardening.GateEdges.test_expired_approval_denies_even_if_quorum_met_otherwise"
+   ],
+   "text": "The set of ratifications is evaluated as a whole: if any ratification in the presented set is invalid (malformed, unauthorized, badly signed, not bound, bound t"
+  },
+  {
+   "cddl_rule": "",
+   "level": "MUST",
+   "requirement": "SAR-REQ-053",
+   "section": "10",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "gate-089",
+    "gate-090"
+   ],
+   "tests": [
+    "test_sar_hardening.SemanticsRules.test_s13_no_common_validity_interval_denied_at_gate",
+    "test_sar_hardening.MutationSweepGaps.test_touching_but_disjoint_validity_intervals_denied"
+   ],
+   "text": "A request whose common interval is empty (`lo >= hi`) MUST be denied even if each statement is individually within its own interval at `t` within the tolerance "
+  },
+  {
+   "cddl_rule": "",
+   "level": "MUST",
+   "requirement": "SAR-REQ-060",
+   "section": "11",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "gate-101",
+    "gate-102"
+   ],
+   "tests": [
+    "test_sar_gaps.SarGapTests.test_c11b_duplicate_overseer_does_not_meet_quorum",
+    "test_sar_hardening.SemanticsRules.test_s11_offline_rejects_duplicate_overseer"
+   ],
+   "text": "Two or more ratifications in the presented set with the same `overseer_id` MUST cause denial (S5), whether or not they are identical."
+  },
+  {
+   "cddl_rule": "",
+   "level": "MUST",
+   "requirement": "SAR-REQ-061",
+   "section": "11",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "gate-001",
+    "gate-002",
+    "gate-100",
+    "seq-118"
+   ],
+   "tests": [
+    "test_sar_conformance.SarTests.test_11_quorum_requires_distinct_approvals"
+   ],
+   "text": "The request MUST be denied unless the number of distinct overseers with a valid `APPROVED` ratification is at least `quorum`."
+  },
+  {
+   "cddl_rule": "",
+   "level": "MUST",
+   "requirement": "SAR-REQ-062",
+   "section": "11",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "gate-103",
+    "gate-104"
+   ],
+   "tests": [
+    "test_sar_hardening.SemanticsRules.test_s6_rejection_vetoes_met_quorum",
+    "test_sar_conformance.SarTests.test_04_rejected_proposal_denied"
+   ],
+   "text": "Any valid ratification with verdict `REJECTED` in the presented set MUST cause denial, regardless of other approvals (S6)."
+  },
+  {
+   "cddl_rule": "",
+   "level": "MUST",
+   "requirement": "SAR-REQ-063",
+   "section": "11",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "gate-105",
+    "gate-106"
+   ],
+   "tests": [
+    "test_sar_conformance.SarTests.test_02_missing_authorization_denied",
+    "test_sar_hardening.MutationSweepGaps.test_missing_inputs_are_denied_for_the_right_reason"
+   ],
+   "text": "A request without a proposal, or with an empty ratification set, MUST be denied."
+  },
+  {
+   "cddl_rule": "",
+   "level": "MUST",
+   "requirement": "SAR-REQ-070",
+   "section": "11",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "gate-001",
+    "gate-002",
+    "gate-056"
+   ],
+   "tests": [
+    "test_sar_conformance.SarTests.test_05_modified_payload_after_approval_denied",
+    "test_sar_properties.CborPropertyTests.test_any_change_to_payload_after_approval_is_denied"
+   ],
+   "text": "The gate MUST compute the digest of the payload it is given and deny unless it equals the proposal's `payload_digest` (Section 8), immediately before returning "
+  },
+  {
+   "cddl_rule": "",
+   "level": "MUST",
+   "requirement": "SAR-REQ-071",
+   "section": "11",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "not-implemented",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "gate-058",
+    "gate-059",
+    "gate-059b"
+   ],
+   "tests": [
+    "test_sar_hardening.ExactBytes.test_allow_returns_the_exact_immutable_bytes",
+    "test_sar_hardening.ExactBytes.test_modified_or_non_canonical_bytes_are_denied"
+   ],
+   "text": "A gate that accepts the payload as an octet string MUST deny unless the octets are deterministic CBOR (Section 6), MUST compute the digest over a private copy o"
+  },
+  {
+   "cddl_rule": "",
+   "level": "SHOULD",
+   "requirement": "SAR-REQ-072",
+   "section": "11",
+   "status_sar_cose": "pass (interface returns the exact octets; use by the executor is a deployment obligation)",
+   "status_sar_indep": "not-implemented (no bytes interface; ISS-004)",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [],
+   "tests": [
+    "test_sar_hardening.ExactBytes.test_allow_returns_the_exact_immutable_bytes"
+   ],
+   "text": "The executor SHOULD transmit exactly the octets returned by the gate (SAR-REQ-071), or the target system SHOULD recompute the digest itself; executing a separat"
+  },
+  {
+   "cddl_rule": "",
+   "level": "MUST",
+   "requirement": "SAR-REQ-080",
+   "section": "11",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "gate-001",
+    "gate-002",
+    "seq-110",
+    "seq-111",
+    "seq-112",
+    "seq-113",
+    "seq-114",
+    "seq-115",
+    "seq-116",
+    "seq-117",
+    "seq-118",
+    "seq-119",
+    "seq-120"
+   ],
+   "tests": [
+    "test_sar_conformance.SarTests.test_06_replayed_authorization_denied"
+   ],
+   "text": "An ALLOW MUST consume the proposal's `proposal_id`, scoped to the policy; a later presentation of the same proposal under the same policy MUST be denied as repl"
+  },
+  {
+   "cddl_rule": "nonce",
+   "level": "MUST",
+   "requirement": "SAR-REQ-081",
+   "section": "11",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "seq-112",
+    "seq-113",
+    "seq-114",
+    "seq-120"
+   ],
+   "tests": [
+    "test_sar_hardening.SemanticsRules.test_s10_nonce_reuse_by_a_new_proposal_denied",
+    "test_sar_hardening.AuditSurvivors.test_nonce_comparison_is_exact"
+   ],
+   "text": "An ALLOW MUST consume the proposal's `nonce`, scoped to the policy and across all agents, compared as a deterministic CBOR value (so the text \"n1\" and the bytes"
+  },
+  {
+   "cddl_rule": "",
+   "level": "MUST",
+   "requirement": "SAR-REQ-082",
+   "section": "11",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "seq-115",
+    "seq-116",
+    "seq-117"
+   ],
+   "tests": [
+    "test_sar_hardening.SemanticsRules.test_s10_transaction_id_reuse_denied",
+    "test_sar_hardening.AuditSurvivors.test_non_text_transaction_id_is_consumed",
+    "test_sar_hardening.AuditSurvivors.test_transaction_ids_are_compared_as_cbor_values"
+   ],
+   "text": "If the payload is a map with a top-level member `transaction_id`, an ALLOW MUST consume that value, scoped to the policy and compared as a deterministic CBOR va"
+  },
+  {
+   "cddl_rule": "",
+   "level": "MUST",
+   "requirement": "SAR-REQ-083",
+   "section": "11",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "seq-111"
+   ],
+   "tests": [
+    "test_sar_hardening.AuditSurvivors.test_replay_is_denied_at_any_later_instant"
+   ],
+   "text": "Consumption MUST NOT depend on the evaluation instant: a replay presented at any later instant MUST be denied."
+  },
+  {
+   "cddl_rule": "",
+   "level": "MUST",
+   "requirement": "SAR-REQ-084",
+   "section": "11",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "seq-110",
+    "seq-111",
+    "seq-112",
+    "seq-113",
+    "seq-114",
+    "seq-115",
+    "seq-116",
+    "seq-117",
+    "seq-118",
+    "seq-119",
+    "seq-120",
+    "seq-132"
+   ],
+   "tests": [
+    "test_sar_hardening.SemanticsRules.test_s10_denial_consumes_nothing"
+   ],
+   "text": "A denial MUST consume nothing; a request denied for any reason other than replay can be presented again (for example with further ratifications) and allowed."
+  },
+  {
+   "cddl_rule": "",
+   "level": "MUST",
+   "requirement": "SAR-REQ-085",
+   "section": "11",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "seq-119"
+   ],
+   "tests": [
+    "test_sar_properties.StoreConcurrencyTests.test_concurrent_presentations_allow_exactly_once",
+    "test_sar_properties.StoreConcurrencyTests.test_concurrent_processes_allow_exactly_once",
+    "test_sar_properties.StoreConcurrencyTests.test_replay_protection_survives_restart",
+    "test_sar_hardening.RollbackAndCrash.test_crash_at_every_statement_allows_at_most_once"
+   ],
+   "text": "Consumption of all replay keys and recording of the ALLOW decision MUST be one atomic step that completes before the gate returns ALLOW (consume-then-execute: a"
+  },
+  {
+   "cddl_rule": "transparent-authorization-record",
+   "level": "MUST",
+   "requirement": "SAR-REQ-100",
+   "section": "12",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass (some vectors n/a)",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "gate-001",
+    "gate-002",
+    "gate-003",
+    "gate-004",
+    "gate-005",
+    "gate-006",
+    "gate-010",
+    "gate-011",
+    "gate-012",
+    "gate-013",
+    "gate-014",
+    "gate-015",
+    "gate-016",
+    "gate-017",
+    "gate-018",
+    "gate-019",
+    "gate-020",
+    "gate-021",
+    "gate-022",
+    "gate-023",
+    "gate-024",
+    "gate-025",
+    "gate-030",
+    "gate-031",
+    "gate-032",
+    "gate-033",
+    "gate-034",
+    "gate-035",
+    "gate-036",
+    "gate-037",
+    "gate-038",
+    "gate-039",
+    "gate-040",
+    "gate-041",
+    "gate-042",
+    "gate-050",
+    "gate-051",
+    "gate-052",
+    "gate-053",
+    "gate-054",
+    "gate-055",
+    "gate-056",
+    "gate-057",
+    "gate-058",
+    "gate-059",
+    "gate-059b",
+    "gate-060",
+    "gate-061",
+    "gate-062",
+    "gate-063",
+    "gate-064",
+    "gate-065",
+    "gate-066",
+    "gate-067",
+    "gate-068",
+    "gate-070",
+    "gate-071",
+    "gate-072",
+    "gate-073",
+    "gate-074",
+    "gate-080",
+    "gate-081",
+    "gate-082",
+    "gate-083",
+    "gate-084",
+    "gate-085",
+    "gate-086",
+    "gate-087",
+    "gate-088",
+    "gate-089",
+    "gate-090",
+    "gate-091",
+    "gate-092",
+    "gate-100",
+    "gate-101",
+    "gate-102",
+    "gate-103",
+    "gate-104",
+    "gate-105",
+    "gate-106",
+    "gate-130",
+    "gate-131",
+    "seq-110",
+    "seq-111",
+    "seq-112",
+    "seq-113",
+    "seq-114",
+    "seq-115",
+    "seq-116",
+    "seq-117",
+    "seq-118",
+    "seq-119",
+    "seq-120",
+    "seq-132"
+   ],
+   "tests": [
+    "test_sar_conformance.SarTests.test_09_offline_verification_needs_only_artifacts",
+    "test_sar_hardening.OfflineEdges.test_valid_record_verifies_without_store_or_clock",
+    "test_sar_gaps.SarGapTests.test_c09b_offline_rejects_record_below_quorum"
+   ],
+   "text": "An offline verifier MUST decide, using only the proposal, the ratification set and the policy (no store and no clock), whether they constitute a valid authoriza"
+  },
+  {
+   "cddl_rule": "",
+   "level": "MUST",
+   "requirement": "SAR-REQ-101",
+   "section": "12",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "gate-001",
+    "gate-002",
+    "gate-080",
+    "gate-081",
+    "gate-082",
+    "gate-083",
+    "gate-084",
+    "gate-085",
+    "gate-091",
+    "gate-092"
+   ],
+   "tests": [
+    "test_sar_hardening.MutationSweepGaps.test_offline_at_is_inclusive_at_start"
+   ],
+   "text": "If the verifier is given an evaluation instant `at`, it MUST additionally require `lo - \u03c4 <= at < hi` (the gate's rule, SAR-REQ-050)."
+  },
+  {
+   "cddl_rule": "",
+   "level": "MUST",
+   "requirement": "SAR-REQ-102",
+   "section": "12",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass (some vectors n/a)",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "gate-001",
+    "gate-002",
+    "gate-003",
+    "gate-004",
+    "gate-005",
+    "gate-006",
+    "gate-010",
+    "gate-011",
+    "gate-012",
+    "gate-013",
+    "gate-014",
+    "gate-015",
+    "gate-016",
+    "gate-017",
+    "gate-018",
+    "gate-019",
+    "gate-020",
+    "gate-021",
+    "gate-022",
+    "gate-023",
+    "gate-024",
+    "gate-025",
+    "gate-030",
+    "gate-031",
+    "gate-032",
+    "gate-033",
+    "gate-034",
+    "gate-035",
+    "gate-036",
+    "gate-037",
+    "gate-038",
+    "gate-039",
+    "gate-040",
+    "gate-041",
+    "gate-042",
+    "gate-050",
+    "gate-051",
+    "gate-052",
+    "gate-053",
+    "gate-054",
+    "gate-055",
+    "gate-056",
+    "gate-057",
+    "gate-058",
+    "gate-059",
+    "gate-059b",
+    "gate-060",
+    "gate-061",
+    "gate-062",
+    "gate-063",
+    "gate-064",
+    "gate-065",
+    "gate-066",
+    "gate-067",
+    "gate-068",
+    "gate-070",
+    "gate-071",
+    "gate-072",
+    "gate-073",
+    "gate-074",
+    "gate-080",
+    "gate-081",
+    "gate-082",
+    "gate-083",
+    "gate-084",
+    "gate-085",
+    "gate-086",
+    "gate-087",
+    "gate-088",
+    "gate-089",
+    "gate-090",
+    "gate-091",
+    "gate-092",
+    "gate-100",
+    "gate-101",
+    "gate-102",
+    "gate-103",
+    "gate-104",
+    "gate-105",
+    "gate-106",
+    "gate-130",
+    "gate-131",
+    "seq-110",
+    "seq-111",
+    "seq-112",
+    "seq-113",
+    "seq-114",
+    "seq-115",
+    "seq-116",
+    "seq-117",
+    "seq-118",
+    "seq-119",
+    "seq-120",
+    "seq-132"
+   ],
+   "tests": [
+    "test_sar_properties.DifferentialTests.test_gate_allows_at_t_iff_offline_verification_at_t",
+    "test_sar_cross.CrossImplementation.test_gate_offline_equivalence_in_both_implementations"
+   ],
+   "text": "Gate and offline verification MUST agree (S13): ignoring replay and payload binding, the gate allows at instant `t` if and only if offline verification with `at"
+  },
+  {
+   "cddl_rule": "",
+   "level": "MUST",
+   "requirement": "SAR-REQ-090",
+   "section": "13",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass (some vectors n/a)",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "gate-001",
+    "gate-002",
+    "gate-003",
+    "gate-004",
+    "gate-005",
+    "gate-006",
+    "gate-010",
+    "gate-011",
+    "gate-012",
+    "gate-013",
+    "gate-014",
+    "gate-015",
+    "gate-016",
+    "gate-017",
+    "gate-018",
+    "gate-019",
+    "gate-020",
+    "gate-021",
+    "gate-022",
+    "gate-023",
+    "gate-024",
+    "gate-025",
+    "gate-030",
+    "gate-031",
+    "gate-032",
+    "gate-033",
+    "gate-034",
+    "gate-035",
+    "gate-036",
+    "gate-037",
+    "gate-038",
+    "gate-039",
+    "gate-040",
+    "gate-041",
+    "gate-042",
+    "gate-050",
+    "gate-051",
+    "gate-052",
+    "gate-053",
+    "gate-054",
+    "gate-055",
+    "gate-056",
+    "gate-057",
+    "gate-058",
+    "gate-059",
+    "gate-059b",
+    "gate-060",
+    "gate-061",
+    "gate-062",
+    "gate-063",
+    "gate-064",
+    "gate-065",
+    "gate-066",
+    "gate-067",
+    "gate-068",
+    "gate-070",
+    "gate-071",
+    "gate-072",
+    "gate-073",
+    "gate-074",
+    "gate-080",
+    "gate-081",
+    "gate-082",
+    "gate-083",
+    "gate-084",
+    "gate-085",
+    "gate-086",
+    "gate-087",
+    "gate-088",
+    "gate-089",
+    "gate-090",
+    "gate-091",
+    "gate-092",
+    "gate-100",
+    "gate-101",
+    "gate-102",
+    "gate-103",
+    "gate-104",
+    "gate-105",
+    "gate-106",
+    "gate-130",
+    "gate-131",
+    "seq-110",
+    "seq-111",
+    "seq-112",
+    "seq-113",
+    "seq-114",
+    "seq-115",
+    "seq-116",
+    "seq-117",
+    "seq-118",
+    "seq-119",
+    "seq-120",
+    "seq-132"
+   ],
+   "tests": [
+    "test_sar_hardening.GateEdges.test_denials_are_recorded_in_the_log",
+    "test_sar_hardening.AuditSurvivors.test_denial_record_names_the_proposal"
+   ],
+   "text": "The gate MUST start from DENY and MUST record every decision, ALLOW and DENY, in its decision log before returning it. Each DENY record SHOULD name the proposal"
+  },
+  {
+   "cddl_rule": "",
+   "level": "MUST",
+   "requirement": "SAR-REQ-091",
+   "section": "13",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "gate-130",
+    "gate-131",
+    "seq-132"
+   ],
+   "tests": [
+    "test_sar_hardening.SemanticsRules.test_s12_unloggable_decision_never_allows",
+    "test_sar_hardening.ExactBytes.test_denial_without_log_still_denies"
+   ],
+   "text": "A failure to record a decision MUST NOT result in ALLOW. If an ALLOW cannot be recorded, the gate MUST deny and consume nothing; if a denial cannot be recorded,"
+  },
+  {
+   "cddl_rule": "",
+   "level": "SHOULD",
+   "requirement": "SAR-REQ-092",
+   "section": "13",
+   "status_sar_cose": "pass (tests)",
+   "status_sar_indep": "not-implemented (hash chain without signed checkpoint; fails gap test C10b; ISS-008)",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [],
+   "tests": [
+    "test_sar_conformance.SarTests.test_10_history_is_tamper_evident",
+    "test_sar_gaps.SarGapTests.test_c10b_tail_truncation_detected",
+    "test_sar_hardening.ExternalCheckpoint.test_truncation_detected_after_reopen_with_retained_checkpoint",
+    "test_sar_hardening.ExternalCheckpoint.test_rewrite_detected_against_retained_checkpoint"
+   ],
+   "text": "The decision log SHOULD be tamper-evident relative to an externally retained checkpoint: for example a hash chain whose head is signed after every commit, so th"
+  },
+  {
+   "cddl_rule": "",
+   "level": "SHOULD",
+   "requirement": "SAR-REQ-093",
+   "section": "13",
+   "status_sar_cose": "pass (tests; optional anchor)",
+   "status_sar_indep": "not-implemented (re-verifies its own chain before ALLOW, but has no external anchor)",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [],
+   "tests": [
+    "test_sar_hardening.RollbackAndCrash.test_anchor_refuses_a_rolled_back_or_truncated_database",
+    "test_sar_hardening.RollbackAndCrash.test_rollback_without_anchor_reenables_a_consumed_authorization"
+   ],
+   "text": "A gate SHOULD be able to check, before every ALLOW, that its replay store has not been rolled back relative to a checkpoint retained in a separate trust domain "
+  },
+  {
+   "cddl_rule": "",
+   "level": "MUST",
+   "requirement": "SAR-REQ-095",
+   "section": "13.1",
+   "status_sar_cose": "pass",
+   "status_sar_indep": "pass (some vectors n/a)",
+   "status_sar_scitt": "not-run",
+   "test_vectors": [
+    "gate-001",
+    "gate-002",
+    "gate-003",
+    "gate-004",
+    "gate-005",
+    "gate-006",
+    "gate-010",
+    "gate-011",
+    "gate-012",
+    "gate-013",
+    "gate-014",
+    "gate-015",
+    "gate-016",
+    "gate-017",
+    "gate-018",
+    "gate-019",
+    "gate-020",
+    "gate-021",
+    "gate-022",
+    "gate-023",
+    "gate-024",
+    "gate-025",
+    "gate-030",
+    "gate-031",
+    "gate-032",
+    "gate-033",
+    "gate-034",
+    "gate-035",
+    "gate-036",
+    "gate-037",
+    "gate-038",
+    "gate-039",
+    "gate-040",
+    "gate-041",
+    "gate-042",
+    "gate-050",
+    "gate-051",
+    "gate-052",
+    "gate-053",
+    "gate-054",
+    "gate-055",
+    "gate-056",
+    "gate-057",
+    "gate-058",
+    "gate-059",
+    "gate-059b",
+    "gate-060",
+    "gate-061",
+    "gate-062",
+    "gate-063",
+    "gate-064",
+    "gate-065",
+    "gate-066",
+    "gate-067",
+    "gate-068",
+    "gate-070",
+    "gate-071",
+    "gate-072",
+    "gate-073",
+    "gate-074",
+    "gate-080",
+    "gate-081",
+    "gate-082",
+    "gate-083",
+    "gate-084",
+    "gate-085",
+    "gate-086",
+    "gate-087",
+    "gate-088",
+    "gate-089",
+    "gate-090",
+    "gate-091",
+    "gate-092",
+    "gate-100",
+    "gate-101",
+    "gate-102",
+    "gate-103",
+    "gate-104",
+    "gate-105",
+    "gate-106",
+    "gate-130",
+    "gate-131",
+    "seq-110",
+    "seq-111",
+    "seq-112",
+    "seq-113",
+    "seq-114",
+    "seq-115",
+    "seq-116",
+    "seq-117",
+    "seq-118",
+    "seq-119",
+    "seq-120",
+    "seq-132"
+   ],
+   "tests": [
+    "test_sar_hardening.MutationSweepGaps.test_missing_inputs_are_denied_for_the_right_reason"
+   ],
+   "text": "Every DENY MUST carry a reason that maps to exactly one of the following classes, and an implementation MUST distinguish the classes from each other. Within a c"
+  }
+ ],
+ "summary": {
+  "may": 0,
+  "must": 49,
+  "must_with_vectors": 49,
+  "requirements": 52,
+  "should": 3,
+  "status": {
+   "sar_cose": {
+    "pass": 52
+   },
+   "sar_indep": {
+    "not-implemented": 4,
+    "pass": 48
+   },
+   "sar_scitt": {
+    "not-run": 52
+   }
+  },
+  "vectors": 143
+ }
+}

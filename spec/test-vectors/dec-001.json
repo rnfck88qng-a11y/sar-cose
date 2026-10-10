@@ -1,0 +1,14 @@
+{
+ "description": "integer 23 with a one-byte argument (not preferred)",
+ "expected": {
+  "result": "reject"
+ },
+ "id": "dec-001",
+ "inputs": {
+  "cbor": "1817"
+ },
+ "kind": "decoding",
+ "requirements": [
+  "SAR-REQ-011"
+ ]
+}

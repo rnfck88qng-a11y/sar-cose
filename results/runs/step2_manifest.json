@@ -1,0 +1,54 @@
+{
+ "command": [
+  "/private/tmp/claude-501/-Users-alen-mikulicgmail-com-Downloads/ed2956a4-aac7-4a51-8455-eb84a9cacace/scratchpad/sarvenv/bin/python",
+  "-B",
+  "spec/check_manifest.py",
+  "--check"
+ ],
+ "duration_s": 0.05,
+ "env_overrides": {},
+ "environment": {
+  "cpu": "Apple M5 Pro",
+  "implementation": "CPython",
+  "libs": {
+   "cbor2": "5.9.0",
+   "coverage": "7.16.2",
+   "cryptography": "50.0.2",
+   "hypothesis": "6.168.5",
+   "pycose": "1.1.0"
+  },
+  "logical_cpus": 15,
+  "machine": "arm64",
+  "os": "Darwin 27.0.0",
+  "python": "3.14.5"
+ },
+ "exit_code": 0,
+ "expect_fail": false,
+ "git_commit": "769b3e8606245ef82f0c74505809832d52ac4f06",
+ "git_dirty": true,
+ "load_avg_after": [
+  2.39,
+  3.05,
+  3.98
+ ],
+ "load_avg_before": [
+  2.39,
+  3.05,
+  3.98
+ ],
+ "log": "results/runs/step2_manifest.log",
+ "module_sha256": {
+  "independent/original_blind/sar_indep.py": "8aa92673513aff7587b48da91cdf56617822a0107fac0a01b90ba7fc11841445",
+  "independent/sar_indep.py": "2f937aa01500b17fd8000399e010af0f488238674dbb2d546ab89fe6fe9a9453",
+  "sar_cose.py": "197befcf49ea24f87af5a7edb9e258500532cca84de2699297f6c471dc37a2a4"
+ },
+ "name": "step2_manifest",
+ "passed": true,
+ "seeds": {
+  "SAR_DEEP": "",
+  "SAR_SEEDS": "",
+  "note": "fixed default seeds are hard-coded in the test modules; SAR_SEEDS adds seeds"
+ },
+ "started_utc": "2026-10-10T11:39:20Z",
+ "unittest": []
+}

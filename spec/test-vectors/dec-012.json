@@ -1,0 +1,14 @@
+{
+ "description": "single-precision float 100000.0",
+ "expected": {
+  "result": "reject"
+ },
+ "id": "dec-012",
+ "inputs": {
+  "cbor": "fa47c35000"
+ },
+ "kind": "decoding",
+ "requirements": [
+  "SAR-REQ-012"
+ ]
+}

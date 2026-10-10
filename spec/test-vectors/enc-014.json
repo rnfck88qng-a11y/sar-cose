@@ -1,0 +1,16 @@
+{
+ "description": "RFC 8949 Appendix A: 3863",
+ "expected": {
+  "cbor": "3863"
+ },
+ "id": "enc-014",
+ "inputs": {
+  "value": {
+   "int": "-100"
+  }
+ },
+ "kind": "encoding",
+ "requirements": [
+  "SAR-REQ-010"
+ ]
+}

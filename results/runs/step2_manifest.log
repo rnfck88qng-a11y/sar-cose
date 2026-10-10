@@ -1,0 +1,5 @@
+requirements: 52 (MUST 49, SHOULD 3, MAY 0); MUSTs with at least one vector: 49/49; vectors: 143
+  sar_cose: pass 52
+  sar_indep: not-implemented 4, pass 48
+  sar_scitt: not-run 52
+manifest check: PASS

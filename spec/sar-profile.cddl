@@ -1,0 +1,85 @@
+; SAR profile version 1 -- CDDL (RFC 8610). Normative together with spec/sar-profile.md.
+; Validated by spec/cddl_check.py, which implements the subset of CDDL used here (rules, maps
+; with bare-word keys, "?" optional members, arrays with "+"/"*" occurrence, choices "/", text
+; and integer literals, ranges, .size, .cbor, tags #6.n, uint/int/nint/tstr/bstr/bool/nil/any)
+; and checks both that this file parses and that every test vector satisfies it.
+; Text-string .size counts octets in CDDL; identifier length is additionally limited to 256
+; Unicode code points by SAR-REQ-023 (see ISSUES.md ISS-010), which CDDL cannot express.
+
+; ---------------------------------------------------------------- statements (Section 5)
+sar-statement = #6.18([
+  protected: bstr .cbor sar-protected-header,
+  unprotected: empty-map,
+  payload: bstr .cbor statement-body,
+  signature: bstr .size 64
+])
+
+empty-map = {}
+
+sar-protected-header = {
+  1 => -19,                       ; alg: Ed25519 (RFC 9864)
+  3 => sar-content-type,          ; content type
+  4 => bstr                       ; kid = UTF-8 of the signer identifier in the body
+}
+
+sar-content-type = "application/sar-proposal+cbor" / "application/sar-ratification+cbor"
+
+statement-body = proposal-body / ratification-body
+
+; ---------------------------------------------------------------- bodies (Section 7)
+proposal-body = {
+  v: 1,
+  agent_id: identifier,
+  payload_digest: digest,
+  issued_at: time,
+  expires_at: time,
+  nonce: nonce,
+  policy_id: identifier,
+  proposal_id: proposal-id
+}
+
+ratification-body = {
+  v: 1,
+  proposal_digest: digest,
+  proposal_id: tstr,
+  overseer_id: identifier,
+  verdict: verdict,
+  reviewed_at: time,
+  valid_until: time,
+  policy_id: identifier
+}
+
+identifier = tstr .size (1..1024)       ; and 1..256 code points (SAR-REQ-023)
+digest = bstr .size 32                  ; SHA-256
+time = uint .size 8                     ; POSIX seconds, below 2^64
+nonce = (tstr .size (1..1024)) / (bstr .size (1..256))
+proposal-id = tstr .size 32             ; 32 lowercase hex characters (SAR-REQ-032)
+verdict = "APPROVED" / "REJECTED"
+
+; ---------------------------------------------------------------- policy (Section 9)
+registration-policy = {
+  policy_id: identifier,
+  quorum: uint,                         ; 1 <= quorum <= number of overseers (SAR-REQ-040)
+  authorized_agents: principal-map,
+  authorized_overseers: principal-map
+}
+
+principal-map = { + identifier => public-key-hex }
+public-key-hex = tstr .size 64          ; lowercase hex of a 32-byte Ed25519 public key
+
+; Future members (Section 9.1). Not valid in version 1 (SAR-REQ-042); shown for reference.
+future-policy-members = (
+  ? policy_version: uint,
+  ? permitted_action_types: [+ tstr],
+  ? target_constraints: { * tstr => any },
+  ? max_validity: { ? proposal: uint, ? ratification: uint },
+  ? replay_policy: { ? nonce_scope: "policy" / "agent", ? transaction_id: bool }
+)
+
+; ---------------------------------------------------------------- record (Sections 4, 16, 17)
+transparent-authorization-record = {
+  proposal: bstr .cbor sar-statement,
+  ratifications: [+ bstr .cbor sar-statement],
+  policy_ref: identifier,
+  ? receipt: bstr
+}

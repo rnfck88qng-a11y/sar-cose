@@ -1,0 +1,14 @@
+{
+ "description": "double-precision float 1.1",
+ "expected": {
+  "result": "reject"
+ },
+ "id": "dec-011",
+ "inputs": {
+  "cbor": "fb3ff199999999999a"
+ },
+ "kind": "decoding",
+ "requirements": [
+  "SAR-REQ-012"
+ ]
+}

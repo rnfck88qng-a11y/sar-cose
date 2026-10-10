@@ -1,0 +1,14 @@
+{
+ "description": "indefinite-length byte string",
+ "expected": {
+  "result": "reject"
+ },
+ "id": "dec-004",
+ "inputs": {
+  "cbor": "5f4101ff"
+ },
+ "kind": "decoding",
+ "requirements": [
+  "SAR-REQ-011"
+ ]
+}

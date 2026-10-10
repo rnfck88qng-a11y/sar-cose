@@ -1,0 +1,33 @@
+{
+ "description": "RFC 8949 Appendix A: a201020304",
+ "expected": {
+  "cbor": "a201020304"
+ },
+ "id": "enc-029",
+ "inputs": {
+  "value": {
+   "map": [
+    [
+     {
+      "int": "1"
+     },
+     {
+      "int": "2"
+     }
+    ],
+    [
+     {
+      "int": "3"
+     },
+     {
+      "int": "4"
+     }
+    ]
+   ]
+  }
+ },
+ "kind": "encoding",
+ "requirements": [
+  "SAR-REQ-010"
+ ]
+}

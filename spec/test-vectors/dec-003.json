@@ -1,0 +1,14 @@
+{
+ "description": "text \"a\" with a one-byte length argument",
+ "expected": {
+  "result": "reject"
+ },
+ "id": "dec-003",
+ "inputs": {
+  "cbor": "780161"
+ },
+ "kind": "decoding",
+ "requirements": [
+  "SAR-REQ-011"
+ ]
+}

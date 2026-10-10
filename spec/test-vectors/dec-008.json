@@ -1,0 +1,14 @@
+{
+ "description": "duplicate map key {\"a\":1,\"a\":2}",
+ "expected": {
+  "result": "reject"
+ },
+ "id": "dec-008",
+ "inputs": {
+  "cbor": "a2616101616102"
+ },
+ "kind": "decoding",
+ "requirements": [
+  "SAR-REQ-011"
+ ]
+}

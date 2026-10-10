@@ -1,0 +1,14 @@
+{
+ "description": "indefinite-length map",
+ "expected": {
+  "result": "reject"
+ },
+ "id": "dec-006",
+ "inputs": {
+  "cbor": "bf616101ff"
+ },
+ "kind": "decoding",
+ "requirements": [
+  "SAR-REQ-011"
+ ]
+}
