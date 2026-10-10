@@ -4,6 +4,8 @@
 
 This is a small working implementation of the Sovereign Acceptance Runtime (SAR) authorization path described in the working paper *Sovereign Acceptance Runtime: Verifiable Human Ratification and Evidentiary Audit Trails for Autonomous AI Agents under the EU AI Act* (v1.2, October 2026; §4 and §6). It exists so that the paper's implementation claims rest on code and tests anyone can re-run.
 
+**The paper** is in [`paper/`](paper/): v1.2 ([PDF](paper/SARWP_working_paper_v1.2.pdf), [doi:10.5281/zenodo.23280006](https://doi.org/10.5281/zenodo.23280006)) and v1.1 ([PDF](paper/SARWP_working_paper_v1.1.pdf), [doi:10.5281/zenodo.23270905](https://doi.org/10.5281/zenodo.23270905)).
+
 It comes with a second implementation (`independent/`), written by a separate instance of the same AI assistant from the paper's §3–4 (v1.1) plus a fixed wire-format specification (`independent/BRIEF.md`), without access to `sar_cose`, and amended afterwards. The two are checked against each other. The blind version is reconstructed in `independent/original_blind/`.
 
 > **Status:** research prototype. It is not production software and has not had an independent security review. See *Limits* below.
@@ -49,6 +51,7 @@ PYTHON=.venv/bin/python ./run_stub_against_gaps.sh  # gap tests vs the harness s
 |---|---|
 | `sar_cose.py` | The reference implementation |
 | `SEMANTICS.md` | Normative decision rules S1–S13, and why each was chosen |
+| `paper/` | The SARWP paper: v1.2 and v1.1 PDFs (identical to Zenodo), Markdown sources and build script |
 | `independent/` | Second implementation, with its own 86 tests, `DECISIONS.md` and the verbatim brief it was given (`BRIEF.md`); `original_blind/` reconstructs the blind version |
 | `harness/` | Original 12-test conformance harness and illustrative stub (unmodified) |
 | `test_sar_*.py` | Test suites (see below) |
@@ -126,4 +129,6 @@ Version v1.2.0 (used in the SARWP v1.2 paper): [doi:10.5281/zenodo.23279965](htt
 
 > Mikulić, A. (2026). *sar-cose: minimal reference implementation of the Sovereign Acceptance Runtime (SAR)* (v1.2.0). Zenodo. https://doi.org/10.5281/zenodo.23279965
 
-Please also cite the SARWP working paper.
+Please also cite the paper:
+
+> Mikulić, A. (2026). *Sovereign Acceptance Runtime: Verifiable Human Ratification and Evidentiary Audit Trails for Autonomous AI Agents under the EU AI Act* (v1.2). Zenodo. https://doi.org/10.5281/zenodo.23280006
