@@ -1,6 +1,6 @@
 # Changes in v1.3
 
-Inputs: two external reviews of SARWP v1.2 and the author's v1.3 brief. Nothing here has been pushed, tagged, released or deposited. Figures are deliberately not repeated in this file: they are in `results/paper_claims.json`, generated from the archived runs in `results/runs/`, and rendered into `README.md`, `RESULTS.md` and the paper.
+Inputs: two external reviews of SARWP v1.2 and the author's v1.3 brief. Released as tag `v1.3.0`; the Zenodo version DOI is added once the deposit exists. Figures are deliberately not repeated in this file: they are in `results/paper_claims.json`, generated from the archived runs in `results/runs/`, and rendered into `README.md`, `RESULTS.md` and the paper.
 
 ## Step 1 — terminology, mutation classification, archived runs
 

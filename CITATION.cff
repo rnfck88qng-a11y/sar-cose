@@ -8,8 +8,8 @@ authors:
 license: Apache-2.0
 doi: 10.5281/zenodo.23270795
 repository-code: "https://github.com/rnfck88qng-a11y/sar-cose"
-version: 1.2.0
-date-released: 2026-10-10
+version: 1.3.0
+date-released: 2026-10-13
 keywords:
   - AI agents
   - human oversight
