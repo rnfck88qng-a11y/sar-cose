@@ -144,9 +144,9 @@ Apache License 2.0. See `LICENSE`.
 
 ## Citing
 
-Version v1.2.0 (used in the SARWP v1.2 paper): [doi:10.5281/zenodo.23279965](https://doi.org/10.5281/zenodo.23279965). For all versions, use [doi:10.5281/zenodo.23270795](https://doi.org/10.5281/zenodo.23270795).
+Version v1.3.0 (used in the SARWP v1.3 paper): [doi:10.5281/zenodo.23341360](https://doi.org/10.5281/zenodo.23341360). Version v1.2.0 (used in the SARWP v1.2 paper): [doi:10.5281/zenodo.23279965](https://doi.org/10.5281/zenodo.23279965). For all versions, use [doi:10.5281/zenodo.23270795](https://doi.org/10.5281/zenodo.23270795).
 
-> Mikulić, A. (2026). *sar-cose: minimal reference implementation of the Sovereign Acceptance Runtime (SAR)* (v1.2.0). Zenodo. https://doi.org/10.5281/zenodo.23279965
+> Mikulić, A. (2026). *sar-cose: minimal reference implementation of the Sovereign Acceptance Runtime (SAR)* (v1.3.0). Zenodo. https://doi.org/10.5281/zenodo.23341360
 
 Please also cite the paper:
 
